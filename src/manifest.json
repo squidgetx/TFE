@@ -6,10 +6,13 @@
   },
   "content_scripts": [
     {
-       "matches": ["https://*.twitter.com/*"],
+       "matches": ["https://*.twitter.com/*", "https://news.ycombinator.com/*"],
       "js": ["content.bundle.js"]
     }
   ],
+  "web_accessible_resources": [
+        "frame.html"
+    ],
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://platform.twitter.com; object-src 'self'; frame-src https://platform.twitter.com"
 }
