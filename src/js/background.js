@@ -1,1 +1,3 @@
-import "crx-hotreload";
+//import "crx-hotreload";
+
+//console.log("test");

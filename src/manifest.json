@@ -1,18 +1,26 @@
 {
-  "name": "Chrome Extension Webpack",
+  "name": "Extension Survey Study",
   "version": "0.1",
   "background": {
-    "scripts": ["background.bundle.js"]
+    "service_worker": "background.bundle.js"
   },
   "content_scripts": [
     {
-       "matches": ["https://*.twitter.com/*", "https://news.ycombinator.com/*"],
+       "matches": ["https://*.twitter.com/*"],
       "js": ["content.bundle.js"]
     }
   ],
-  "web_accessible_resources": [
-        "frame.html"
-    ],
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://platform.twitter.com; object-src 'self'; frame-src https://platform.twitter.com"
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "128": "icon128.png"
+  },
+  "host_permissions": [
+      "https://www.example.com/*"
+  ]
 }

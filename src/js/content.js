@@ -70,7 +70,7 @@ let filterTweets = function (children, blacklist) {
   for (const tweet of children) {
     let tweet_obj = parseTweet(tweet);
     if (blacklist.includes(tweet_obj.author)) {
-      tweet.remove();
+      tweet.innerHTML = "<p>This tweet was removed</p>";
       console.log("removing", tweet_obj);
     }
   }
