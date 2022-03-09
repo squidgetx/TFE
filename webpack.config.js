@@ -27,6 +27,7 @@ var options = {
         { from: "src/manifest.json", to: "manifest.json" },
         { from: "src/onboarding.html", to: "onboarding.html" },
         { from: "src/popup.html", to: "popup.html" },
+        { from: "src/icon128.png", to: "icon128.png" },
       ],
     }),
     new WriteFilePlugin(),
