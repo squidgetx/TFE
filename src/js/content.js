@@ -1,6 +1,74 @@
-// Your code here...
-//const widgets = require("expose-loader?exposes=twttr!./widgets.js");
-BLACKLIST_ACCOUNTS = ["FoxNews"];
+import AWS from "aws-sdk";
+
+const BLACKLIST_ACCOUNTS = ["FoxNews"];
+const BLACKLIST_TEXTS = ["folks"];
+const UPLOAD_RATE_MIN = 2;
+const S3_BUCKET = "twitter-feed-test";
+const REGION = "us-east-2";
+
+const seen_tweets = new Set();
+
+let LOG = [];
+let treatment_group = "";
+let workerID = "";
+
+/*
+ * Logging code
+ */
+
+chrome.storage.sync.get(["accessKey"], function (result) {
+  AWS.config.update({
+    region: REGION,
+    accessKeyId: "AKIA3VNR4JRZMN3RUZHJ",
+    secretAccessKey: result.accessKey,
+  });
+});
+
+const s3Client = new AWS.S3({
+  params: { Bucket: S3_BUCKET },
+  region: REGION,
+});
+
+const uploadLog = async (log) => {
+  const params = {
+    Body: JSON.stringify(log),
+    Key: `${workerID}_${Date.now()}`,
+    ContentType: "text",
+  };
+
+  console.log("uploading log");
+  try {
+    const s3Response = await s3Client.putObject(params).promise();
+    return s3Response;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+
+let logEvent = function (tweet_obj, key) {
+  tweet_obj.event = key;
+  tweet_obj.time = Date.now();
+  tweet_obj.workerID = workerID;
+  tweet_obj.treatment_group = treatment_group;
+  if (seen_tweets.has(tweet_obj.id)) {
+    // Don't log tweets that we already have seen in the current session
+    return;
+  }
+  LOG.push(tweet_obj);
+  console.log(LOG.length);
+  seen_tweets.add(tweet_obj.id);
+};
+
+let flushLog = function () {
+  // Flush the log to S3
+  uploadLog(LOG);
+  LOG = [];
+};
+
+/*
+ * Tweet filtering section
+ */
 
 let parseAuthor = (tweet) => {
   let links = Array.from(tweet.getElementsByTagName("a"));
@@ -59,8 +127,11 @@ let parseText = (tweet) => {
 
 let checkText = function (text_arr) {
   // Check if any of the text in this tweet should be blacklisted
-  for (text of text_arr) {
-    for (blacklist_text of BLACKLIST_TEXTS) {
+  for (const text of text_arr) {
+    if (text === undefined) {
+      continue;
+    }
+    for (const blacklist_text of BLACKLIST_TEXTS) {
       if (text.includes(blacklist_text)) {
         return true;
       }
@@ -83,7 +154,6 @@ let parseTweet = function (tweet) {
 let filterTweets = function (children, treatment_group) {
   for (const tweet of children) {
     let tweet_obj = parseTweet(tweet);
-    console.log(tweet_obj.text);
     if (treatment_group == 1) {
       // Link-only blacklist
       if (tweet_obj.blacklist_text) {
@@ -104,12 +174,31 @@ let filterTweets = function (children, treatment_group) {
       }
     }
     // Value 0 is control group
+
+    if (tweet.innerHTML == "") {
+      logEvent(tweet_obj, "hide");
+    } else {
+      logEvent(tweet_obj, "show");
+    }
   }
 };
 
+chrome.storage.sync.get(["workerID"], function (result) {
+  workerID = result.workerID;
+});
+
+/*
+ * Set up observer (only if the treatment group is loaded)
+ */
+
 chrome.storage.sync.get(["treatment_group"], function (result) {
   console.log("Twitter Experiment Loaded!");
+  treatment_group = result.treatment_group;
+
   let container = document.documentElement || document.body;
+
+  // Every 5 minutes send tweet data to server
+  setInterval(flushLog, 1000 * 60 * UPLOAD_RATE_MIN);
 
   // Configuration of the observer:
   const config = {

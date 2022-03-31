@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A boilerplate to chrome extension with webpack",
   "devDependencies": {
+    "aws-sdk": "^2.1104.0",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "9.0.1",
     "crx-hotreload": "^1.0.6",
@@ -17,5 +18,8 @@
     "webpack-cli": "4.9.0",
     "webpack-dev-server": "4.3.1",
     "write-file-webpack-plugin": "4.5.1"
+  },
+  "dependencies": {
+    "util": "^0.12.4"
   }
 }

@@ -3,7 +3,7 @@ window.onload = function () {
     if (result) {
       document.getElementById(
         "workerIDform"
-      ).innerHTML = `<p>Worker ID: ${result}`;
+      ).innerHTML = `<p>You are signed in with Worker ID: ${result}`;
     }
   };
 
@@ -13,9 +13,11 @@ window.onload = function () {
   document
     .getElementById("workerIDform")
     .addEventListener("submit", (event) => {
-      let data = document.getElementById("workerID").value;
-      chrome.storage.sync.set({ workerID: data }, function () {
-        update(data);
+      let workerID = document.getElementById("workerID").value;
+      let accessKey = document.getElementById("password").value;
+      chrome.storage.sync.set({ workerID: workerID }, function () {
+        console.log("WorkerID was set as " + workerID);
+        update(workerID);
       });
       chrome.storage.sync.set(
         { treatment_group: Math.floor(Math.random() * 3) },
@@ -23,6 +25,9 @@ window.onload = function () {
           console.log("Group was set");
         }
       );
+      chrome.storage.sync.set({ accessKey: accessKey }, () => {
+        console.log("Access key was set");
+      });
 
       event.preventDefault();
     });
@@ -33,4 +38,4 @@ window.onload = function () {
   });
 };
 
-chrome.storage.sync.clear();
+//chrome.storage.sync.clear();
