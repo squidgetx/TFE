@@ -7,7 +7,7 @@ var webpack = require("webpack"),
 var options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
-    background: path.join(__dirname, "src", "js", "background.js"),
+    //background: path.join(__dirname, "src", "js", "background.js"),
     content: path.join(__dirname, "src", "js", "content.js"),
     popup: path.join(__dirname, "src", "js", "popup.js"),
   },
@@ -33,6 +33,12 @@ var options = {
     new WriteFilePlugin(),
   ],
   devtool: "source-map",
+  resolve: {
+    fallback: {
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+    },
+  },
 };
 
 module.exports = options;

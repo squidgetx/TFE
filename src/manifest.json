@@ -1,12 +1,9 @@
 {
   "name": "Extension Survey Study",
-  "version": "0.1",
-  "background": {
-    "service_worker": "background.bundle.js"
-  },
+  "version": "0.1.3",
   "content_scripts": [
     {
-       "matches": ["https://*.twitter.com/*"],
+       "matches": ["https://*.twitter.com/*", "http://*.twitter.com/*"],
       "js": ["content.bundle.js"]
     }
   ],
@@ -19,8 +16,5 @@
   ],
   "icons": {
     "128": "icon128.png"
-  },
-  "host_permissions": [
-      "https://www.example.com/*"
-  ]
+  }
 }

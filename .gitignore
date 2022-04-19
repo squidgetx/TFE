@@ -1,5 +1,9 @@
 node_modules
 build
 secrets.*.js
+scripts/data
+scripts/*.tsv
+scripts/.venv
+*.zip
 
 .DS_Store

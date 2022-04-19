@@ -12,6 +12,13 @@
                 display: inline;
                 padding: 3px;
             }
+            #error_msg {
+                color: red;
+            }
+            .indent {
+                padding-left: 1em;
+                margin-top: 0em;
+            }
 
         </style>
     </head>
@@ -19,6 +26,7 @@
 
 
 <h1>Extension Survey Study</h1>
+<p id="error_msg"></p>
 <form id="workerIDform" autocomplete="off">
     <p>Worker ID:</p>
     <input type="text" id='workerID' />

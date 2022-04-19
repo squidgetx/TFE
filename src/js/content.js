@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 
-const BLACKLIST_ACCOUNTS = ["FoxNews"];
-const BLACKLIST_TEXTS = ["folks"];
+import { BLACKLIST_ACCOUNTS } from "./accounts";
+const BLACKLIST_TEXTS = ["foxnews.com", "foxbusiness.com", "fox.com/news"];
 const UPLOAD_RATE_MIN = 2;
 const S3_BUCKET = "twitter-feed-test";
 const REGION = "us-east-2";
@@ -15,18 +15,19 @@ let workerID = "";
 /*
  * Logging code
  */
+let s3Client = null;
 
 chrome.storage.sync.get(["accessKey"], function (result) {
+  console.log("Access key loaded: ", result.accessKey);
   AWS.config.update({
     region: REGION,
     accessKeyId: "AKIA3VNR4JRZMN3RUZHJ",
     secretAccessKey: result.accessKey,
   });
-});
-
-const s3Client = new AWS.S3({
-  params: { Bucket: S3_BUCKET },
-  region: REGION,
+  s3Client = new AWS.S3({
+    params: { Bucket: S3_BUCKET },
+    region: REGION,
+  });
 });
 
 const uploadLog = async (log) => {
@@ -35,7 +36,7 @@ const uploadLog = async (log) => {
     Key: `${workerID}_${Date.now()}`,
     ContentType: "text",
   };
-
+  LOG = [];
   console.log("uploading log");
   try {
     const s3Response = await s3Client.putObject(params).promise();
@@ -57,13 +58,17 @@ let logEvent = function (tweet_obj, key) {
   }
   LOG.push(tweet_obj);
   console.log(LOG.length);
+  if (LOG.length >= 5) {
+    flushLog();
+  }
   seen_tweets.add(tweet_obj.id);
 };
 
 let flushLog = function () {
   // Flush the log to S3
-  uploadLog(LOG);
-  LOG = [];
+  if (LOG.length > 0) {
+    uploadLog(LOG);
+  }
 };
 
 /*
@@ -195,41 +200,51 @@ chrome.storage.sync.get(["treatment_group"], function (result) {
   console.log("Twitter Experiment Loaded!");
   treatment_group = result.treatment_group;
 
-  let container = document.documentElement || document.body;
-
   // Every 5 minutes send tweet data to server
   setInterval(flushLog, 1000 * 60 * UPLOAD_RATE_MIN);
 
+  setupFeedObserver(treatment_group);
   // Configuration of the observer:
-  const config = {
-    attributes: false,
-    childList: true,
-    subtree: true,
-    characterData: true,
-  };
+  window.addEventListener("popstate", function () {
+    console.log("state changed");
+    setupFeedObserver(treatment_group);
+  });
+  window.addEventListener("click", function () {
+    console.log("clicked changed");
+    setupFeedObserver(treatment_group);
+  });
+});
 
+const config = {
+  attributes: false,
+  childList: true,
+  subtree: true,
+  characterData: true,
+};
+const observer = new MutationObserver(function (mutations) {
+  let timelineDiv = document.querySelectorAll(
+    '[aria-label="Timeline: Your Home Timeline"]'
+  )[0];
+  if (
+    timelineDiv != undefined &&
+    timelineDiv.childNodes[0].childNodes.length > 1
+  ) {
+    console.log("loading custom timeline treatment group: " + treatment_group);
+    // disable the observer when modifying itself, otherwise its infinite loop
+    observer.disconnect();
+
+    let children = timelineDiv.childNodes[0].childNodes;
+    filterTweets(children, treatment_group);
+
+    // re-register, for when the user scrolls
+    observer.observe(timelineDiv, config);
+  }
+});
+
+let setupFeedObserver = function (treatment_group) {
   // The timeline is loaded with async JS
   // So, we want to trigger filtering logic whenever its modified
-  let observer = new MutationObserver(function (mutations) {
-    let timelineDiv = document.querySelectorAll(
-      '[aria-label="Timeline: Your Home Timeline"]'
-    )[0];
-    if (
-      timelineDiv != undefined &&
-      timelineDiv.childNodes[0].childNodes.length > 1
-    ) {
-      console.log(
-        "loading custom timeline treatment group" + result.treatment_group
-      );
-      // disable the observer when modifying itself, otherwise its infinite loop
-      observer.disconnect();
 
-      let children = timelineDiv.childNodes[0].childNodes;
-      filterTweets(children, result.treatment_group);
-
-      // re-register, for when the user scrolls
-      observer.observe(timelineDiv, config);
-    }
-  });
+  let container = document.documentElement || document.body;
   observer.observe(container, config);
-});
+};
