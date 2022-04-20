@@ -1,9 +1,9 @@
-node_modules
-build
-secrets.*.js
+extension/node_modules
+extension/build
+extension/secrets.*.js
 scripts/data
 scripts/*.tsv
-scripts/.venv
+.venv
 *.zip
 
 .DS_Store

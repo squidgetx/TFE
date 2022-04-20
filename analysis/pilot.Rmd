@@ -1,0 +1,59 @@
+---
+title: "MA pilot study"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(sylvan.utils)
+library(stringr)
+```
+
+```{r}
+df <- read_tsv('../scripts/formatted_data.tsv')%>% filter(!(workerID %in% c('test', '')))
+```
+
+```{r}
+# i want to know how many tweets each respondent has seen
+agg_df <- df  %>% group_by(workerID, treatment_group, event) %>% count()
+```
+
+## Basic summary
+
+```{r}
+n_installs <- df %>% filter(event=='install') %>% select(workerID) %>% distinct() %>% count()
+n_users_active <- df %>% filter(event=='show') %>% select(workerID) %>% distinct() %>% count()
+rate <- n_users_active/n_installs
+```
+
+There have been `r n_installs` unique users who installed the extension. Of these, `r n_users_active` have used twitter since installation. The average active user per install rate is `r rate`.
+
+
+
+## By treatment group
+
+Installs by treatment group
+```{r}
+agg_df %>% filter(event=='install') %>% group_by(treatment_group) %>% summarize(total_n = sum(n))
+```
+
+Tweets seen by treatment group
+```{r}
+agg_df %>% filter(event=='show') %>% group_by(treatment_group) %>% summarize(total_n = sum(n))
+```
+
+
+Users who have seen any tweets by treatment group
+```{r}
+agg_df %>% filter(event=='show') %>% group_by(treatment_group) %>% count()
+```
+
+
+Tweets hidden by treatment group
+```{r}
+agg_df %>% filter(event=='hide') %>% group_by(treatment_group) %>% summarize(total_n = sum(n))
+```

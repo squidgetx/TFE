@@ -1,6 +1,8 @@
 import AWS from "aws-sdk";
 import sjcl from "sjcl";
 
+const UNINSTALL_ENDPOINT =
+  "http://ec2-34-239-146-85.compute-1.amazonaws.com:3000";
 const VALID_HASH =
   "749dce75c591b7b72e4034789b2f6d55f6dcb2dd7b4f9d8f5d56137d573de70f";
 const S3_BUCKET = "twitter-feed-test";
@@ -42,6 +44,9 @@ window.onload = function () {
       document.getElementById(
         "workerIDform"
       ).innerHTML = `<p>You are signed in with Worker ID: ${result}</p><p>Your installation code is: <p class='indent'><b>${INSTALL_CODE}_${result}</b></p></p>`;
+      chrome.runtime.setUninstallURL(
+        `${UNINSTALL_ENDPOINT}?id=${result}&event=uninstall`
+      );
     }
   };
 

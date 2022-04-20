@@ -86,7 +86,7 @@ def grant_bonus(workers, no_dry):
                 response = client.send_bonus(
                     WorkerId=worker["WorkerId"],
                     BonusAmount="5",
-                    AssignmentId=worker["assignmentId"],
+                    AssignmentId=worker["AssignmentId"],
                     Reason="Thank you for installing the Extension Survey Study web browser extension. Here is your $5 bonus payment! Please watch out for a follow-up invitation to participate in additional HITs",
                     UniqueRequestToken=worker["WorkerId"],
                 )
@@ -103,10 +103,10 @@ def notify_workers_postsurvey(workers, message_text, no_dry):
             try:
                 response = client.notify_workers(
                     WorkerIds=[worker["WorkerId"] for worker in workers],
-                    subject="Extension Survey Study Follow-up HIT available!",
+                    Subject="Extension Survey Study Follow-up HIT available!",
                     MessageText=message_text,
                 )
-                if response:
+                if response["NotifyWorkersFailureStatuses"]:
                     logging.error(response)
             except Exception as e:
                 logging.error(f"Error while notifying workers: {e}")
