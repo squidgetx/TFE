@@ -3,6 +3,7 @@ extension/build
 extension/secrets.*.js
 scripts/data
 scripts/*.tsv
+secrets.sh
 .venv
 *.zip
 
