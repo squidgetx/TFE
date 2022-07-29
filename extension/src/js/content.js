@@ -1,4 +1,5 @@
-import { getObserver } from "./twitter";
+import * as twitter from "./twitter";
+import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
 const UPLOAD_RATE_MIN = 2;
@@ -45,6 +46,13 @@ let setupFeedObserver = function (treatment_group, logger) {
     characterData: true,
   };
   let container = document.documentElement || document.body;
-  const observer = getObserver(treatment_group, logger);
+  let observer;
+  if (window.location.hostname.includes("twitter")) {
+    console.log("using twitter observer");
+    observer = twitter.getObserver(treatment_group, logger);
+  } else {
+    console.log("using facebook observer");
+    observer = facebook.getObserver(treatment_group, logger);
+  }
   observer.observe(container, config);
 };
