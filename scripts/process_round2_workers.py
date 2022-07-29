@@ -1,6 +1,7 @@
 """
 processes round 2 workers
 """
+import re
 import argparse
 import logging
 import json
@@ -44,6 +45,30 @@ def get_hit_results(hit_id):
     return response["Assignments"]
 
 
+def get_twitter_users(results):
+    """
+    Given the list of HIT results, only return workers that use Twitter
+    """
+    twitter_survey_df = pd.read_csv("./qualtrics/prescreen.tsv", sep="\t")[
+        ["Q7_6", "ResponseID"]
+    ]
+    df = pd.DataFrame.from_records(results)
+
+    def parseAnswer(answerxml):
+        return re.search("FreeText>(.*)</FreeText>", answerxml).group(1)
+
+    df["ResponseID"] = [parseAnswer(a) for a in df["Answer"]]
+
+    # Use inner join to throw out any survey responses not associated with MTurk values and vice versa
+    df = df.merge(twitter_survey_df, on="ResponseID", how="inner")
+    df = df.loc[
+        df["Q7_6"].isin(
+            ["Several times a day", "A few days a week", "About once a day"]
+        )
+    ]
+    return df[["AssignmentId", "WorkerId"]].to_records()
+
+
 def get_worker_installs(results):
     """
     Given a list of HIT results, get the list of workers that actually installed the extension
@@ -68,7 +93,6 @@ def add_workers_to_qualification(workers, qualification, no_dry):
             try:
                 client.associate_qualification_with_worker(
                     QualificationTypeId=qualification,
-                    WorkerId=worker["WorkerId"],
                     IntegerValue=1,
                     SendNotification=False,
                 )
@@ -131,11 +155,14 @@ if __name__ == "__main__":
         logging.info("Dry run! No actual actions will be taken")
 
     results = get_hit_results(CONFIG[args.name]["hit_id"])
-    installs = get_worker_installs(results)
+    # Call a method to filter the results based on arbitrary logic
+    # Pass the method name in the config file and define it here (hack)
+    # Default to method filter "get_worker_installs"
+    results = locals()[CONFIG[args.name].get("filter", "get_worker_installs")](results)
 
     add_workers_to_qualification(
-        installs, CONFIG[args.name]["qualification_id"], args.no_dry
+        results, CONFIG[args.name]["qualification_id"], args.no_dry
     )
     if CONFIG[args.name]["bonus"]:
-        grant_bonus(installs, args.no_dry)
-    notify_workers_postsurvey(installs, get_message_text("na"), args.no_dry)
+        grant_bonus(results, args.no_dry)
+    notify_workers_postsurvey(results, get_message_text("na"), args.no_dry)

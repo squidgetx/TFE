@@ -6,10 +6,10 @@ processing
 import pandas as pd
 import json
 import os
-from tkinter import W
 
 DATA_DIR = "./data"
 OUTFILE = "./formatted_data.tsv"
+BLACKLIST_AUTHORS = json.load(open("./blacklist_authors.json", "rt"))["authors"]
 
 
 def gen_files():
@@ -31,6 +31,9 @@ def process_line(line):
     # edge case, turn single uploads into lists
     if not isinstance(obj, list):
         obj = [obj]
+    for o in obj:
+        o["blacklist_author"] = o.get("author") in BLACKLIST_AUTHORS
+
     return obj
 
 
