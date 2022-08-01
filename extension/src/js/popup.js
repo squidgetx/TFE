@@ -1,13 +1,13 @@
 import { getLogger } from "./log";
-const INSTALL_CODE = "tft_ic0";
 import { CONFIG } from "./config";
+import { getCompleteCode } from "./completecode";
 
 window.onload = function () {
   let update = function (result) {
     if (result) {
       document.getElementById(
         "workerIDform"
-      ).innerHTML = `<p>You are signed in with Respondent ID: ${result}</p><p>Your installation code is: <p class='indent'><b>${INSTALL_CODE}_${result}</b></p></p>`;
+      ).innerHTML = `<p>You are signed in with Respondent ID: ${result.workerID}</p><p>Your installation code is: <p class='indent'><b>${result.install_code}</b></p></p>`;
       if (CONFIG.trackUninstall) {
         chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
       }
@@ -45,6 +45,10 @@ window.onload = function () {
           console.log("Group was set");
         }
       );
+      const install_code = getCompleteCode(workerID);
+      chrome.storage.sync.set({ install_code: install_code }, () => {
+        console.log("install code set");
+      });
 
       // Write an installation event to S3 and immediately flush it
 
@@ -52,12 +56,14 @@ window.onload = function () {
       log.logEvent({}, "install");
       log.flushLog();
 
-      update(workerID);
+      update({ workerID: workerID, install_code: install_code });
     });
 
-  chrome.storage.sync.get(["workerID"], function (result) {
-    console.log("result is " + result.workerID);
-    update(result.workerID);
+  chrome.storage.sync.get(["workerID", "install_code"], function (result) {
+    console.log("Default result is ", result);
+    if (result.workerID) {
+      update(result);
+    }
   });
 };
 
