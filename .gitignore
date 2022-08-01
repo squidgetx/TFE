@@ -8,3 +8,5 @@ secrets.sh
 *.zip
 
 .DS_Store
+
+config.js
