@@ -1,19 +1,18 @@
 import AWS from "aws-sdk";
-const S3_BUCKET = "twitter-feed-test";
-const REGION = "us-east-2";
+import { CONFIG } from "./config";
 
 let s3Client = null;
 
 chrome.storage.sync.get(["accessKey"], function (result) {
   console.log("Access key loaded: ", result.accessKey);
   AWS.config.update({
-    region: REGION,
-    accessKeyId: "AKIA3VNR4JRZMN3RUZHJ",
-    secretAccessKey: result.accessKey,
+    region: CONFIG.awsRegion,
+    accessKeyId: CONFIG.awsAccessKey,
+    secretAccessKey: CONFIG.awsSecretAccessKey,
   });
   s3Client = new AWS.S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
+    params: { Bucket: CONFIG.awsS3Bucket },
+    region: CONFIG.awsRegion,
   });
 });
 
