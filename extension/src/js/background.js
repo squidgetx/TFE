@@ -1,7 +1,6 @@
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
 
-const ALARM = "recontact_alarm";
 const NOTIF = "recontact_notif";
 
 if (CONFIG.trackUninstall) {

@@ -10,6 +10,7 @@ var options = {
     background: path.join(__dirname, "src", "js", "background.js"),
     content: path.join(__dirname, "src", "js", "content.js"),
     popup: path.join(__dirname, "src", "js", "popup.js"),
+    recontact: path.join(__dirname, "src", "js", "recontact.js"),
   },
   output: {
     path: path.join(__dirname, "build"),

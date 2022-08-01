@@ -1,14 +1,25 @@
 import { getLogger } from "./log";
 import { getCompleteCode } from "./completecode";
 import { CONFIG } from "./config";
-const ALARM = "recontact_alarm";
+import { intervalToDuration } from "date-fns";
 
 window.onload = function () {
-  let update = function (result) {
+  let renderRegisteredPopup = function (result) {
     if (result) {
-      document.getElementById(
-        "workerIDform"
-      ).innerHTML = `<p>You are registered with Respondent ID: ${result.workerID}</p><p>Your installation code is: <p class='indent'><b>${result.install_code}</b></p></p>`;
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = `<p>Thank you for participating in this study. Your registration code is <b>${result.install_code}</b>.</p>`;
+      const sinceInstall = intervalToDuration({
+        start: result.install_time,
+        end: Date.now(),
+      });
+      const inRecontactPeriod =
+        sinceInstall.days >= CONFIG.recontactIntervalDays;
+      const days = CONFIG.recontactIntervalDays - sinceInstall.days;
+      let recontactHTML = `<p>Please keep this extension installed for the next ${days} days. At the end of the study period, you'll have an opportunity to earn an additional <b>$${CONFIG.rewardDollars}</b>. We'll notify you by opening a new tab in your browser when the time arrives.</p>`;
+      if (inRecontactPeriod) {
+        recontactHTML = `<p>The study period is over! Please click <b><a href=${CONFIG.recontactURL} target='_blank'>here</a></b> for the link to the final survey and your $${CONFIG.rewardDollars} reward!`;
+      }
+      contentDiv.innerHTML += recontactHTML;
     }
   };
 
@@ -51,17 +62,24 @@ window.onload = function () {
           log.logEvent({ install_code: install_code }, "install");
           log.flushLog();
 
-          update({ workerID: workerID, install_code: install_code });
+          renderRegisteredPopup({
+            workerID: workerID,
+            install_code: install_code,
+            install_time: Date.now(),
+          });
         }
       );
     });
 
-  chrome.storage.sync.get(["workerID", "install_code"], function (result) {
-    console.log("Default result is ", result);
-    if (result.workerID) {
-      update(result);
+  chrome.storage.sync.get(
+    ["workerID", "install_code", "install_time"],
+    function (result) {
+      console.log("Default result is ", result);
+      if (result.workerID) {
+        renderRegisteredPopup(result);
+      }
     }
-  });
+  );
 };
 
 //chrome.storage.sync.clear();
