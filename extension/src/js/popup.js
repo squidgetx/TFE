@@ -1,10 +1,6 @@
-import AWS from "aws-sdk";
-import sjcl from "sjcl";
 import { getLogger } from "./log";
-
-const UNINSTALL_ENDPOINT =
-  "http://ec2-34-239-146-85.compute-1.amazonaws.com:3000";
 const INSTALL_CODE = "tft_ic0";
+import { CONFIG } from "./config";
 
 window.onload = function () {
   let update = function (result) {
@@ -12,9 +8,9 @@ window.onload = function () {
       document.getElementById(
         "workerIDform"
       ).innerHTML = `<p>You are signed in with Worker ID: ${result}</p><p>Your installation code is: <p class='indent'><b>${INSTALL_CODE}_${result}</b></p></p>`;
-      chrome.runtime.setUninstallURL(
-        `${UNINSTALL_ENDPOINT}?id=${result}&event=uninstall`
-      );
+      if (CONFIG.trackUninstall) {
+        chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
+      }
     }
   };
 
