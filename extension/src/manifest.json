@@ -15,7 +15,8 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "notifications"
   ],
   "icons": {
     "128": "icon128.png"

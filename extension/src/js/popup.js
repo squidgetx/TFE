@@ -1,13 +1,14 @@
 import { getLogger } from "./log";
-import { CONFIG } from "./config";
 import { getCompleteCode } from "./completecode";
+import { CONFIG } from "./config";
+const ALARM = "recontact_alarm";
 
 window.onload = function () {
   let update = function (result) {
     if (result) {
       document.getElementById(
         "workerIDform"
-      ).innerHTML = `<p>You are signed in with Respondent ID: ${result.workerID}</p><p>Your installation code is: <p class='indent'><b>${result.install_code}</b></p></p>`;
+      ).innerHTML = `<p>You are registered with Respondent ID: ${result.workerID}</p><p>Your installation code is: <p class='indent'><b>${result.install_code}</b></p></p>`;
     }
   };
 
@@ -40,19 +41,19 @@ window.onload = function () {
           treatment_group: treatment_group,
           install_code: install_code,
           install_time: Date.now(),
+          last_recontact: Date.now(),
         },
         function () {
           console.log("Registration completed");
+
+          // Write an installation event to S3 and immediately flush it
+          const log = getLogger(workerID, treatment_group);
+          log.logEvent({ install_code: install_code }, "install");
+          log.flushLog();
+
+          update({ workerID: workerID, install_code: install_code });
         }
       );
-
-      // Write an installation event to S3 and immediately flush it
-
-      const log = getLogger(workerID, treatment_group);
-      log.logEvent({ install_code: install_code }, "install");
-      log.flushLog();
-
-      update({ workerID: workerID, install_code: install_code });
     });
 
   chrome.storage.sync.get(["workerID", "install_code"], function (result) {

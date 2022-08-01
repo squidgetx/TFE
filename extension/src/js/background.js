@@ -1,6 +1,9 @@
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
 
+const ALARM = "recontact_alarm";
+const NOTIF = "recontact_notif";
+
 if (CONFIG.trackUninstall) {
   chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
 }
@@ -18,17 +21,25 @@ if (CONFIG.recontact) {
           end: Date.now(),
         });
         const inRecontactPeriod =
-          sinceInstall.days >= CONFIG.recontactMinInterval &&
-          sinceInstall.days < CONFIG.recontactMaxInterval;
+          sinceInstall.days >= CONFIG.recontactIntervalDays;
         const sinceLastPrompt = intervalToDuration({
           start: result.last_recontact,
           end: Date.now(),
         });
-        const promptedRecently = sinceLastPrompt.hours < 4;
+        const promptedRecently =
+          sinceLastPrompt.minutes < CONFIG.recontactReminderHours * 60;
         if (inRecontactPeriod && !promptedRecently) {
           chrome.tabs.create({
             url: "recontact.html",
             active: false,
+            index: 0,
+          });
+          chrome.notifications.create(NOTIF, {
+            type: "basic",
+            iconUrl: "alarm128.png",
+            title: "Extension Survey Study Final Stage!",
+            message: "Complete a short survey and earn a $5 reward!",
+            priority: 2,
           });
           chrome.storage.sync.set({
             last_recontact: Date.now(),
@@ -38,3 +49,13 @@ if (CONFIG.recontact) {
     );
   }, 10000);
 }
+chrome.notifications.onClicked.addListener(function (notifId) {
+  if (notifId == NOTIF) {
+    console.log("notif was clicked");
+    chrome.tabs.create({
+      url: "recontact.html",
+      active: true,
+    });
+    //handle notification 1 being clicked
+  }
+});

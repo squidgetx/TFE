@@ -28,6 +28,7 @@ var options = {
         { from: "src/recontact.html", to: "recontact.html" },
         { from: "src/popup.html", to: "popup.html" },
         { from: "src/icon128.png", to: "icon128.png" },
+        { from: "src/alarm128.png", to: "alarm128.png" },
       ],
     }),
     new WriteFilePlugin(),
