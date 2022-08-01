@@ -7,7 +7,7 @@ window.onload = function () {
     if (result) {
       document.getElementById(
         "workerIDform"
-      ).innerHTML = `<p>You are signed in with Worker ID: ${result}</p><p>Your installation code is: <p class='indent'><b>${INSTALL_CODE}_${result}</b></p></p>`;
+      ).innerHTML = `<p>You are signed in with Respondent ID: ${result}</p><p>Your installation code is: <p class='indent'><b>${INSTALL_CODE}_${result}</b></p></p>`;
       if (CONFIG.trackUninstall) {
         chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
       }
