@@ -10,6 +10,7 @@
     "crypto": "^1.0.1",
     "crypto-browserify": "^3.12.0",
     "css-loader": "6.4.0",
+    "date-fns": "^2.29.1",
     "expose-loader": "^3.0.0",
     "file-loader": "6.2.0",
     "fs-extra": "10.0.0",

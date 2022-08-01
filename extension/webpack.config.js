@@ -25,7 +25,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         { from: "src/manifest.json", to: "manifest.json" },
-        { from: "src/onboarding.html", to: "onboarding.html" },
+        { from: "src/recontact.html", to: "recontact.html" },
         { from: "src/popup.html", to: "popup.html" },
         { from: "src/icon128.png", to: "icon128.png" },
       ],

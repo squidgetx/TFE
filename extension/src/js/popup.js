@@ -8,9 +8,6 @@ window.onload = function () {
       document.getElementById(
         "workerIDform"
       ).innerHTML = `<p>You are signed in with Respondent ID: ${result.workerID}</p><p>Your installation code is: <p class='indent'><b>${result.install_code}</b></p></p>`;
-      if (CONFIG.trackUninstall) {
-        chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
-      }
     }
   };
 
@@ -35,25 +32,24 @@ window.onload = function () {
         error("You must enter a worker ID");
         return;
       }
+      const install_code = getCompleteCode(workerID);
 
-      chrome.storage.sync.set({ workerID: workerID }, function () {
-        console.log("WorkerID was set as " + workerID);
-      });
       chrome.storage.sync.set(
-        { treatment_group: treatment_group },
+        {
+          workerID: workerID,
+          treatment_group: treatment_group,
+          install_code: install_code,
+          install_time: Date.now(),
+        },
         function () {
-          console.log("Group was set");
+          console.log("Registration completed");
         }
       );
-      const install_code = getCompleteCode(workerID);
-      chrome.storage.sync.set({ install_code: install_code }, () => {
-        console.log("install code set");
-      });
 
       // Write an installation event to S3 and immediately flush it
 
       const log = getLogger(workerID, treatment_group);
-      log.logEvent({}, "install");
+      log.logEvent({ install_code: install_code }, "install");
       log.flushLog();
 
       update({ workerID: workerID, install_code: install_code });
