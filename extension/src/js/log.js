@@ -1,36 +1,37 @@
 import AWS from "aws-sdk";
 import { CONFIG } from "./config";
 
-let s3Client = null;
+AWS.config.update({
+  region: CONFIG.awsRegion,
+  accessKeyId: CONFIG.awsAccessKey,
+  secretAccessKey: CONFIG.awsSecretAccessKey,
+});
 
-chrome.storage.sync.get(["accessKey"], function (result) {
-  console.log("Access key loaded: ", result.accessKey);
-  AWS.config.update({
-    region: CONFIG.awsRegion,
-    accessKeyId: CONFIG.awsAccessKey,
-    secretAccessKey: CONFIG.awsSecretAccessKey,
-  });
-  s3Client = new AWS.S3({
-    params: { Bucket: CONFIG.awsS3Bucket },
-    region: CONFIG.awsRegion,
-  });
+const kinesis = new AWS.Kinesis({
+  apiVersion: "2013-12-02",
 });
 
 export const getLogger = function (workerID, treatment_group) {
-  const seen_tweets = new Set();
+  const seen_object_ids = new Set();
   const LOG = [];
 
   const uploadLog = async (log) => {
-    const params = {
-      Body: JSON.stringify(log),
-      Key: `${workerID}_${Date.now()}`,
-      ContentType: "text",
-    };
+    const records = log.map((entry) => {
+      return {
+        Data: JSON.stringify(entry),
+        PartitionKey: workerID,
+      };
+    });
     LOG.length = 0;
     console.log("uploading log");
     try {
-      const s3Response = await s3Client.putObject(params).promise();
-      return s3Response;
+      const response = await kinesis
+        .putRecords({
+          Records: records,
+          StreamName: CONFIG.awsKinesisStreamName,
+        })
+        .promise();
+      return response;
     } catch (e) {
       console.log(e);
       return e;
@@ -38,28 +39,31 @@ export const getLogger = function (workerID, treatment_group) {
   };
 
   const flushLog = function () {
-    // Flush the log to S3
+    // Flush the log to the cloud
     if (LOG.length > 0) {
       uploadLog(LOG);
     }
   };
 
-  const logEvent = function (tweet_obj, key) {
-    tweet_obj.event = key;
-    tweet_obj.time = Date.now();
-    tweet_obj.workerID = workerID;
-    tweet_obj.treatment_group = treatment_group;
-    if (seen_tweets.has(tweet_obj.id)) {
-      // Don't log tweets that we already have seen in the current session
+  const logEvent = function (obj, key) {
+    obj.event = key;
+    obj.time = Date.now();
+    obj.workerID = workerID;
+    obj.treatment_group = treatment_group;
+    if (seen_object_ids.has(obj.id)) {
+      // Don't log objects we already have seen in the current session
       return;
     }
-    LOG.push(tweet_obj);
+    LOG.push(obj);
     console.log(LOG.length);
     if (LOG.length >= 5) {
       flushLog();
     }
-    seen_tweets.add(tweet_obj.id);
+    seen_object_ids.add(obj.id);
   };
+
+  setInterval(flushLog, 1000 * 60 * CONFIG.logUploadRateMinutes);
+
   return {
     logEvent,
     flushLog,

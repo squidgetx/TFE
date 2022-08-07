@@ -10,9 +10,12 @@ if (CONFIG.trackUninstall) {
 if (CONFIG.recontact) {
   setInterval(() => {
     chrome.storage.sync.get(
-      ["install_time", "last_recontact"],
+      ["install_time", "last_recontact", "eligible"],
       function (result) {
         if (!result.install_time) {
+          return;
+        }
+        if (!eligible) {
           return;
         }
         const sinceInstall = intervalToDuration({

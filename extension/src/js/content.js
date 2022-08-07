@@ -2,39 +2,40 @@ import * as twitter from "./twitter";
 import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
-const UPLOAD_RATE_MIN = 2;
+chrome.storage.sync.get(
+  ["workerID", "treatment_group", "eligible"],
+  function (result) {
+    const workerID = result.workerID;
+    const treatment_group = result.treatment_group;
+    const eligible = result.eligible;
+    if (treatment_group == undefined) {
+      // User has not yet configured the extension
+      return;
+    }
+    const logger = getLogger(workerID, treatment_group);
+    console.log(
+      `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}`
+    );
 
-chrome.storage.sync.get(["workerID", "treatment_group"], function (result) {
-  const workerID = result.workerID;
-  const treatment_group = result.treatment_group;
-  if (treatment_group == undefined) {
-    // User has not yet configured the extension
-    return;
+    /*
+     * Set up observer
+     */
+
+    // Every so often send log data to server
+
+    setupFeedObserver(treatment_group, logger);
+    // Re attach the observer when the back button is used, or
+    // when a link is clicked
+    window.addEventListener("popstate", function () {
+      console.log("state changed");
+      setupFeedObserver(treatment_group, logger);
+    });
+    window.addEventListener("click", function () {
+      console.log("clicked changed");
+      setupFeedObserver(treatment_group, logger);
+    });
   }
-  const logger = getLogger(workerID, treatment_group);
-  console.log(
-    `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}`
-  );
-
-  /*
-   * Set up observer
-   */
-
-  // Every 5 minutes send log data to server
-  setInterval(logger.flushLog, 1000 * 60 * UPLOAD_RATE_MIN);
-
-  setupFeedObserver(treatment_group, logger);
-  // Re attach the observer when the back button is used, or
-  // when a link is clicked
-  window.addEventListener("popstate", function () {
-    console.log("state changed");
-    setupFeedObserver(treatment_group, logger);
-  });
-  window.addEventListener("click", function () {
-    console.log("clicked changed");
-    setupFeedObserver(treatment_group, logger);
-  });
-});
+);
 
 let setupFeedObserver = function (treatment_group, logger) {
   // The timeline is loaded with async JS

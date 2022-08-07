@@ -1,6 +1,8 @@
 import { BLACKLIST_ACCOUNTS } from "./accounts";
 const BLACKLIST_TEXTS = ["foxnews.com", "foxbusiness.com", "fox.com/news"];
 
+let checkEligibility = true;
+
 /*
  * Tweet filtering section
  */
@@ -67,7 +69,7 @@ let checkText = function (text_arr) {
       continue;
     }
     for (const blacklist_text of BLACKLIST_TEXTS) {
-      if (text.includes(blacklist_text)) {
+      if (text.toLowerCase().includes(blacklist_text)) {
         return true;
       }
     }
@@ -89,32 +91,54 @@ let parseTweet = function (tweet) {
 let filterTweets = function (children, treatment_group, logger) {
   for (const tweet of children) {
     let tweet_obj = parseTweet(tweet);
+    let labels = new Set();
+    const AUTHOR = "author";
+    const LINK = "link";
+    const SHOW = "show";
+    const HIDE = "hide";
+    if (BLACKLIST_ACCOUNTS.includes(tweet_obj.author)) {
+      labels.add(AUTHOR);
+    }
+    if (tweet_obj.blacklist_text) {
+      labels.add(LINK);
+    }
+
+    let action = SHOW;
+
+    // Value 0 is control group
     if (treatment_group == 1) {
       // Link-only blacklist
-      if (tweet_obj.blacklist_text) {
+      if (labels.has(LINK)) {
         tweet.innerHTML = "";
+        action = HIDE;
       }
     } else if (treatment_group == 2) {
       // Account-only blacklist
-      if (BLACKLIST_ACCOUNTS.includes(tweet_obj.author)) {
+      if (labels.has(AUTHOR)) {
+        action = HIDE;
         tweet.innerHTML = "";
       }
     } else if (treatment_group == 3) {
       // Both
-      if (
-        BLACKLIST_ACCOUNTS.includes(tweet_obj.author) ||
-        tweet_obj.blacklist_text
-      ) {
+      if (labels.size > 0) {
         tweet.innerHTML = "";
+        action = HIDE;
       }
     }
-    // Value 0 is control group
 
-    if (tweet.innerHTML == "") {
-      logger.logEvent(tweet_obj, "hide");
-    } else {
-      logger.logEvent(tweet_obj, "show");
+    tweet_obj.labels = labels;
+
+    if (labels.size > 0) {
+      console.log(tweet_obj);
+      if (checkEligibility) {
+        chrome.storage.sync.set({ eligible: true }, () => {
+          console.log("Eligibilty set to true");
+        });
+        checkEligibility = false;
+      }
     }
+
+    logger.logEvent(tweet_obj, action);
   }
 };
 

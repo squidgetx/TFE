@@ -2,6 +2,7 @@ import { getLogger } from "./log";
 import { getCompleteCode } from "./completecode";
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
+import { KeyObject } from "crypto";
 
 window.onload = function () {
   let renderRegisteredPopup = function (result) {
@@ -15,9 +16,14 @@ window.onload = function () {
       const inRecontactPeriod =
         sinceInstall.days >= CONFIG.recontactIntervalDays;
       const days = CONFIG.recontactIntervalDays - sinceInstall.days;
-      let recontactHTML = `<p>Please keep this extension installed for the next ${days} days. At the end of the study period, you'll have an opportunity to earn an additional <b>$${CONFIG.rewardDollars}</b>. We'll notify you by opening a new tab in your browser when the time arrives.</p>`;
+      let recontactHTML = `<p>Please keep this extension installed for the next ${days} days.`;
+
       if (inRecontactPeriod) {
-        recontactHTML = `<p>The study period is over! Please click <b><a href=${CONFIG.recontactURL} target='_blank'>here</a></b> for the link to the final survey and your $${CONFIG.rewardDollars} reward!`;
+        if (result.eligible) {
+          recontactHTML = `<p>Thank you and congratulations! You are eligible for a followup survey! Please click <b><a href=${CONFIG.recontactURL} target='_blank'>here</a></b> for the link to the final survey and a $${CONFIG.rewardDollars} reward!`;
+        } else {
+          recontactHTML = `<p>Thank you for your participation. You are now free to uninstall this extension at any time.`;
+        }
       }
       contentDiv.innerHTML += recontactHTML;
     }
@@ -66,13 +72,14 @@ window.onload = function () {
             workerID: workerID,
             install_code: install_code,
             install_time: Date.now(),
+            eligible: false,
           });
         }
       );
     });
 
   chrome.storage.sync.get(
-    ["workerID", "install_code", "install_time"],
+    ["workerID", "install_code", "install_time", "eligible"],
     function (result) {
       console.log("Default result is ", result);
       if (result.workerID) {
