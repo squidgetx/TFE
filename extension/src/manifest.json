@@ -1,6 +1,6 @@
 {
   "name": "Extension Survey Study",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "content_scripts": [
     {
        "matches": ["https://*.twitter.com/*", "http://*.twitter.com/*", "https://*.facebook.com/*"],
@@ -15,8 +15,7 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "storage",
-    "notifications"
+    "storage"
   ],
   "icons": {
     "128": "icon128.png"
