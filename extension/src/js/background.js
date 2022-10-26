@@ -51,13 +51,3 @@ if (CONFIG.recontact) {
     );
   }, 10000);
 }
-chrome.notifications.onClicked.addListener(function (notifId) {
-  if (notifId == NOTIF) {
-    console.log("notif was clicked");
-    chrome.tabs.create({
-      url: "recontact.html",
-      active: true,
-    });
-    //handle notification 1 being clicked
-  }
-});

@@ -30,6 +30,7 @@ var options = {
         { from: "src/popup.html", to: "popup.html" },
         { from: "src/icon128.png", to: "icon128.png" },
         { from: "src/alarm128.png", to: "alarm128.png" },
+        { from: "src/css/content.css", to: "content.css" },
       ],
     }),
     new WriteFilePlugin(),

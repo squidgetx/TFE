@@ -1,0 +1,43 @@
+.ext_tweet_container {
+    font-weight: 800;
+    color: red;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.userName {
+    font-weight: 600 !important;
+    font: 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.userHandle {
+    font: 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgb(83, 100, 113);
+    padding-left: 0.25em;
+}
+.dot {
+    font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgb(83, 100, 113);
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+
+}
+
+.time {
+    font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgb(83, 100, 113);
+
+}
+
+.avatarContainer {
+        overflow: hidden;
+        width: 48;
+        height: 48;
+        border-radius: 50%;
+    }
+
+    .metric {
+        font-size: 13px;
+        padding-left: 12px;
+    }
