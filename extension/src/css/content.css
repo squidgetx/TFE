@@ -41,3 +41,10 @@
         font-size: 13px;
         padding-left: 12px;
     }
+
+.media {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid;
+    border-color: grey;
+}
