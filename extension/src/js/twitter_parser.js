@@ -123,10 +123,11 @@ const parseTweetFooter = function (obj) {
  */
 const parseTweetBody = function (obj) {
   const body = {
+    parseError: false,
     preTextComponents: [],
     text: obj.nodes.text,
     embeddedMedia: [],
-    tweetControls: [],
+    tweetControls: null,
     postControlComponents: [],
   };
 
@@ -152,6 +153,9 @@ const parseTweetBody = function (obj) {
       }
       components.push(findMeaningfulChild(tweetComponents[i]));
     }
+  }
+  if (body.tweetControls == null) {
+    body.parseError = true;
   }
   return body;
 };
@@ -190,14 +194,13 @@ const parseTweetThread = function (obj, prevNode) {
   const thread = {
     isThread: obj.nodes.threadMarker != null,
     isCollapsedThread: false,
+    isThreadEnding: false,
   };
 
-  if (prevNode != null) {
-    if (
-      prevNode.data.thread.isThread &&
-      !prevNode.data.thread.isCollapsedThread
-    ) {
+  if (prevNode != null && !thread.isThread) {
+    if (prevNode.data.thread.isThread && !prevNode.data.thread.isThreadEnding) {
       thread.isThread = true;
+      thread.isThreadEnding = true;
     }
   }
 
@@ -205,6 +208,15 @@ const parseTweetThread = function (obj, prevNode) {
     thread.isCollapsedThread = obj.nodes.tweetFooter.some((a) =>
       a.innerText.includes("Show this thread")
     );
+    thread.isThreadEnding = thread.isCollapsedThread;
+    obj.nodes.avatarExpandThread = obj.nodes.tweetFooter
+      .map((n) =>
+        n.querySelector('[data-testid="UserAvatar-Container-unknown"]')
+      )
+      .filter((a) => a != null)[0];
+    if (obj.nodes.avatarExpandThread) {
+      obj.nodes.expandThreadLink = obj.nodes.avatarExpandThread.closest("a");
+    }
   }
   return thread;
 };
@@ -310,6 +322,8 @@ export const parseTweetHTML = function (node, prevNode) {
       obj.data[key] = obj.nodes.body[key].map((a) => a.innerText);
     }
   }
+
+  obj.data.parseError = obj.nodes.body.parseError;
 
   return obj;
 };

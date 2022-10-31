@@ -3,7 +3,6 @@ import { BLACKLIST_ACCOUNTS } from "./accounts";
 import { chatSVG, checkmarkSVG } from "./twitter_svgs";
 
 let checkEligibility = true;
-let lastObservedLength = 0;
 let injectionMap = new Set();
 
 let dlog = function (str) {
@@ -19,20 +18,17 @@ let filterTweets = function (tweets, treatment_group, logger) {
     }
     let labels = new Set();
     const AUTHOR = "author";
-    const SHOW = "show";
-    const HIDE = "hide";
     if (BLACKLIST_ACCOUNTS.includes(tweet.data.author)) {
       labels.add(AUTHOR);
     }
-
-    let action = SHOW;
 
     // Value 0 is control group
     if (treatment_group != 0) {
       // Account-only blacklist
       if (labels.has(AUTHOR)) {
-        action = HIDE;
         tweet.nodes.node.innerHTML = "";
+        tweet.nodes.node.setAttribute("isHidden", true);
+        tweet.data.isHidden = true;
       }
     }
 
@@ -46,23 +42,29 @@ let filterTweets = function (tweets, treatment_group, logger) {
         checkEligibility = false;
       }
     }
-
-    logger.logEvent(tweet.data, action);
   }
 };
 
+// link, or img
 const DUMMY_TWEET = {
   text: `Under the Biden-Harris Administration, surprise overdraft fees and bounced check victim fees are now illegal.
  
 Here's where you may experience these junk fees:`,
-  img: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg",
+  link: {
+    img: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg",
+    domain: "nytimes.com",
+    headline: "A link to a headline",
+    lede: "Lorem ipsum dolor sit amet, consectetur adipiscing elit ...",
+    href: "https://google.com",
+  },
   socialContext: "Injected Into Your Feed",
   socialContextLink: "youtube.com",
   userName: "The White House",
   userHandle: "WhiteHouse",
   userNameLink: "twitter.com/FoxNews",
   tweetLink: "https://twitter.com/WhiteHouse/status/1585376693430124544",
-  avatar: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg",
+  avatar:
+    "https://pbs.twimg.com/profile_images/738810295301246977/sJKDqlWh_400x400.jpg",
   likeCount: 1337,
   replyCount: 42,
   retweetCount: 666,
@@ -72,12 +74,42 @@ Here's where you may experience these junk fees:`,
 
 let transformTweet = function (obj, rep) {
   obj.nodes.text.innerHTML = `<span>${rep.text}</span>`;
+
+  // Remove all internal embedded media
   if (obj.nodes.body.embeddedMedia.length > 0) {
-    for (let i = 1; i < obj.nodes.body.embeddedMedia.length; i++) {
-      obj.nodes.body.embeddedMedia[i].innerHTML = "";
+    for (let i = 0; i < obj.nodes.body.embeddedMedia.length; i++) {
+      obj.nodes.body.embeddedMedia[i].remove();
     }
-    obj.nodes.body.embeddedMedia[0].innerHTML = `<div class='media'><img src=${rep.img} width=100% /></div>`;
   }
+
+  let injectedMedia = document.createElement("div");
+  if (rep.img) {
+    // create internal media
+    injectedMedia.innerHTML = `<div class='media'><img src=${rep.img} /></div>`;
+  } else if (rep.link) {
+    // TK is it possible to have a link with no image?
+    injectedMedia.innerHTML = `<a class='injected-link' href='${rep.link.href}'>
+    <div class='media'>
+      <div class='header-img'><img src=${rep.link.img} height=100% /></div>
+      <div class='link-body'>
+        <span class='link-domain'>${rep.link.domain}</span>
+        <span class='link-headline'>${rep.link.headline}</span>
+        <span class='link-lede'>${rep.link.lede}</span>
+      </div>
+    </div>
+    </a>
+    `;
+    injectedMedia.onclick = function (evt) {
+      evt.stopImmediatePropagation();
+    };
+  }
+  if (obj.nodes.body.tweetControls) {
+    obj.nodes.body.tweetControls.insertAdjacentElement(
+      "beforebegin",
+      injectedMedia
+    );
+  }
+
   if (obj.nodes.socialContextContainer) {
     obj.nodes.socialContextContainer.innerHTML = `
     <div class='socialContextContainer'>
@@ -116,7 +148,7 @@ let transformTweet = function (obj, rep) {
   obj.nodes.userName.onclick = function (e) {
     e.stopPropagation();
   };
-  obj.nodes.avatar.innerHTML = `<div class='avatarContainer'><img class='avatar' src=${rep.avatar} width=48 height=48/></div>`;
+  obj.nodes.avatar.innerHTML = `<div class='avatarContainer'><img class='avatar' src=${rep.avatar} height=100% /></div>`;
   obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.replyCount}</span>`;
   obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweetCount}</span>`;
   obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.likeCount}</span>`;
@@ -143,6 +175,18 @@ let transformTweet = function (obj, rep) {
     }
   }
 
+  if (obj.nodes.avatarExpandThread != null) {
+    const threadLink = obj.nodes.expandThreadLink;
+    if (threadLink) {
+      threadLink.setAttribute("href", rep.tweetLink);
+    } else {
+      console.log("no link found!", obj.nodes.avatarExpandThread);
+    }
+    obj.nodes.avatarExpandThread.innerHTML = `<div class='avatarContainerExpandThread'><img class='avatar' src=${rep.avatar} width=32px height=32px /></div>`;
+  } else {
+    obj.nodes.tweetFooter.map((a) => a.remove());
+  }
+
   obj.nodes.node.setAttribute("injected", "true");
 };
 
@@ -160,12 +204,27 @@ let disableInjectedContextMenus = function () {
   }
 };
 
+let removeInjectedMedia = function () {
+  // separate function, because it seems like twitter async hydrates video
+  const injectedNodes = document.querySelectorAll("[injected=true]");
+  for (const node of injectedNodes) {
+    const media = node.querySelectorAll("[data-testid=tweetPhoto]");
+    for (const card of media) {
+      card.remove();
+    }
+  }
+};
+
 let isEligible = function (tweet) {
   if (tweet == null) {
     dlog("ineligible: tweet is null");
     return false;
   }
-  if (tweet.data.thread.isThread) {
+  if (tweet.nodes.body.parseError == true) {
+    dlog("ineligible: tweet is not parsed correctly");
+    return false;
+  }
+  if (tweet.data.thread.isThread && !tweet.data.thread.isCollapsedThread) {
     dlog("ineligible: tweet is thread");
     return false;
   }
@@ -188,21 +247,17 @@ let isEligible = function (tweet) {
   return true;
 };
 
-let injectTweets = function (
-  tweets,
-  treatment_group,
-  logger,
-  lastObservedLength
-) {
+// injectionMap maps tweet IDs to dummy_tweets, or to "no_replace" string
+let injectTweets = function (tweets, treatment_group, logger) {
   for (let i = 0; i < tweets.length; i++) {
     if (isEligible(tweets[i])) {
       if (Math.random() < 1.9) {
         transformTweet(tweets[i], DUMMY_TWEET);
+        tweets[i].data.injectedTweet = DUMMY_TWEET;
       } else {
         injectionMap.add(tweets[i].data.id);
       }
     } else {
-      dlog("ineligible:", tweets[i]);
     }
   }
 };
@@ -211,12 +266,34 @@ const parseTweets = function (children) {
   let prevNode = null;
   const tweets = [];
   for (let i = 0; i < children.length; i++) {
-    let tweet = parseTweetHTML(children[i], prevNode);
+    const tweet = parseTweetHTML(children[i], prevNode);
+
     tweets.push(tweet);
     prevNode = tweet;
   }
-  console.log(tweets);
   return tweets;
+};
+
+let monitorTweets = function (tweets, logger) {
+  for (const tweet of tweets) {
+    if (tweet) {
+      if (!tweet.nodes.node.getAttribute("hasObserver")) {
+        let observer = new IntersectionObserver(
+          function (entries) {
+            // isIntersecting is true when element and viewport are overlapping
+            // isIntersecting is false when element and viewport don't overlap
+            if (entries[0].isIntersecting === true) {
+              console.log("Logging view of ", tweet);
+              logger.logEvent(tweet.data, "view");
+            }
+          },
+          { threshold: [0.2] }
+        );
+        observer.observe(tweet.nodes.node);
+        tweet.nodes.node.setAttribute("hasObserver", true);
+      }
+    }
+  }
 };
 
 let processFeed = function (document, observer, treatment_group, logger) {
@@ -225,23 +302,19 @@ let processFeed = function (document, observer, treatment_group, logger) {
   );
   if (
     timelineDiv != undefined &&
-    timelineDiv.childNodes[0].childNodes.length > 1 &&
-    lastObservedLength != timelineDiv.childNodes[0].childNodes.length
+    timelineDiv.childNodes[0].childNodes.length > 1
   ) {
-    dlog(
-      "loading custom timeline treatment group with inject: " + treatment_group
-    );
     // disable the observer when modifying itself, otherwise its infinite loop
     observer.disconnect();
 
     const parentNode = timelineDiv.childNodes[0];
     const children = parentNode.childNodes;
-    console.log("Timeline length changed: ", lastObservedLength);
     const tweets = parseTweets(children);
     filterTweets(tweets, treatment_group, logger);
-    injectTweets(tweets, treatment_group, logger, lastObservedLength);
-    lastObservedLength = children.length;
+    injectTweets(tweets, treatment_group, logger);
+    monitorTweets(tweets, logger);
     disableInjectedContextMenus();
+    removeInjectedMedia();
 
     // re-register, for when the user scrolls
     const config = {

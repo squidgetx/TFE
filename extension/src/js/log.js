@@ -55,7 +55,6 @@ export const getLogger = function (workerID, treatment_group) {
       return;
     }
     LOG.push(obj);
-    console.log(LOG.length);
     if (LOG.length >= 5) {
       flushLog();
     }

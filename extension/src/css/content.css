@@ -39,10 +39,17 @@
 
 .avatarContainer {
         overflow: hidden;
-        width: 48;
-        height: 48;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
-    }
+}
+
+.avatarContainerExpandThread {
+    overflow: hidden;
+    width: 32;
+    height: 32;
+    border-radius: 50%;
+}
 
     .metric {
         font-size: 13px;
@@ -50,11 +57,38 @@
     }
 
 .media {
+    margin-top: 0.25em;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid;
-    border-color: grey;
+    border-color: rgb(207, 217, 222);
 }
+
+.header-img {
+    height: 256px;
+    overflow: hidden;
+}
+
+.injected-link {
+    text-decoration: none;
+    color: black;
+}
+
+.link-body {
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    padding: 0.75em;
+}
+
+.link-domain, .link-lede {
+    color: rgb(83, 100, 113);
+}
+
+.link-headline, .link-lede, .link-domain {
+    display: block;
+    margin-bottom: 0.2em;
+}
+
 
 a.userName {
     text-decoration: none;
