@@ -192,8 +192,11 @@ const parseTweetThread = function (obj, prevNode) {
     isCollapsedThread: false,
   };
 
-  if (prevNode) {
-    if (prevNode.isThread && !prevNode.isCollapsedThread) {
+  if (prevNode != null) {
+    if (
+      prevNode.data.thread.isThread &&
+      !prevNode.data.thread.isCollapsedThread
+    ) {
       thread.isThread = true;
     }
   }
@@ -230,13 +233,8 @@ export const parseTweetHTML = function (node, prevNode) {
 
   obj.nodes.text = queryMeaningfulChild(node, '[data-testid="tweetText"]');
   obj.nodes.userName = queryMeaningfulChild(node, '[data-testid="User-Names"]');
-  obj.nodes.avatar = queryMeaningfulChild(
-    node,
-    '[data-testid="Tweet-User-Avatar"]'
-  );
-  obj.nodes.threadMarker = node.querySelector(
-    '[data-testid="Tweet-User-Avatar"]'
-  ).nextSibling;
+  obj.nodes.avatar = node.querySelector('[data-testid="Tweet-User-Avatar"]');
+  obj.nodes.threadMarker = obj.nodes.avatar.nextSibling;
   obj.nodes.cardWrapper = queryMeaningfulChild(
     node,
     '[data-testid="card.wrapper"]'
@@ -286,7 +284,14 @@ export const parseTweetHTML = function (node, prevNode) {
     a.innerText.includes("Promoted")
   );
   obj.data.allText = node.innerText;
-  // tk link?
+  obj.data.isInjected = node.getAttribute("injected");
+
+  if (obj.data.socialContextContainer) {
+    obj.data.socialContextLinks = Array.from(
+      node.socialContextContainer.getElementsByTagName("a")
+    ).map((a) => a.href);
+  }
+  // tk tweet embedded links, etc
 
   for (const key of [
     "likeCount",
