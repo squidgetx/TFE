@@ -2,16 +2,24 @@ import { parseTweetHTML } from "./twitter_parser";
 import { BLACKLIST_ACCOUNTS } from "./accounts";
 import { chatSVG, checkmarkSVG } from "./twitter_svgs";
 
-let checkEligibility = true;
 let injectionMap = new Set();
 
-let dlog = function (str) {
+const dlog = function (str) {
   if (false) {
     console.log(str);
   }
 };
 
-let filterTweets = function (tweets, treatment_group, logger) {
+/*
+ * Given an array of tweet objects, remove any tweets that
+ * need to be removed given the treatment group of the user
+ * and the tweet-level characteristics
+ *
+ * Removed tweets should have the innerHTML deleted but
+ * the parent div preserved, so we can log
+ * "counterfactual" impressions of removed tweets
+ */
+const filterTweets = function (tweets, treatment_group) {
   for (const tweet of tweets) {
     if (tweet == null) {
       continue;
@@ -35,12 +43,9 @@ let filterTweets = function (tweets, treatment_group, logger) {
     tweet.data.labels = labels;
 
     if (labels.size > 0) {
-      if (checkEligibility) {
-        chrome.storage.sync.set({ eligible: true }, () => {
-          console.log("Eligibilty set to true");
-        });
-        checkEligibility = false;
-      }
+      chrome.storage.sync.set({ eligible: true }, () => {
+        console.log("Eligibilty set to true");
+      });
     }
   }
 };
@@ -72,7 +77,11 @@ Here's where you may experience these junk fees:`,
   isVerified: true,
 };
 
-let transformTweet = function (obj, rep) {
+/*
+ * Transform the tweet represented by the parsed tweet object obj,
+ * replacing it with the tweet represented by the object rep
+ */
+const transformTweet = function (obj, rep) {
   obj.nodes.text.innerHTML = `<span>${rep.text}</span>`;
 
   // Remove all internal embedded media
@@ -190,8 +199,9 @@ let transformTweet = function (obj, rep) {
   obj.nodes.node.setAttribute("injected", "true");
 };
 
-let disableInjectedContextMenus = function () {
-  // separate function, because it seems like twitter async hydrates the context menus
+// This is in a separate fucntion because it seems like twitter's JS
+// hydrates the menu interactivity asynchronously
+const disableInjectedContextMenus = function () {
   const injectedNodes = document.querySelectorAll("[injected=true]");
   for (const node of injectedNodes) {
     const caret = node.querySelector("[data-testid=caret]");
@@ -204,8 +214,8 @@ let disableInjectedContextMenus = function () {
   }
 };
 
-let removeInjectedMedia = function () {
-  // separate function, because it seems like twitter async hydrates video
+// separate function, because it seems like twitter async hydrates video
+const removeInjectedMedia = function () {
   const injectedNodes = document.querySelectorAll("[injected=true]");
   for (const node of injectedNodes) {
     const media = node.querySelectorAll("[data-testid=tweetPhoto]");
@@ -215,7 +225,9 @@ let removeInjectedMedia = function () {
   }
 };
 
-let isEligible = function (tweet) {
+/* Determine if a tweet object is eligible for replacement
+ */
+const isEligible = function (tweet) {
   if (tweet == null) {
     dlog("ineligible: tweet is null");
     return false;
@@ -247,21 +259,30 @@ let isEligible = function (tweet) {
   return true;
 };
 
-// injectionMap maps tweet IDs to dummy_tweets, or to "no_replace" string
-let injectTweets = function (tweets, treatment_group, logger) {
+/*
+ * Given the array of tweet objects and users' treatment group,
+ * inject tweets into the timeline by transforming eligible tweets
+ *
+ * Right now the code uses a dummy tweet, TODO is to pull the injectees
+ * from a server or something
+ */
+let injectTweets = function (tweets, treatment_group) {
   for (let i = 0; i < tweets.length; i++) {
-    if (isEligible(tweets[i])) {
-      if (Math.random() < 1.9) {
-        transformTweet(tweets[i], DUMMY_TWEET);
-        tweets[i].data.injectedTweet = DUMMY_TWEET;
-      } else {
-        injectionMap.add(tweets[i].data.id);
-      }
+    if (!isEligible(tweets[i])) {
+      continue;
+    }
+    if (Math.random() < 1) {
+      transformTweet(tweets[i], DUMMY_TWEET);
+      tweets[i].data.injectedTweet = DUMMY_TWEET;
     } else {
+      injectionMap.add(tweets[i].data.id);
     }
   }
 };
 
+/*
+ * Given an array of childNodes create a parsed array of tweet objects
+ */
 const parseTweets = function (children) {
   let prevNode = null;
   const tweets = [];
@@ -274,7 +295,11 @@ const parseTweets = function (children) {
   return tweets;
 };
 
-let monitorTweets = function (tweets, logger) {
+/*
+ * Set up an IntersectionObserver for any tweets that don't have one
+ * This way we can actually know if a tweet enters the viewport or not
+ */
+const monitorTweets = function (tweets, logger) {
   for (const tweet of tweets) {
     if (tweet) {
       if (!tweet.nodes.node.getAttribute("hasObserver")) {
@@ -296,7 +321,11 @@ let monitorTweets = function (tweets, logger) {
   }
 };
 
-let processFeed = function (document, observer, treatment_group, logger) {
+/*
+ * Where the magic happens. Parse the twitter feed, remove tweets if needed, add tweets if needed,
+ * and log the whole thing
+ */
+const processFeed = function (document, observer, treatment_group, logger) {
   let timelineDiv = document.querySelector(
     '[aria-label="Timeline: Your Home Timeline"]'
   );
@@ -310,8 +339,8 @@ let processFeed = function (document, observer, treatment_group, logger) {
     const parentNode = timelineDiv.childNodes[0];
     const children = parentNode.childNodes;
     const tweets = parseTweets(children);
-    filterTweets(tweets, treatment_group, logger);
-    injectTweets(tweets, treatment_group, logger);
+    filterTweets(tweets, treatment_group);
+    injectTweets(tweets, treatment_group);
     monitorTweets(tweets, logger);
     disableInjectedContextMenus();
     removeInjectedMedia();
