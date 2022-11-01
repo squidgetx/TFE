@@ -12,7 +12,6 @@ const kinesis = new AWS.Kinesis({
 });
 
 export const getLogger = function (workerID, treatment_group) {
-  const seen_object_ids = new Set();
   const LOG = [];
 
   const uploadLog = async (log) => {
@@ -50,15 +49,10 @@ export const getLogger = function (workerID, treatment_group) {
     obj.time = Date.now();
     obj.workerID = workerID;
     obj.treatment_group = treatment_group;
-    if (seen_object_ids.has(obj.id)) {
-      // Don't log objects we already have seen in the current session
-      return;
-    }
     LOG.push(obj);
     if (LOG.length >= 5) {
       flushLog();
     }
-    seen_object_ids.add(obj.id);
   };
 
   setInterval(flushLog, 1000 * 60 * CONFIG.logUploadRateMinutes);

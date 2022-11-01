@@ -232,6 +232,10 @@ const isEligible = function (tweet) {
     dlog("ineligible: tweet is null");
     return false;
   }
+  if (tweet.data.isHidden) {
+    dlog("ineligible: tweet was removed");
+    return false;
+  }
   if (tweet.nodes.body.parseError == true) {
     dlog("ineligible: tweet is not parsed correctly");
     return false;
