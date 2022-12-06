@@ -1,8 +1,12 @@
 import { parseTweetHTML } from "./twitter_parser";
 import { BLACKLIST_ACCOUNTS } from "./accounts";
 import { chatSVG, checkmarkSVG } from "./twitter_svgs";
+import { fetch_tweet } from "./fetch_tweets";
 
-let injectionMap = new Set();
+// The proportion of tweets that should be replaced
+const INJECTION_RATE = 0.99;
+
+const seen_tweet_ids = new Set();
 
 const dlog = function (str) {
   if (false) {
@@ -31,7 +35,7 @@ const filterTweets = function (tweets, treatment_group) {
     }
 
     // Value 0 is control group
-    if (treatment_group != 0) {
+    if (treatment_group == 1 || treatment_group == 2) {
       // Account-only blacklist
       if (labels.has(AUTHOR)) {
         tweet.nodes.node.innerHTML = "";
@@ -48,33 +52,6 @@ const filterTweets = function (tweets, treatment_group) {
       });
     }
   }
-};
-
-// link, or img
-const DUMMY_TWEET = {
-  text: `Under the Biden-Harris Administration, surprise overdraft fees and bounced check victim fees are now illegal.
- 
-Here's where you may experience these junk fees:`,
-  link: {
-    img: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg",
-    domain: "nytimes.com",
-    headline: "A link to a headline",
-    lede: "Lorem ipsum dolor sit amet, consectetur adipiscing elit ...",
-    href: "https://google.com",
-  },
-  socialContext: "Injected Into Your Feed",
-  socialContextLink: "youtube.com",
-  userName: "The White House",
-  userHandle: "WhiteHouse",
-  userNameLink: "twitter.com/FoxNews",
-  tweetLink: "https://twitter.com/WhiteHouse/status/1585376693430124544",
-  avatar:
-    "https://pbs.twimg.com/profile_images/738810295301246977/sJKDqlWh_400x400.jpg",
-  likeCount: 1337,
-  replyCount: 42,
-  retweetCount: 666,
-  preText: "generic pretext",
-  isVerified: true,
 };
 
 /*
@@ -252,8 +229,8 @@ const isEligible = function (tweet) {
     dlog("ineligible: tweet id not found");
     return false;
   }
-  if (injectionMap.has(tweet.data.id)) {
-    dlog("ineligible: injectionMap already has this tweet id");
+  if (seen_tweet_ids.has(tweet.data.id)) {
+    dlog("ineligible: we already marked this tweet id as no-replace");
     return false;
   }
   if (tweet.data.isInjected) {
@@ -266,20 +243,23 @@ const isEligible = function (tweet) {
 /*
  * Given the array of tweet objects and users' treatment group,
  * inject tweets into the timeline by transforming eligible tweets
- *
- * Right now the code uses a dummy tweet, TODO is to pull the injectees
- * from a server or something
  */
-let injectTweets = function (tweets, treatment_group) {
+let injectTweets = function (tweets, workerID, treatment_group) {
+  if (treatment_group == 0 || treatment_group == 1) {
+    return;
+  }
+
   for (let i = 0; i < tweets.length; i++) {
     if (!isEligible(tweets[i])) {
       continue;
     }
-    if (Math.random() < 1) {
-      transformTweet(tweets[i], DUMMY_TWEET);
-      tweets[i].data.injectedTweet = DUMMY_TWEET;
+
+    if (Math.random() < INJECTION_RATE) {
+      const new_tweet = fetch_tweet(workerID);
+      transformTweet(tweets[i], new_tweet);
+      tweets[i].data.injectedTweet = new_tweet;
     } else {
-      injectionMap.add(tweets[i].data.id);
+      seen_tweet_ids.add(tweets[i].data.id);
     }
   }
 };
@@ -329,7 +309,13 @@ const monitorTweets = function (tweets, logger) {
  * Where the magic happens. Parse the twitter feed, remove tweets if needed, add tweets if needed,
  * and log the whole thing
  */
-const processFeed = function (document, observer, treatment_group, logger) {
+const processFeed = function (
+  document,
+  observer,
+  treatment_group,
+  workerID,
+  logger
+) {
   let timelineDiv = document.querySelector(
     '[aria-label="Timeline: Your Home Timeline"]'
   );
@@ -343,8 +329,9 @@ const processFeed = function (document, observer, treatment_group, logger) {
     const parentNode = timelineDiv.childNodes[0];
     const children = parentNode.childNodes;
     const tweets = parseTweets(children);
+
     filterTweets(tweets, treatment_group);
-    injectTweets(tweets, treatment_group);
+    injectTweets(tweets, workerID, treatment_group);
     monitorTweets(tweets, logger);
     disableInjectedContextMenus();
     removeInjectedMedia();
@@ -360,9 +347,9 @@ const processFeed = function (document, observer, treatment_group, logger) {
   }
 };
 
-export const getObserver = function (treatment_group, logger) {
+export const getObserver = function (treatment_group, workerID, logger) {
   const observer = new MutationObserver(function (mutations) {
-    processFeed(document, observer, treatment_group, logger);
+    processFeed(document, observer, treatment_group, workerID, logger);
   });
   return observer;
 };

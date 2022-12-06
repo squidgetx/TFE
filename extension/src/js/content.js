@@ -6,8 +6,7 @@ chrome.storage.sync.get(
   ["workerID", "treatment_group", "eligible"],
   function (result) {
     const workerID = result.workerID;
-    const treatment_group = result.treatment_group;
-    const eligible = result.eligible;
+    const treatment_group = Math.floor(Math.random() * 4); //result.treatment_group;
     if (treatment_group == undefined) {
       // User has not yet configured the extension
       return;
@@ -23,21 +22,21 @@ chrome.storage.sync.get(
 
     // Every so often send log data to server
 
-    setupFeedObserver(treatment_group, logger);
+    setupFeedObserver(treatment_group, workerID, logger);
     // Re attach the observer when the back button is used, or
     // when a link is clicked
     window.addEventListener("popstate", function () {
       console.log("state changed");
-      setupFeedObserver(treatment_group, logger);
+      setupFeedObserver(treatment_group, workerID, logger);
     });
     window.addEventListener("click", function () {
       console.log("clicked changed");
-      setupFeedObserver(treatment_group, logger);
+      setupFeedObserver(treatment_group, workerID, logger);
     });
   }
 );
 
-let setupFeedObserver = function (treatment_group, logger) {
+let setupFeedObserver = function (treatment_group, workerID, logger) {
   // The timeline is loaded with async JS
   // So, we want to trigger filtering logic whenever its modified
   const config = {
@@ -50,7 +49,7 @@ let setupFeedObserver = function (treatment_group, logger) {
   let observer;
   if (window.location.hostname.includes("twitter")) {
     console.log("using twitter observer");
-    observer = twitter.getObserver(treatment_group, logger);
+    observer = twitter.getObserver(treatment_group, workerID, logger);
   } else {
     console.log("using facebook observer");
     observer = facebook.getObserver(treatment_group, logger);
