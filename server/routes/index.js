@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pgp = require("pg-promise")(/* options */);
 
-const DB_CONN_STRING = "postgres://username:password@host:port/database";
-const db = pgp(DB_CONN_STRING);
+const db = pgp("postgres://testuser:password@localhost:5432/server-dev");
 
 const DUMMY_TWEET = {
   text: `All the more so when you consider that Biddle himself then went on to oversee the "Great Sedition Trial" of 1944 (30 fascist and pro-Nazi defendants accused of conspiring with the Hitler government), which also ended in a mistrial...`,
@@ -35,20 +34,39 @@ const authenticate = function (username, password) {
   return true;
 };
 
-const fetch_tweets = function (username) {
+const fetch_tweets = async function (username) {
   // pseudocode: ask DB for random selection of fresh tweets for the given user
   // ok, how is the db gonna be set up
   // users table with handle => ideo
   // then tweets table with ds, author, author_ideo, tweet_json
   // todo: fix this query
-  db.one("SELECT $1 AS value", 123)
-    .then((data) => {
-      console.log("DATA:", data.value);
-    })
-    .catch((error) => {
-      console.log("ERROR:", error);
-    });
-  return [DUMMY_TWEET];
+  const ideo = await db.one(
+    "SELECT ideo from users where username = $1",
+    username
+  );
+  const ideo_sign = Math.sign(ideo.ideo);
+
+  // todo: handle retweets
+  // todo: make sure the null filter is actually working
+  // todo: time box
+  results = await db.any(
+    `
+   with relevant_tweets as (
+      select * from tweets where author_id in (
+        select id from authors where sign(ideo) = $1
+      ) and referenced_tweet_type is null
+    )
+    select * from relevant_tweets
+    left join links on relevant_tweets.link_preview_url = links.turl
+    left join media on relevant_tweets.media_id_1 = media.id
+    left join authors on relevant_tweets.author_id = authors.id
+    order by created_at desc
+    limit 64;
+    `,
+    -ideo_sign
+  );
+  console.log(results);
+  return results;
 };
 
 /* GET home page. */
@@ -63,7 +81,7 @@ router.post("/fresh_tweets", function (req, res, next) {
   if (!authenticate(username, password)) {
     res.send(403, "You do not have rights to visit this page");
   } else {
-    res.json(fetch_tweets(username));
+    fetch_tweets(username).then((r) => res.json(r));
   }
 });
 
