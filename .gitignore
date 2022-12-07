@@ -1,11 +1,18 @@
 extension/node_modules
 extension/build
 extension/secrets.*.js
+
 scripts/data
 scripts/*.tsv
 secrets.sh
+
+server/db/pgdata/*
+server/db/logfile
+
+
 .venv
 *.zip
+*.Rda
 
 .DS_Store
 
