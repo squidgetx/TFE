@@ -2,6 +2,7 @@ import { parseTweetHTML } from "./twitter_parser";
 import { BLACKLIST_ACCOUNTS } from "./accounts";
 import { chatSVG, checkmarkSVG } from "./twitter_svgs";
 import { fetch_tweet } from "./fetch_tweets";
+import { getTime } from "date-fns";
 
 // The proportion of tweets that should be replaced
 const INJECTION_RATE = 0.99;
@@ -84,7 +85,25 @@ const formatText = function (rep) {
   return text;
 };
 
-const setupEventListeners = function (obj) {};
+const getTimeStr = function (created_at) {
+  const interval = new Date() - created_at;
+  const minutes = interval / 6e4;
+  const hours = minutes / 60;
+  if (minutes < 60) {
+    return Math.floor(minutes) + "m";
+  }
+  if (hours < 24) {
+    return Math.floor(hours) + "h";
+  }
+  let language = "us-US";
+  if (navigator.languages) {
+    language = navigator.languages[0];
+  }
+  return created_at.toLocaleDateString(language, {
+    month: "short",
+    day: "numeric",
+  });
+};
 /*
  * Transform the tweet represented by the parsed tweet object obj,
  * replacing it with the tweet represented by the object rep
@@ -143,7 +162,9 @@ const transformTweet = function (obj, rep) {
     ? `<span class='checkmarkSVG'>${checkmarkSVG}</span>`
     : "";
 
-  const time_string = "42m";
+  const time_string = getTimeStr(new Date(rep.created_at));
+  // Formatted either as Dec 7, 23h, or 2m
+
   obj.nodes.userName.innerHTML = `
       <span class='userName'>
         <a href="/${rep.username}" class='userName'>
