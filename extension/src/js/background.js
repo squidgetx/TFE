@@ -1,53 +1,32 @@
-import { CONFIG } from "./config";
-import { intervalToDuration } from "date-fns";
+const server = "http://localhost:3000/fresh_tweets";
 
-const NOTIF = "recontact_notif";
+async function refresh_tweet_pool(key) {
+  console.log("Refreshing tweet pool..");
+  const response = await fetch("http://localhost:3000/fresh_tweets", {
+    method: "POST",
+    body: JSON.stringify({ username: "test" }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const fresh_tweets = await response.json();
+  // todo send to twitter tab
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true,
+  });
 
-if (CONFIG.trackUninstall) {
-  chrome.runtime.setUninstallURL(CONFIG.uninstallEndpoint);
+  chrome.tabs.sendMessage(tab.id, {
+    message: { name: "fresh_tweets", tweets: fresh_tweets },
+  });
 }
 
-if (CONFIG.recontact) {
-  setInterval(() => {
-    chrome.storage.sync.get(
-      ["install_time", "last_recontact", "eligible"],
-      function (result) {
-        if (!result.install_time) {
-          return;
-        }
-        if (!eligible) {
-          return;
-        }
-        const sinceInstall = intervalToDuration({
-          start: result.install_time,
-          end: Date.now(),
-        });
-        const inRecontactPeriod =
-          sinceInstall.days >= CONFIG.recontactIntervalDays;
-        const sinceLastPrompt = intervalToDuration({
-          start: result.last_recontact,
-          end: Date.now(),
-        });
-        const promptedRecently =
-          sinceLastPrompt.minutes < CONFIG.recontactReminderHours * 60;
-        if (inRecontactPeriod && !promptedRecently) {
-          chrome.tabs.create({
-            url: "recontact.html",
-            active: false,
-            index: 0,
-          });
-          chrome.notifications.create(NOTIF, {
-            type: "basic",
-            iconUrl: "alarm128.png",
-            title: "Extension Survey Study Final Stage!",
-            message: "Complete a short survey and earn a $5 reward!",
-            priority: 2,
-          });
-          chrome.storage.sync.set({
-            last_recontact: Date.now(),
-          });
-        }
-      }
-    );
-  }, 10000);
-}
+// Temp hack: fetch new data every second
+// TODO make it so that the frontend can request data
+
+chrome.runtime.onMessage.addListener((message) => {
+  console.log("Received message", message);
+  if (message.message == "fetch") {
+    refresh_tweet_pool("test").then(() => {});
+  }
+});

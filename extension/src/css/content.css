@@ -144,3 +144,9 @@ a.userName:hover, a.time:hover {
 .shareButton:hover {
     color: rgb(29, 155, 240)
 }
+
+.inline-link {
+    color: rgb(29, 155, 240);
+    text-decoration: none;
+    z-index: 99;
+}

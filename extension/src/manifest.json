@@ -16,7 +16,7 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "storage"
+    "storage", "runtime"
   ],
   "icons": {
     "128": "icon128.png"

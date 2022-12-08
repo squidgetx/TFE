@@ -6,7 +6,7 @@ chrome.storage.sync.get(
   ["workerID", "treatment_group", "eligible"],
   function (result) {
     const workerID = result.workerID;
-    const treatment_group = Math.floor(Math.random() * 4); //result.treatment_group;
+    const treatment_group = 2; // Math.floor(Math.random() * 4); //result.treatment_group;
     if (treatment_group == undefined) {
       // User has not yet configured the extension
       return;

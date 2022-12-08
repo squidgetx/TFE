@@ -54,126 +54,195 @@ const filterTweets = function (tweets, treatment_group) {
   }
 };
 
+/* Delete literally anything in between the tweetControls and text nodes */
+const cleanTweet = function (obj) {
+  const textNode = obj.nodes.text;
+  const tweetControls = obj.nodes.body.tweetControls;
+  let node = textNode;
+  while (node) {
+    // if the node has a sibling after it that is not tweetControls container, delete it
+    // if there are no siblings move up one level
+    let sibling = node.nextSibling;
+    while (sibling) {
+      if (sibling.contains(tweetControls)) {
+        return obj;
+      } else {
+        sibling.remove();
+      }
+      sibling = node.nextSibling;
+    }
+    node = node.parentNode;
+  }
+};
+
+/* return HTML ready text of the tweet */
+const formatText = function (rep) {
+  let text = rep.ttext.replace(rep.link_url, "");
+  // TODO: hydrate regular tweets and links to Twitter accounts
+  text = text.replace(/@(\w+)/g, "<a class='inline-link' href='/$1'>@$1</a>");
+
+  return text;
+};
+
+const setupEventListeners = function (obj) {};
 /*
  * Transform the tweet represented by the parsed tweet object obj,
  * replacing it with the tweet represented by the object rep
  */
 const transformTweet = function (obj, rep) {
-  obj.nodes.text.innerHTML = `<span>${rep.text}</span>`;
+  console.log(rep);
+  const tweetLink = `/${rep.username}/status/${rep.id}`;
+  obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
 
-  // Remove all internal embedded media
-  if (obj.nodes.body.embeddedMedia.length > 0) {
-    for (let i = 0; i < obj.nodes.body.embeddedMedia.length; i++) {
-      obj.nodes.body.embeddedMedia[i].remove();
-    }
-  }
+  // Remove all attachments and media
+  obj = cleanTweet(obj);
 
-  let injectedMedia = document.createElement("div");
-  if (rep.img) {
-    // create internal media
-    injectedMedia.innerHTML = `<div class='media'><img src=${rep.img} /></div>`;
-  } else if (rep.link) {
-    // TK is it possible to have a link with no image?
-    injectedMedia.innerHTML = `<a class='injected-link' href='${rep.link.href}'>
+  const injectedMedia = document.createElement("div");
+
+  if (rep.media_url) {
+    injectedMedia.innerHTML = `<div class='media'><img src=${rep.media_url} /></div>`;
+  } else if (rep.link_url) {
+    injectedMedia.innerHTML = `<a class='injected-link' href='${rep.link_url}' target='_blank'>
     <div class='media'>
-      <div class='header-img'><img src=${rep.link.img} height=100% /></div>
+      <div class='header-img'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
       <div class='link-body'>
-        <span class='link-domain'>${rep.link.domain}</span>
-        <span class='link-headline'>${rep.link.headline}</span>
-        <span class='link-lede'>${rep.link.lede}</span>
+        <span class='link-domain'>${rep.link_hostname}</span>
+        <span class='link-headline'>${rep.link_title}</span>
+        <span class='link-lede'>${rep.link_description}</span>
       </div>
     </div>
     </a>
     `;
-    injectedMedia.onclick = function (evt) {
-      evt.stopImmediatePropagation();
-    };
-  }
-  if (obj.nodes.body.tweetControls) {
-    obj.nodes.body.tweetControls.insertAdjacentElement(
-      "beforebegin",
-      injectedMedia
-    );
   }
 
+  injectedMedia.onclick = function (evt) {
+    evt.stopPropagation();
+  };
+
+  obj.nodes.body.tweetControls.insertAdjacentElement(
+    "beforebegin",
+    injectedMedia
+  );
+
   if (obj.nodes.socialContextContainer) {
-    obj.nodes.socialContextContainer.innerHTML = `
-    <div class='socialContextContainer'>
-      <span class='socialContextIcon'>${chatSVG}</span>
-      <a class='socialContext' href="${rep.socialContextLink}">${rep.socialContext}</a>
-      <span class='dot'>\u00B7</span> 
-      <a class='socialContextSeeMore' href="${rep.socialContextLink}">See More</a>
-      </div>
-  `;
+    if (rep.socialContext) {
+      obj.nodes.socialContextContainer.innerHTML = `
+      <div class='socialContextContainer'>
+        <span class='socialContextIcon'>${chatSVG}</span>
+        <a class='socialContext' href="${rep.socialContextLink}">${rep.socialContext}</a>
+        <span class='dot'>\u00B7</span> 
+        <a class='socialContextSeeMore' href="${rep.socialContextLink}">See More</a>
+        </div>
+    `;
+    } else {
+      obj.nodes.socialContextContainer.innerHTML = "<br />";
+    }
   }
-  let verifiedHTML = "";
-  if (rep.isVerified) {
-    verifiedHTML = `<span class='checkmarkSVG'>${checkmarkSVG}</span>`;
-  }
+
+  const verifiedHTML = rep.isVerified
+    ? `<span class='checkmarkSVG'>${checkmarkSVG}</span>`
+    : "";
+
+  const time_string = "42m";
   obj.nodes.userName.innerHTML = `
       <span class='userName'>
-    <a href="${rep.userNameLink}" class='userName'>
-        ${rep.userName}
-    </a>
+        <a href="/${rep.username}" class='userName'>
+            ${rep.tname}
+        </a>
       </span>
       ${verifiedHTML}
       <span class='userHandle'>
-    <a href="${rep.userNameLink}" class='userHandle'>
-        @${rep.userHandle}
-    </a> 
+        <a href="/${rep.username}" class='userHandle'>
+            @${rep.username}
+        </a> 
       </span>
+      <span class='dot'>\u00B7</span> 
 
-    <span class='dot'>\u00B7</span> 
-
-    <span class='time'>
-    <a href="${rep.tweetLink}" class='time'>
-    42m
-    </a>
-    </span>
+      <span class='time'>
+        <a href="${tweetLink}" class='time'>
+          ${time_string}
+        </a>
+      </span>
   `;
-  obj.nodes.userName.onclick = function (e) {
-    e.stopPropagation();
-  };
-  obj.nodes.avatar.innerHTML = `<div class='avatarContainer'><img class='avatar' src=${rep.avatar} height=100% /></div>`;
-  obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.replyCount}</span>`;
-  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweetCount}</span>`;
-  obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.likeCount}</span>`;
+
+  obj.nodes.avatar.innerHTML = `
+    <div class='avatarContainer'>
+      <img class='avatar' src=${rep.profile_image_url} height=100% />
+    </div>`;
+  obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.reply_count}</span>`;
+  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweet_count}</span>`;
+  obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.like_count}</span>`;
   obj.nodes.like.classList.add("likeCount");
   obj.nodes.reply.classList.add("replyCount");
   obj.nodes.retweet.classList.add("retweetCount");
   obj.nodes.share.classList.add("shareButton");
+
   obj.nodes.body.tweetControls.parentNode.replaceChild(
     obj.nodes.body.tweetControls.cloneNode(true),
     obj.nodes.body.tweetControls
   );
-  obj.nodes.like.addEventListener("onclick", function (evt) {
-    evt.stopImmediatePropagation();
-    return false;
-  });
-  obj.nodes.node.onclick = function (evt) {
-    window.location.href = rep.tweetLink;
-    return false;
-  };
+
   if (obj.nodes.body.preText) {
-    for (let i = 0; i < obj.nodes.preText.length; i++) {
-      let preTextNode = obj.nodes.preText[i];
-      preTextNode.innerHTML = rep.preText;
-    }
+    obj.nodes.body.preTextNode.remove();
   }
 
   if (obj.nodes.avatarExpandThread != null) {
     const threadLink = obj.nodes.expandThreadLink;
     if (threadLink) {
-      threadLink.setAttribute("href", rep.tweetLink);
+      threadLink.setAttribute("href", tweetLink);
     } else {
       console.log("no link found!", obj.nodes.avatarExpandThread);
     }
-    obj.nodes.avatarExpandThread.innerHTML = `<div class='avatarContainerExpandThread'><img class='avatar' src=${rep.avatar} width=32px height=32px /></div>`;
+    obj.nodes.avatarExpandThread.innerHTML = `
+      <div class='avatarContainerExpandThread'>
+        <img class='avatar' src=${rep.profile_image_url} width=32px height=32px />
+      </div>`;
   } else {
     obj.nodes.tweetFooter.map((a) => a.remove());
   }
 
   obj.nodes.node.setAttribute("injected", "true");
+  obj.nodes.text.onclick = function (e) {
+    e.stopPropagation();
+  };
+  obj.nodes.avatar.onclick = function (e) {
+    e.stopPropagation();
+  };
+
+  obj.nodes.like.addEventListener("onclick", function (evt) {
+    evt.stopImmediatePropagation();
+    return false;
+  });
+
+  obj.nodes.node.onclick = function (evt) {
+    window.location.href = tweetLink;
+    evt.stopImmediatePropagation();
+  };
+
+  obj.nodes.node.onauxclick = function (evt) {
+    console.log("middle clicked");
+    evt.stopImmediatePropagation();
+    evt.preventDefault();
+    return false;
+  };
+
+  obj.nodes.node.onmousedown = function (evt) {
+    if (evt.which == 2) {
+      console.log("middle down");
+      evt.stopImmediatePropagation();
+      evt.preventDefault();
+      return false;
+    }
+  };
+
+  obj.nodes.node.onmouseup = function (evt) {
+    if (evt.which == 2) {
+      console.log("middle up");
+      evt.preventDefault();
+      window.open(tweetLink, "_blank");
+      return false;
+    }
+  };
 };
 
 // This is in a separate fucntion because it seems like twitter's JS
@@ -256,8 +325,10 @@ let injectTweets = function (tweets, workerID, treatment_group) {
 
     if (Math.random() < INJECTION_RATE) {
       const new_tweet = fetch_tweet(workerID);
-      transformTweet(tweets[i], new_tweet);
-      tweets[i].data.injectedTweet = new_tweet;
+      if (new_tweet) {
+        transformTweet(tweets[i], new_tweet);
+        tweets[i].data.injectedTweet = new_tweet;
+      }
     } else {
       seen_tweet_ids.add(tweets[i].data.id);
     }
