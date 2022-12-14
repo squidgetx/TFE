@@ -9,6 +9,7 @@ import { Client } from "twitter-api-sdk";
 import { getLinkPreview } from "link-preview-js";
 import { parse } from "url";
 import pgPromise from "pg-promise";
+import { url } from "inspector";
 
 const pgp = pgPromise({});
 
@@ -16,6 +17,8 @@ const pgp = pgPromise({});
 const DB = pgp("postgres://testuser:password@localhost:5432/server-dev");
 
 const BEARER_TOKEN = process.env.BEARER_TOKEN;
+
+const WRITE_DB = true;
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
@@ -109,7 +112,6 @@ function parse_tweet(tweet) {
 }
 
 function parse_user(user) {
-  console.log(user);
   user.tname = user.name;
   return user;
 }
@@ -125,6 +127,26 @@ function parse_media(media) {
   return media;
 }
 
+async function get_link_preview_exp(url, attempt, max_attempts) {
+  if (attempt > max_attempts) {
+    return null;
+  }
+  try {
+    return await getLinkPreview(url, {
+      headers: {
+        "user-agent":
+          "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+      },
+      timeout: Math.exp(attempt) * 1000,
+    });
+  } catch {
+    return await get_link_preview_exp(url, attempt + 1, max_attempts);
+  }
+}
+/*
+
+}
+
 /* Given a tweet object, generate the elements needed for a link preview and return it as a media object */
 async function process_links(tweet) {
   // When there's more than one link, Twitter renders the card for the last link that has a renderable preview
@@ -133,20 +155,25 @@ async function process_links(tweet) {
   if (!tweet.link_preview_url) {
     return null;
   }
-  const link_meta = await getLinkPreview(tweet.link_preview_url, {
+  const unwrapped_link = await getLinkPreview(tweet.link_preview_url, {
     headers: {
-      "user-agent": "google-bot" + Math.random(),
+      "user-agent":
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
     },
-    followRedirects: `manual`,
-    handleRedirects: (baseURL, forwardedURL) => {
-      return true;
-    },
+    followRedirects: `follow`,
   });
-  link_meta.hostname = parse(link_meta["url"]).hostname;
-  link_meta.media_type = link_meta.mediaType;
-  link_meta.media_url = link_meta.url;
-  link_meta.media_image = link_meta.images[0];
-  link_meta.turl = tweet.link_preview_url;
+
+  // check if valid URL (throw error if parse fails)
+  let _ = new URL(unwrapped_link.title);
+
+  const link_meta = await get_link_preview_exp(unwrapped_link.title, 0, 10);
+  if (link_meta) {
+    link_meta.hostname = parse(link_meta["url"]).hostname;
+    link_meta.media_type = link_meta.mediaType;
+    link_meta.media_url = link_meta.url;
+    link_meta.media_image = link_meta.images[0];
+    link_meta.turl = tweet.link_preview_url;
+  }
   return link_meta;
 }
 
@@ -154,7 +181,10 @@ async function parse_response(response) {
   // Todo deal with > 100 tweets, but i dont think that really is important for now
   // A bit complicated because RT/Quote tweets exist :P
   // So for RT/Quote tweets, we add 2 tweets to the DB: one for the original tweet and one for the OG
-  const tweets = response.data.map((t) => parse_tweet(t));
+  const tweets = response.data
+    .map((t) => parse_tweet(t))
+    // filter duplicate ids, which apparently happens sometimes (keep first entry)
+    .filter((v, i, a) => a.findIndex((v2) => v2.id === v.id) === i);
   const users = response.includes.users.map((u) => parse_user(u));
   const referenced_tweets = response.includes.tweets.map((t) => parse_tweet(t));
   const media = response.includes.media.map((m) => parse_media(m));
@@ -250,7 +280,9 @@ async function update_db(data) {
   }
 
   return await DB.tx((t) => {
-    const tweet_cs = new pgp.helpers.ColumnSet(TWEET_COLS, { table: "tweets" });
+    const tweet_cs = new pgp.helpers.ColumnSet(["retweet_count"], {
+      table: "tweets",
+    });
 
     const tweet_querystring =
       pgp.helpers.insert(data.tweets, TWEET_COLS, "tweets") +
@@ -279,11 +311,24 @@ async function update_db(data) {
 }
 
 async function test_fetch() {
-  const response = await fetch_for_id("16129920", "2022-12-01T00:00:00.000Z");
+  const response = await fetch_for_id("16129920", "2022-11-11T00:00:00.000Z");
   const data = await parse_response(response);
+  console.log(data);
   debugger;
-  const result = await update_db(data);
+  if (WRITE_DB) {
+    const result = await update_db(data);
+  }
 }
+
+let test_link = "https://t.co/8DeOSDaTsT";
+("https://www.washingtonpost.com/dc-md-va/2022/11/29/rhodes-oathkeepers-sedition-verdict-jan6/");
+const unwrapped_link = await getLinkPreview(test_link, {
+  headers: {
+    "user-agent":
+      "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+  },
+  followRedirects: `follow`,
+});
 
 test_fetch().then((result) => {
   //console.log(JSON.stringify(result, null, 2));

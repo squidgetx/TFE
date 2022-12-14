@@ -1,7 +1,4 @@
-const express = require("express");
-const router = express.Router();
 const pgp = require("pg-promise")(/* options */);
-
 const db = pgp("postgres://testuser:password@localhost:5432/server-dev");
 
 const DUMMY_TWEET = {
@@ -29,17 +26,13 @@ const DUMMY_TWEET = {
   isVerified: true,
 };
 
-const authenticate = function (username, password) {
-  // TODO
-  return true;
-};
-
-const fetch_tweets = async function (username) {
+module.exports = async function (username) {
   // pseudocode: ask DB for random selection of fresh tweets for the given user
   // ok, how is the db gonna be set up
   // users table with handle => ideo
   // then tweets table with ds, author, author_ideo, tweet_json
   // todo: fix this query
+  console.log("got request for user " + username);
   const ideo = await db.one(
     "SELECT ideo from users where username = $1",
     username
@@ -53,10 +46,34 @@ const fetch_tweets = async function (username) {
     `
    with relevant_tweets as (
       select * from tweets where author_id in (
-        select id from authors where sign(ideo) = $1
+        select id from authors where sign(ideo) = -1
       ) and referenced_tweet_type is null
     )
-    select * from relevant_tweets
+    select 
+      relevant_tweets.id as id,
+      created_at,
+      ttext,
+      like_count,
+      quote_count,
+      retweet_count,
+      reply_count,
+
+      media.media_type,
+      media.media_url,
+      preview_img_url,
+
+      turl as link_url,
+      title as link_title,
+      links.media_type as link_type,
+      links.media_image as link_image,
+      hostname as link_hostname,
+      description as link_description,
+
+      profile_image_url,
+      tname,
+      username,
+      verified
+     from relevant_tweets
     left join links on relevant_tweets.link_preview_url = links.turl
     left join media on relevant_tweets.media_id_1 = media.id
     left join authors on relevant_tweets.author_id = authors.id
@@ -68,21 +85,3 @@ const fetch_tweets = async function (username) {
   console.log(results);
   return results;
 };
-
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
-});
-
-/* GET fetch new tweet */
-router.post("/fresh_tweets", function (req, res, next) {
-  const username = req.body.username;
-  const password = req.body.password;
-  if (!authenticate(username, password)) {
-    res.send(403, "You do not have rights to visit this page");
-  } else {
-    fetch_tweets(username).then((r) => res.json(r));
-  }
-});
-
-module.exports = router;

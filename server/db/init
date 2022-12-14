@@ -10,21 +10,21 @@ create table users(
 );
 
 create table tweets(
-    id bigint unique,
+    id varchar unique,
     author_id bigint,
     ttext varchar,
     media_id_1 varchar, 
     media_id_2 varchar, 
     link_preview_url varchar,
     created_at timestamp,
-    conversation_id bigint,
+    conversation_id varchar,
     in_reply_to_user_id bigint,
     retweet_count integer,
     reply_count integer,
     like_count integer,
     quote_count integer,
     referenced_tweet_type varchar, -- reply, quote, retweet
-    referenced_tweet_id bigint,
+    referenced_tweet_id varchar,
     scrape_time timestamp,
     ds date
 );
@@ -74,3 +74,7 @@ CREATE INDEX tweets_ds
 ON tweets (ds);
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO testuser;
+
+-- some test data
+insert into authors values (16129920, 'Rachel Maddow MSNBC', 'maddow', TRUE, 'https://pbs.twimg.com/profile_images/59437078/icon-200x200_normal.jpg', TRUE, -1);
+insert into users values ('test', 1);
