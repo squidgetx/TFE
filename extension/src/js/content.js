@@ -3,7 +3,7 @@ import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
 chrome.storage.sync.get(
-  ["workerID", "treatment_group", "eligible"],
+  ["workerID", "treatment_group", "eligible", "installCode"],
   function (result) {
     const workerID = result.workerID;
     const treatment_group = 2; // Math.floor(Math.random() * 4); //result.treatment_group;
@@ -11,7 +11,7 @@ chrome.storage.sync.get(
       // User has not yet configured the extension
       return;
     }
-    const logger = getLogger(workerID, treatment_group);
+    const logger = getLogger(workerID, treatment_group, result.installCode);
     console.log(
       `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}`
     );

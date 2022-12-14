@@ -1,10 +1,10 @@
-const server = "http://localhost:3000/fresh_tweets";
+const FETCH_ENDPOINT = "http://localhost:3000/fresh_tweets";
 
 async function refresh_tweet_pool(key) {
   console.log("Refreshing tweet pool..");
-  const response = await fetch("http://localhost:3000/fresh_tweets", {
+  const response = await fetch(FETCH_ENDPOINT, {
     method: "POST",
-    body: JSON.stringify({ username: "test" }),
+    body: JSON.stringify({ username: "test", password: "test" }),
     headers: {
       "Content-Type": "application/json",
     },

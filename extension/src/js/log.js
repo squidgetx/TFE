@@ -1,46 +1,33 @@
-import AWS from "aws-sdk";
 import { CONFIG } from "./config";
 
-AWS.config.update({
-  region: CONFIG.awsRegion,
-  accessKeyId: CONFIG.awsAccessKey,
-  secretAccessKey: CONFIG.awsSecretAccessKey,
-});
+const LOG_ENDPOINT = "http://localhost:3000/log_tweets";
 
-const kinesis = new AWS.Kinesis({
-  apiVersion: "2013-12-02",
-});
-
-export const getLogger = function (workerID, treatment_group) {
+export const getLogger = function (workerID, installCode, treatment_group) {
   const LOG = [];
 
-  const uploadLog = async (log) => {
-    const records = log.map((entry) => {
-      return {
-        Data: JSON.stringify(entry),
-        PartitionKey: workerID,
-      };
+  const uploadLog = async () => {
+    const response = await fetch(LOG_ENDPOINT, {
+      method: "POST",
+      body: JSON.stringify({
+        username: workerID,
+        password: installCode,
+        tweets: LOG,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    LOG.length = 0;
-    console.log("uploading log");
-    try {
-      const response = await kinesis
-        .putRecords({
-          Records: records,
-          StreamName: CONFIG.awsKinesisStreamName,
-        })
-        .promise();
-      return response;
-    } catch (e) {
-      console.log(e);
-      return e;
+    const response_json = await response.json();
+    const status = response_json.status == 200;
+    if (status) {
+      LOG.length = 0;
     }
   };
 
   const flushLog = function () {
     // Flush the log to the cloud
     if (LOG.length > 0) {
-      uploadLog(LOG);
+      uploadLog().then(() => {});
     }
   };
 
