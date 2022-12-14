@@ -5,7 +5,9 @@ drop table media;
 drop table links;
 
 create table users(
-    username varchar unique,
+    username varchar,
+    install_code varchar unique,
+    treatment_group integer,
     ideo real
 );
 
@@ -73,8 +75,11 @@ ON tweets (referenced_tweet_id);
 CREATE INDEX tweets_ds
 ON tweets (ds);
 
+CREATE INDEX usernames
+ON users (username);
+
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO testuser;
 
 -- some test data
 insert into authors values (16129920, 'Rachel Maddow MSNBC', 'maddow', TRUE, 'https://pbs.twimg.com/profile_images/59437078/icon-200x200_normal.jpg', TRUE, -1);
-insert into users values ('test', 1);
+insert into users values ('test', 'test-install-code', 2, 1);

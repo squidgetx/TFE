@@ -33,7 +33,7 @@ module.exports = async function (username) {
   // then tweets table with ds, author, author_ideo, tweet_json
   // todo: fix this query
   const ideo = await db.one(
-    "SELECT ideo from users where username = $1",
+    "SELECT ideo from users where username = $1 LIMIT 1",
     username
   );
   const ideo_sign = Math.sign(ideo.ideo);

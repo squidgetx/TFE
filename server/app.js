@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
-const authenticationMiddleware = require("./lib/auth");
+const auth = require("./lib/auth");
 
 const fetch_tweets = require("./lib/fetch");
 const log_tweets = require("./lib/log");
@@ -22,15 +22,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-app.use(authenticationMiddleware);
 
-/* POST fetch new tweet */
-app.post("/fresh_tweets", function (req, res, next) {
+app.post("/fresh_tweets", auth.middleware, function (req, res, next) {
   fetch_tweets(req.body.username).then((r) => res.json(r));
 });
 
-app.post("/log_tweets", function (req, res, next) {
+app.post("/log_tweets", auth.middleware, function (req, res, next) {
   log_tweets(req.body.username, req.body.tweets)
+    .then((r) => {
+      return res.json(r);
+    })
+    .catch((err) => {
+      next(new Error(err.message));
+    });
+});
+
+app.post("/register", function (req, res, next) {
+  auth
+    .register(req.body.username, req.body.install_code)
     .then((r) => {
       return res.json(r);
     })
