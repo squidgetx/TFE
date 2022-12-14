@@ -23,7 +23,7 @@ module.exports = async function (username, data) {
   const response = await kinesis
     .putRecords({
       Records: records,
-      StreamName: "CONFIG.awsKinesisStreamName",
+      StreamName: CONFIG.awsKinesisStreamName,
     })
     .promise();
   if (response.FailedRecordCount === 0) {
