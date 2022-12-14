@@ -3,17 +3,18 @@ import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
 chrome.storage.sync.get(
-  ["workerID", "treatment_group", "eligible", "installCode"],
+  ["workerID", "treatment_group", "eligible", "install_code"],
   function (result) {
     const workerID = result.workerID;
+    const installCode = result.install_code;
     const treatment_group = 2; // Math.floor(Math.random() * 4); //result.treatment_group;
     if (treatment_group == undefined) {
       // User has not yet configured the extension
       return;
     }
-    const logger = getLogger(workerID, treatment_group, result.installCode);
+    const logger = getLogger(workerID, installCode, treatment_group);
     console.log(
-      `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}`
+      `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}, install_code ${installCode}`
     );
 
     /*
@@ -22,21 +23,26 @@ chrome.storage.sync.get(
 
     // Every so often send log data to server
 
-    setupFeedObserver(treatment_group, workerID, logger);
+    setupFeedObserver(treatment_group, workerID, installCode, logger);
     // Re attach the observer when the back button is used, or
     // when a link is clicked
     window.addEventListener("popstate", function () {
       console.log("state changed");
-      setupFeedObserver(treatment_group, workerID, logger);
+      setupFeedObserver(treatment_group, workerID, installCode, logger);
     });
     window.addEventListener("click", function () {
       console.log("clicked changed");
-      setupFeedObserver(treatment_group, workerID, logger);
+      setupFeedObserver(treatment_group, workerID, installCode, logger);
     });
   }
 );
 
-let setupFeedObserver = function (treatment_group, workerID, logger) {
+let setupFeedObserver = function (
+  treatment_group,
+  workerID,
+  install_code,
+  logger
+) {
   // The timeline is loaded with async JS
   // So, we want to trigger filtering logic whenever its modified
   const config = {
@@ -49,7 +55,12 @@ let setupFeedObserver = function (treatment_group, workerID, logger) {
   let observer;
   if (window.location.hostname.includes("twitter")) {
     console.log("using twitter observer");
-    observer = twitter.getObserver(treatment_group, workerID, logger);
+    observer = twitter.getObserver(
+      treatment_group,
+      workerID,
+      install_code,
+      logger
+    );
   } else {
     console.log("using facebook observer");
     observer = facebook.getObserver(treatment_group, logger);

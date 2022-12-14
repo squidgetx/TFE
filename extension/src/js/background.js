@@ -1,10 +1,10 @@
 const FETCH_ENDPOINT = "http://localhost:3000/fresh_tweets";
 
-async function refresh_tweet_pool(key) {
+async function refresh_tweet_pool(username, install_code) {
   console.log("Refreshing tweet pool..");
   const response = await fetch(FETCH_ENDPOINT, {
     method: "POST",
-    body: JSON.stringify({ username: "test", password: "test" }),
+    body: JSON.stringify({ username: username, password: install_code }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -27,6 +27,6 @@ async function refresh_tweet_pool(key) {
 chrome.runtime.onMessage.addListener((message) => {
   console.log("Received message", message);
   if (message.message == "fetch") {
-    refresh_tweet_pool("test").then(() => {});
+    refresh_tweet_pool(message.username, message.install_code).then(() => {});
   }
 });

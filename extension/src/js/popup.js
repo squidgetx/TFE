@@ -61,7 +61,7 @@ window.onload = function () {
           last_recontact: Date.now(),
         },
         function () {
-          console.log("Registration completed");
+          console.log(`Registration completed: ${install_code}`);
 
           // Write an installation event to S3 and immediately flush it
           const log = getLogger(workerID, treatment_group);

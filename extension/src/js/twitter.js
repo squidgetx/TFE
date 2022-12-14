@@ -357,7 +357,7 @@ const isEligible = function (tweet) {
  * Given the array of tweet objects and users' treatment group,
  * inject tweets into the timeline by transforming eligible tweets
  */
-let injectTweets = function (tweets, workerID, treatment_group) {
+let injectTweets = function (tweets, workerID, install_code, treatment_group) {
   if (treatment_group == 0 || treatment_group == 1) {
     return;
   }
@@ -368,7 +368,7 @@ let injectTweets = function (tweets, workerID, treatment_group) {
     }
 
     if (Math.random() < INJECTION_RATE) {
-      const new_tweet = fetch_tweet(workerID);
+      const new_tweet = fetch_tweet(workerID, install_code);
       if (new_tweet) {
         transformTweet(tweets[i], new_tweet);
         tweets[i].data.injectedTweet = new_tweet;
@@ -429,6 +429,7 @@ const processFeed = function (
   observer,
   treatment_group,
   workerID,
+  install_code,
   logger
 ) {
   let timelineDiv = document.querySelector(
@@ -446,7 +447,7 @@ const processFeed = function (
     const tweets = parseTweets(children);
 
     filterTweets(tweets, treatment_group);
-    injectTweets(tweets, workerID, treatment_group);
+    injectTweets(tweets, workerID, install_code, treatment_group);
     monitorTweets(tweets, logger);
     disableInjectedContextMenus();
     removeInjectedMedia();
@@ -462,9 +463,21 @@ const processFeed = function (
   }
 };
 
-export const getObserver = function (treatment_group, workerID, logger) {
+export const getObserver = function (
+  treatment_group,
+  workerID,
+  install_code,
+  logger
+) {
   const observer = new MutationObserver(function (mutations) {
-    processFeed(document, observer, treatment_group, workerID, logger);
+    processFeed(
+      document,
+      observer,
+      treatment_group,
+      workerID,
+      install_code,
+      logger
+    );
   });
   return observer;
 };
