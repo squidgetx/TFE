@@ -29,8 +29,14 @@ app.post("/fresh_tweets", function (req, res, next) {
   fetch_tweets(req.body.username).then((r) => res.json(r));
 });
 
-app.post("/log", function (req, res, next) {
-  log_tweets(req.body.username, req.body.data).then((r) => res.json(r));
+app.post("/log_tweets", function (req, res, next) {
+  log_tweets(req.body.username, req.body.tweets)
+    .then((r) => {
+      return res.json(r);
+    })
+    .catch((err) => {
+      next(new Error(err.message));
+    });
 });
 
 // catch 404 and forward to error handler

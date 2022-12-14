@@ -32,7 +32,6 @@ module.exports = async function (username) {
   // users table with handle => ideo
   // then tweets table with ds, author, author_ideo, tweet_json
   // todo: fix this query
-  console.log("got request for user " + username);
   const ideo = await db.one(
     "SELECT ideo from users where username = $1",
     username
@@ -82,6 +81,5 @@ module.exports = async function (username) {
     `,
     -ideo_sign
   );
-  console.log(results);
   return results;
 };
