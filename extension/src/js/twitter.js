@@ -121,17 +121,33 @@ const transformTweet = function (obj, rep) {
   if (rep.media_url) {
     injectedMedia.innerHTML = `<div class='media'><img src=${rep.media_url} /></div>`;
   } else if (rep.link_url) {
-    injectedMedia.innerHTML = `<a class='injected-link' href='${rep.link_url}' target='_blank'>
-    <div class='media'>
-      <div class='header-img'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
-      <div class='link-body'>
-        <span class='link-domain'>${rep.link_hostname}</span>
-        <span class='link-headline'>${rep.link_title}</span>
-        <span class='link-lede'>${rep.link_description}</span>
-      </div>
-    </div>
-    </a>
-    `;
+    if (rep.link_hostname.startsWith("www.")) {
+      rep.link_hostname = rep.link_hostname.slice(4);
+    }
+    if (rep.link_type == "article" && rep.link_description) {
+      injectedMedia.innerHTML = `
+        <a class='injected-link' href='${rep.link_url}' target='_blank'>
+          <div class='media'>
+            <div class='header-img'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
+            <div class='link-body'>
+              <span class='link-domain'>${rep.link_hostname}</span>
+              <span class='link-headline'>${rep.link_title}</span>
+              <span class='link-lede'>${rep.link_description}</span>
+            </div>
+          </div>
+        </a>`;
+    } else {
+      injectedMedia.innerHTML = `
+        <a class='injected-link' href='${rep.link_url}' target='_blank'>
+          <div class='media media-sm'>
+            <div class='header-img header-img-sm'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
+            <div class='link-body link-body-sm'>
+              <span class='link-domain'>${rep.link_hostname}</span>
+              <span class='link-headline'>${rep.link_title}</span>
+            </div>
+          </div>
+        </a>`;
+    }
   }
 
   injectedMedia.onclick = function (evt) {
