@@ -203,9 +203,9 @@ const transformTweet = function (obj, rep) {
   `;
 
   obj.nodes.avatar.innerHTML = `
-    <div class='avatarContainer'>
+    <a href="/${rep.username}"><div class='avatarContainer'>
       <img class='avatar' src=${rep.profile_image_url} height=100% />
-    </div>`;
+    </div></a>`;
   obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.reply_count}</span>`;
   obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweet_count}</span>`;
   obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.like_count}</span>`;
