@@ -48,9 +48,11 @@ const filterTweets = function (tweets, treatment_group) {
     tweet.data.labels = labels;
 
     if (labels.size > 0) {
+      /*
       chrome.storage.sync.set({ eligible: true }, () => {
         console.log("Eligibilty set to true");
       });
+      */
     }
   }
 };
@@ -82,6 +84,11 @@ const formatText = function (rep) {
   // TODO: hydrate regular tweets and links to Twitter accounts
   text = text.replace(/@(\w+)/g, "<a class='inline-link' href='/$1'>@$1</a>");
 
+  const link_re = /(https:\/\/t.co\/\w+)/g;
+  text = text.replace(
+    link_re,
+    "<a class='inline-link' href='$1' target='_blank'>$1</a>"
+  );
   return text;
 };
 
