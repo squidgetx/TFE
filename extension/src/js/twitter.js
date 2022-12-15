@@ -2,7 +2,6 @@ import { parseTweetHTML } from "./twitter_parser";
 import { BLACKLIST_ACCOUNTS } from "./accounts";
 import { chatSVG, checkmarkSVG } from "./twitter_svgs";
 import { fetch_tweet } from "./fetch_tweets";
-import { getTime } from "date-fns";
 
 // The proportion of tweets that should be replaced
 const INJECTION_RATE = 0.99;
@@ -46,14 +45,6 @@ const filterTweets = function (tweets, treatment_group) {
     }
 
     tweet.data.labels = labels;
-
-    if (labels.size > 0) {
-      /*
-      chrome.storage.sync.set({ eligible: true }, () => {
-        console.log("Eligibilty set to true");
-      });
-      */
-    }
   }
 };
 
@@ -111,6 +102,7 @@ const getTimeStr = function (created_at) {
     day: "numeric",
   });
 };
+
 /*
  * Transform the tweet represented by the parsed tweet object obj,
  * replacing it with the tweet represented by the object rep
@@ -264,7 +256,6 @@ const transformTweet = function (obj, rep) {
   };
 
   obj.nodes.node.onauxclick = function (evt) {
-    console.log("middle clicked");
     evt.stopImmediatePropagation();
     evt.preventDefault();
     return false;
@@ -272,7 +263,6 @@ const transformTweet = function (obj, rep) {
 
   obj.nodes.node.onmousedown = function (evt) {
     if (evt.which == 2) {
-      console.log("middle down");
       evt.stopImmediatePropagation();
       evt.preventDefault();
       return false;
@@ -281,7 +271,6 @@ const transformTweet = function (obj, rep) {
 
   obj.nodes.node.onmouseup = function (evt) {
     if (evt.which == 2) {
-      console.log("middle up");
       evt.preventDefault();
       window.open(tweetLink, "_blank");
       return false;
