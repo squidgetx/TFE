@@ -3,12 +3,16 @@ import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
 chrome.storage.sync.get(
-  ["workerID", "treatment_group", "eligible", "install_code"],
+  ["workerID", "treatment_group", "install_code"],
   function (result) {
     const workerID = result.workerID;
     const installCode = result.install_code;
-    const treatment_group = 2; // Math.floor(Math.random() * 4); //result.treatment_group;
-    if (treatment_group == undefined) {
+    const treatment_group = result.treatment_group;
+    if (
+      treatment_group == undefined ||
+      workerID == undefined ||
+      installCode == undefined
+    ) {
       // User has not yet configured the extension
       return;
     }
@@ -20,9 +24,6 @@ chrome.storage.sync.get(
     /*
      * Set up observer
      */
-
-    // Every so often send log data to server
-
     setupFeedObserver(treatment_group, workerID, installCode, logger);
     // Re attach the observer when the back button is used, or
     // when a link is clicked
@@ -37,7 +38,7 @@ chrome.storage.sync.get(
   }
 );
 
-let setupFeedObserver = function (
+const setupFeedObserver = function (
   treatment_group,
   workerID,
   install_code,
@@ -51,7 +52,7 @@ let setupFeedObserver = function (
     subtree: true,
     characterData: true,
   };
-  let container = document.documentElement || document.body;
+  const container = document.documentElement || document.body;
   let observer;
   if (window.location.hostname.includes("twitter")) {
     console.log("using twitter observer");

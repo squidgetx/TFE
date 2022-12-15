@@ -2,7 +2,6 @@ import { getLogger } from "./log";
 import { getCompleteCode } from "./completecode";
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
-import { KeyObject } from "crypto";
 
 window.onload = function () {
   let renderRegisteredPopup = function (result) {
@@ -43,7 +42,18 @@ window.onload = function () {
       event.preventDefault();
 
       let workerID = document.getElementById("workerID").value;
+
+      // Strip leading "@" sign
+      if (workerID.startsWith("@")) {
+        workerID = workerID.slice(1);
+      }
       let treatment_group = Math.floor(Math.random() * 3);
+
+      // Hardcode treatment group N % 4 for test accounts with the format TEST_N
+      const match = workerID.match(/TEST_(\d+)/);
+      if (match) {
+        treatment_group = match[1] % 4;
+      }
 
       // validation
       if (!workerID) {
@@ -88,5 +98,3 @@ window.onload = function () {
     }
   );
 };
-
-//chrome.storage.sync.clear();
