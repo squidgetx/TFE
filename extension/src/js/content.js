@@ -17,9 +17,6 @@ chrome.storage.sync.get(
       return;
     }
     const logger = getLogger(workerID, installCode, treatment_group);
-    console.log(
-      `Twitter Experiment Loaded, respondent ID ${workerID}, treatment group ${treatment_group}, install_code ${installCode}`
-    );
 
     /*
      * Set up observer
@@ -28,11 +25,9 @@ chrome.storage.sync.get(
     // Re attach the observer when the back button is used, or
     // when a link is clicked
     window.addEventListener("popstate", function () {
-      console.log("state changed");
       setupFeedObserver(treatment_group, workerID, installCode, logger);
     });
     window.addEventListener("click", function () {
-      console.log("clicked changed");
       setupFeedObserver(treatment_group, workerID, installCode, logger);
     });
   }
@@ -46,6 +41,9 @@ const setupFeedObserver = function (
 ) {
   // The timeline is loaded with async JS
   // So, we want to trigger filtering logic whenever its modified
+  console.log(
+    `Timeline Extension Loaded, respondent ID ${workerID}, treatment group ${treatment_group}, install_code ${installCode}`
+  );
   const config = {
     attributes: false,
     childList: true,
@@ -55,7 +53,6 @@ const setupFeedObserver = function (
   const container = document.documentElement || document.body;
   let observer;
   if (window.location.hostname.includes("twitter")) {
-    console.log("using twitter observer");
     observer = twitter.getObserver(
       treatment_group,
       workerID,
@@ -63,7 +60,6 @@ const setupFeedObserver = function (
       logger
     );
   } else {
-    console.log("using facebook observer");
     observer = facebook.getObserver(treatment_group, logger);
   }
   observer.observe(container, config);

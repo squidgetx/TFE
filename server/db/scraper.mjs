@@ -9,7 +9,6 @@ import { Client } from "twitter-api-sdk";
 import { getLinkPreview } from "link-preview-js";
 import { parse } from "url";
 import pgPromise from "pg-promise";
-import { url } from "inspector";
 
 const pgp = pgPromise({});
 

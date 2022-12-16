@@ -1,4 +1,3 @@
-import { getLogger } from "./log";
 import { getCompleteCode } from "./completecode";
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
@@ -74,9 +73,18 @@ window.onload = function () {
           console.log(`Registration completed: ${install_code}`);
 
           // Write an installation event to S3 and immediately flush it
-          const log = getLogger(workerID, treatment_group);
-          log.logEvent({ install_code: install_code }, "install");
-          log.flushLog();
+          fetch(CONFIG.serverEndpoint + "/register", {
+            method: "POST",
+            body: JSON.stringify({
+              username: workerID,
+              treatment_group: treatment_group,
+              install_code: install_code,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then(() => {});
+          // TODO error handle?
 
           renderRegisteredPopup({
             workerID: workerID,
