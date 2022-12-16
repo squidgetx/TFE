@@ -1,4 +1,5 @@
-const FETCH_ENDPOINT = "http://localhost:3000/fresh_tweets";
+import { CONFIG } from "./config";
+const FETCH_ENDPOINT = CONFIG.serverEndpoint + "/fresh_tweets";
 
 async function refresh_tweet_pool(username, install_code) {
   console.log("Refreshing tweet pool..");

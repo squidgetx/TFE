@@ -1,6 +1,6 @@
 import { CONFIG } from "./config";
 
-const LOG_ENDPOINT = "http://localhost:3000/log_tweets";
+const LOG_ENDPOINT = CONFIG.serverEndpoint + "/log_tweets";
 
 export const getLogger = function (workerID, installCode, treatment_group) {
   const LOG = [];
