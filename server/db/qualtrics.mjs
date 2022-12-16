@@ -4,7 +4,6 @@
  * Ignore treatment group for now
  */
 import { assert } from "console";
-import { parse } from "csv-parse/sync";
 import fs from "fs";
 import decompress from "decompress";
 
@@ -13,9 +12,9 @@ import { default as config } from "../lib/config.js";
 import pgPromise from "pg-promise";
 
 const pgp = pgPromise({});
+import { default as DB } from "./db.js";
 
 // todo fix this
-const DB = pgp("postgres://testuser:password@localhost:5432/server-dev");
 
 const downloadSurveyResponses = async function (survey_id) {
   console.log("downloading responses from qualtrics...");

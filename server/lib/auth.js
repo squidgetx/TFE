@@ -1,6 +1,4 @@
-const pgp = require("pg-promise")(/* options */);
-const db = pgp("postgres://testuser:password@localhost:5432/server-dev");
-// TODO dRy this
+const db = require("../db/db.js");
 
 const cache = {};
 

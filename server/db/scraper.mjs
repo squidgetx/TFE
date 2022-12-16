@@ -12,8 +12,7 @@ import pgPromise from "pg-promise";
 
 const pgp = pgPromise({});
 
-// todo fix this
-const DB = pgp("postgres://testuser:password@localhost:5432/server-dev");
+import { default as DB } from "./db.js";
 
 const BEARER_TOKEN = process.env.BEARER_TOKEN;
 

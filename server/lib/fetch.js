@@ -1,5 +1,4 @@
-const pgp = require("pg-promise")(/* options */);
-const db = pgp("postgres://testuser:password@localhost:5432/server-dev");
+const db = require("../db/db.js");
 
 const DUMMY_TWEET = {
   text: `All the more so when you consider that Biddle himself then went on to oversee the "Great Sedition Trial" of 1944 (30 fascist and pro-Nazi defendants accused of conspiring with the Hitler government), which also ended in a mistrial...`,

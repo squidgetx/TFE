@@ -6,7 +6,6 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const auth = require("./lib/auth");
-
 const fetch_tweets = require("./lib/fetch");
 const log_tweets = require("./lib/log");
 
