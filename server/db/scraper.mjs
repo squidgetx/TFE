@@ -186,8 +186,12 @@ async function parse_response(response) {
     // filter duplicate ids, which apparently happens sometimes (keep first entry)
     .filter((v, i, a) => a.findIndex((v2) => v2.id === v.id) === i);
   const users = response.includes.users.map((u) => parse_user(u));
-  const referenced_tweets = response.includes.tweets.map((t) => parse_tweet(t));
-  const media = response.includes.media.map((m) => parse_media(m));
+
+  // response object doesn't always include tweets or media, default to empty array
+  const referenced_tweets = (response.includes.tweets || []).map((t) =>
+    parse_tweet(t)
+  );
+  const media = (response.includes.media || []).map((m) => parse_media(m));
   const all_tweets = tweets.concat(referenced_tweets);
   const links = (
     await Promise.all(all_tweets.map((t) => process_links(t)))
@@ -280,41 +284,47 @@ async function update_db(data) {
   }
 
   return await DB.tx((t) => {
-    const tweet_cs = new pgp.helpers.ColumnSet(["retweet_count"], {
-      table: "tweets",
-    });
+    const ops = [];
 
-    const tweet_querystring =
-      pgp.helpers.insert(data.tweets, TWEET_COLS, "tweets") +
-      " ON CONFLICT ON CONSTRAINT tweets_id_key DO UPDATE SET" +
-      tweet_cs.assignColumns({ from: "EXCLUDED", skip: "id" });
+    if (data.tweets.length > 0) {
+      const tweet_cs = new pgp.helpers.ColumnSet(["retweet_count"], {
+        table: "tweets",
+      });
+      const tweet_querystring =
+        pgp.helpers.insert(data.tweets, TWEET_COLS, "tweets") +
+        " ON CONFLICT ON CONSTRAINT tweets_id_key DO UPDATE SET" +
+        tweet_cs.assignColumns({ from: "EXCLUDED", skip: "id" });
+      ops.push(t.none(tweet_querystring));
+    }
 
-    const user_querystring =
-      pgp.helpers.insert(data.users, USER_COLS, "authors") +
-      " ON CONFLICT ON CONSTRAINT authors_id_key DO NOTHING";
+    if (data.users.length > 0) {
+      const user_querystring =
+        pgp.helpers.insert(data.users, USER_COLS, "authors") +
+        " ON CONFLICT ON CONSTRAINT authors_id_key DO NOTHING";
+      ops.push(t.none(user_querystring));
+    }
 
-    const media_querystring =
-      pgp.helpers.insert(data.media, MEDIA_COLS, "media") +
-      " ON CONFLICT ON CONSTRAINT media_id_key DO NOTHING";
+    if (data.media.length > 0) {
+      const media_querystring =
+        pgp.helpers.insert(data.media, MEDIA_COLS, "media") +
+        " ON CONFLICT ON CONSTRAINT media_id_key DO NOTHING";
+      ops.push(t.none(media_querystring));
+    }
 
-    const link_querystring =
-      pgp.helpers.insert(data.links, LINK_COLS, "links") +
-      " ON CONFLICT ON CONSTRAINT links_turl_key DO NOTHING";
+    if (data.links.length > 0) {
+      const link_querystring =
+        pgp.helpers.insert(data.links, LINK_COLS, "links") +
+        " ON CONFLICT ON CONSTRAINT links_turl_key DO NOTHING";
+      ops.push(t.none(link_querystring));
+    }
 
-    return t.batch([
-      t.none(tweet_querystring),
-      t.none(user_querystring),
-      t.none(media_querystring),
-      t.none(link_querystring),
-    ]); // all of the queries are to be resolved;
+    return t.batch(ops);
   });
 }
 
-async function test_fetch() {
-  const response = await fetch_for_id("16129920", "2022-11-11T00:00:00.000Z");
+async function test_fetch(id) {
+  const response = await fetch_for_id(id, "2022-11-11T00:00:00.000Z");
   const data = await parse_response(response);
-  console.log(data);
-  debugger;
   if (WRITE_DB) {
     const result = await update_db(data);
   }
@@ -330,6 +340,26 @@ const unwrapped_link = await getLinkPreview(test_link, {
   followRedirects: `follow`,
 });
 
-test_fetch().then((result) => {
-  //console.log(JSON.stringify(result, null, 2));
+/*
+Maddow
+test_fetch("16129920").then((result) => {
+  console.log("fetched")
 });
+*/
+
+// Fox news
+test_fetch("1367531").then((result) => {
+  console.log("fetched");
+});
+
+/*
+Design: have a fixed table of elites that doesn't need any maintenance
+Then, we query for the most recent tweet we have for each elite
+With a fallback date
+Then we kick off all the fetch async jobs (2k or so?)
+If jobs fail we need to manage retry logic as well, but the update op should be idempotent I guess
+
+I wonder also if batching the db writes is necessary? or we can just not care
+
+Also remember that we will need to migrate/re-run in production 
+*/

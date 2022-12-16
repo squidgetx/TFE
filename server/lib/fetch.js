@@ -44,8 +44,8 @@ module.exports = async function (username) {
   results = await db.any(
     `
    with relevant_tweets as (
-      select * from tweets where author_id in (
-        select id from authors where sign(ideo) = -1
+      select * from tweets where id in (
+        select id from elites where sign(ideo) = $1
       ) and referenced_tweet_type is null
     )
     select 

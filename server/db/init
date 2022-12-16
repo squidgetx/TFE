@@ -4,6 +4,13 @@ drop table authors;
 drop table media;
 drop table links;
 
+create table elites (
+    id bigint unique,
+    username varchar,
+    ideo real,
+    source varchar
+);
+
 create table users(
     username varchar,
     install_code varchar unique,
@@ -36,9 +43,7 @@ create table authors(
     tname varchar,
     username varchar,
     verified boolean,
-    profile_image_url varchar,
-    is_elite boolean default FALSE,
-    ideo real
+    profile_image_url varchar
 );
 
 create table media(
@@ -61,7 +66,7 @@ create table links(
 );
 
 CREATE INDEX ideo_index
-ON authors (ideo);
+ON elites (ideo);
 
 CREATE INDEX tweets_link_index
 ON tweets (link);
@@ -80,6 +85,13 @@ ON users (username);
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO testuser;
 
+-- initial data for elites table
+COPY elites(id, username, ideo)
+FROM './elites.csv'
+DELIMITER ','
+CSV HEADER;
+
 -- some test data
 insert into authors values (16129920, 'Rachel Maddow MSNBC', 'maddow', TRUE, 'https://pbs.twimg.com/profile_images/59437078/icon-200x200_normal.jpg', TRUE, -1);
 insert into users values ('test', 'test-install-code', 2, 1);
+
