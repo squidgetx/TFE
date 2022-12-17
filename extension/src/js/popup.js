@@ -4,6 +4,11 @@ import { intervalToDuration } from "date-fns";
 
 window.onload = function () {
   const setupDebugConsole = function (exp_config) {
+    if (exp_config.workerID.includes("csmap-tester")) {
+      document.getElementById("debug").removeAttribute("hidden");
+    } else {
+      return;
+    }
     document.getElementById("debug-mode").checked = exp_config.debug_mode;
     document.getElementById("debug-mode").addEventListener("change", (ev) => {
       chrome.storage.sync.set({ debug_mode: ev.currentTarget.checked });
@@ -43,7 +48,7 @@ window.onload = function () {
 
   const renderRegisteredPopup = function (exp_config) {
     const contentDiv = document.getElementById("content");
-    contentDiv.innerHTML = `<p>Thank you for participating in this study. Your registration code is <b>${exp_config.install_code}</b>.</p>`;
+    contentDiv.innerHTML = `<p>Thank you for participating in this study, @${exp_config.workerID}! Your registration code is <b>${exp_config.install_code}</b>.</p>`;
     const sinceInstall = intervalToDuration({
       start: exp_config.install_time,
       end: Date.now(),
