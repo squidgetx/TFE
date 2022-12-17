@@ -45,7 +45,7 @@ chrome.storage.sync.get(
 const setupFeedObserver = function (exp_config, logger) {
   // The timeline is loaded with async JS
   // So, we want to trigger filtering logic whenever its modified
-  console.log(`Timeline Extension Loaded, ${exp_config}`);
+  console.log(`Timeline Extension Loaded, ${JSON.stringify(exp_config)}`);
   const container = document.documentElement || document.body;
   let observer;
   if (window.location.hostname.includes("twitter")) {

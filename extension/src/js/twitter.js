@@ -36,10 +36,14 @@ const filterTweets = function (tweets, exp_config) {
     }
 
     // Value 0 is control group
-    if (treatment_group == 1 || treatment_group == 2) {
+    if (treatment_group == 1 || treatment_group == 3) {
       // Account-only blacklist
       if (labels.has(AUTHOR)) {
-        tweet.nodes.node.innerHTML = "";
+        if (exp_config.debug_mode) {
+          tweet.nodes.node.style.opacity = 0.1;
+        } else {
+          tweet.nodes.node.innerHTML = "";
+        }
         tweet.nodes.node.setAttribute("isHidden", true);
         tweet.data.isHidden = true;
       }
@@ -363,6 +367,9 @@ let injectTweets = function (tweets, exp_config) {
       if (new_tweet) {
         transformTweet(tweets[i], new_tweet);
         tweets[i].data.injectedTweet = new_tweet;
+        if (exp_config.debug_mode) {
+          tweets[i].nodes.node.style.backgroundColor = "seashell";
+        }
       }
     } else {
       seen_tweet_ids.add(tweets[i].data.id);
@@ -398,7 +405,6 @@ const monitorTweets = function (tweets, logger) {
             // isIntersecting is true when element and viewport are overlapping
             // isIntersecting is false when element and viewport don't overlap
             if (entries[0].isIntersecting === true) {
-              console.log("Logging view of ", tweet);
               logger.logEvent(tweet.data, "view");
             }
           },

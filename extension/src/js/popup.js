@@ -34,9 +34,10 @@ window.onload = function () {
       )
     );
 
-    document.getElementById("inject-rate").value = exp_config.inject_rate;
-    document.getElementById("inject-rate").addEventListener("change", (ev) => {
-      chrome.storage.sync.set({ inject_rate: ev.value });
+    const inject_slider = document.getElementById("inject-rate");
+    inject_slider.value = exp_config.inject_rate;
+    inject_slider.addEventListener("change", (ev) => {
+      chrome.storage.sync.set({ inject_rate: parseFloat(inject_slider.value) });
     });
   };
 

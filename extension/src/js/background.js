@@ -1,11 +1,15 @@
 import { CONFIG } from "./config";
 const FETCH_ENDPOINT = CONFIG.serverEndpoint + "/fresh_tweets";
 
-async function refresh_tweet_pool(username, install_code) {
+async function refresh_tweet_pool(username, install_code, ideo) {
   console.log("Refreshing tweet pool..");
   const response = await fetch(FETCH_ENDPOINT, {
     method: "POST",
-    body: JSON.stringify({ username: username, password: install_code }),
+    body: JSON.stringify({
+      username: username,
+      password: install_code,
+      ideo: ideo,
+    }),
     headers: {
       "Content-Type": "application/json",
     },
@@ -28,6 +32,10 @@ async function refresh_tweet_pool(username, install_code) {
 chrome.runtime.onMessage.addListener((message) => {
   console.log("Received message", message);
   if (message.message == "fetch") {
-    refresh_tweet_pool(message.username, message.install_code).then(() => {});
+    refresh_tweet_pool(
+      message.username,
+      message.install_code,
+      message.ideo
+    ).then(() => {});
   }
 });

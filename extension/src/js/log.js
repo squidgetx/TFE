@@ -20,6 +20,7 @@ export const getLogger = function (workerID, installCode, treatment_group) {
     const response_json = await response.json();
     const status = response_json.status == 200;
     if (status) {
+      console.log("uploaded log");
       LOG.length = 0;
     }
   };
