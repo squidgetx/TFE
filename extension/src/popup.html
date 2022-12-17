@@ -24,17 +24,41 @@
         </style>
     </head>
     <body>
-
-
-<h1>Timeline Survey Study</h1>
-<div id="content">
-<form id="workerIDform" autocomplete="off">
-    <p>Your Twitter Handle:</p>
-    <input type="text" id='workerID' placeholder="YourTwitterHandle" />
-    <input type="submit" value="Save" >
-</form>
-</div>
+        <h1>Timeline Survey Study</h1>
+            <div id="content">
+                <form id="workerIDform" autocomplete="off">
+                    <p>Your Twitter Handle:</p>
+                    <input type="text" id='workerID' placeholder="YourTwitterHandle" />
+                    <input type="submit" value="Save" >
+                </form>
+            </div>
         <p>Questions? Email csmapsupport@gmail.com with "Timeline Survey Study" in the subject.</p>
-        </body>
-        </html>
+        <div id='debug'>
+            <form>
+
+            <input type="checkbox" id="debug-mode"></input>
+            <label for="debug">Highlight changes in timeline</label>
+
+            <input type="radio" id="ideo-none" name='ideo' value="0"></input>
+            <label for="ideo-none">Fetch Ideology From Server (Default)</label>
+            <input type="radio" id="ideo-lib" name='ideo' value="-1"></input>
+            <label for="ideo-lib">Mock Liberal Ideology</label>
+            <input type="radio" id="ideo-con" name='ideo' value="1"></input>
+            <label for="ideo-con">Mock Conservative Ideology</label>
+
+            <input type="range" id="inject-rate" min="0.1" max="1.0" step="0.1"></input>
+
+            <input type="radio" id="treat-control" name="treat" value="0"></input>
+            <label for="treat-control">Control</label>
+            <input type="radio" id="treat-remove" name='treat' value="1"></input>
+            <label for="treat-remove">Remove</label>
+            <input type="radio" id="treat-add" name='treat' value="2"></input>
+            <label for="treat-add">Add</label>
+            <input type="radio" id="treat-sub" name='treat' value="3"></input>
+            <label for="treat-sub">Substitute</label>
+
+            </form>
+        </div>
+    </body>
+</html>
 

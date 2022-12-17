@@ -23,7 +23,8 @@ const dlog = function (str) {
  * the parent div preserved, so we can log
  * "counterfactual" impressions of removed tweets
  */
-const filterTweets = function (tweets, treatment_group) {
+const filterTweets = function (tweets, exp_config) {
+  const treatment_group = exp_config.treatment_group;
   for (const tweet of tweets) {
     if (tweet == null) {
       continue;
@@ -346,7 +347,8 @@ const isEligible = function (tweet) {
  * Given the array of tweet objects and users' treatment group,
  * inject tweets into the timeline by transforming eligible tweets
  */
-let injectTweets = function (tweets, workerID, install_code, treatment_group) {
+let injectTweets = function (tweets, exp_config) {
+  const treatment_group = exp_config.treatment_group;
   if (treatment_group == 0 || treatment_group == 1) {
     return;
   }
@@ -356,8 +358,8 @@ let injectTweets = function (tweets, workerID, install_code, treatment_group) {
       continue;
     }
 
-    if (Math.random() < INJECTION_RATE) {
-      const new_tweet = fetch_tweet(workerID, install_code);
+    if (Math.random() < exp_config.inject_rate) {
+      const new_tweet = fetch_tweet(exp_config);
       if (new_tweet) {
         transformTweet(tweets[i], new_tweet);
         tweets[i].data.injectedTweet = new_tweet;
@@ -413,14 +415,7 @@ const monitorTweets = function (tweets, logger) {
  * Where the magic happens. Parse the twitter feed, remove tweets if needed, add tweets if needed,
  * and log the whole thing
  */
-const processFeed = function (
-  document,
-  observer,
-  treatment_group,
-  workerID,
-  install_code,
-  logger
-) {
+const processFeed = function (observer, exp_config, logger) {
   let timelineDiv = document.querySelector(
     '[aria-label="Timeline: Your Home Timeline"]'
   );
@@ -435,38 +430,25 @@ const processFeed = function (
     const children = parentNode.childNodes;
     const tweets = parseTweets(children);
 
-    filterTweets(tweets, treatment_group);
-    injectTweets(tweets, workerID, install_code, treatment_group);
+    filterTweets(tweets, exp_config);
+    injectTweets(tweets, exp_config);
     monitorTweets(tweets, logger);
     disableInjectedContextMenus();
     removeInjectedMedia();
 
     // re-register, for when the user scrolls
-    const config = {
+    observer.observe(timelineDiv, {
       attributes: false,
       childList: true,
       subtree: true,
       characterData: true,
-    };
-    observer.observe(timelineDiv, config);
+    });
   }
 };
 
-export const getObserver = function (
-  treatment_group,
-  workerID,
-  install_code,
-  logger
-) {
+export const getObserver = function (exp_config, logger) {
   const observer = new MutationObserver(function (mutations) {
-    processFeed(
-      document,
-      observer,
-      treatment_group,
-      workerID,
-      install_code,
-      logger
-    );
+    processFeed(observer, exp_config, logger);
   });
   return observer;
 };

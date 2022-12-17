@@ -8,6 +8,7 @@ secrets.sh
 
 server/db/pgdata/*
 server/db/logfile
+server/node_modules
 
 
 .venv

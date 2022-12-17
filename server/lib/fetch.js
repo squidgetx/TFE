@@ -25,17 +25,20 @@ const DUMMY_TWEET = {
   isVerified: true,
 };
 
-module.exports = async function (username) {
+module.exports = async function (username, mock_ideo) {
   // pseudocode: ask DB for random selection of fresh tweets for the given user
-  // ok, how is the db gonna be set up
-  // users table with handle => ideo
-  // then tweets table with ds, author, author_ideo, tweet_json
-  // todo: fix this query
-  const ideo = await db.one(
-    "SELECT ideo from users where username = $1 LIMIT 1",
-    username
-  );
-  const ideo_sign = Math.sign(ideo.ideo);
+
+  // if ideo is passed as 0 then we fetch the ideo from the db
+  // otherwise we use the presupplied ideo value (for debugging)
+  let ideo = mock_ideo;
+  if (ideo == 0) {
+    const ideo_result = await db.one(
+      "SELECT ideo from users where username = $1 LIMIT 1",
+      username
+    );
+    ideo = ideo_result.ideo;
+  }
+  const ideo_sign = Math.sign(ideo);
 
   // todo: handle retweets
   // todo: make sure the null filter is actually working
