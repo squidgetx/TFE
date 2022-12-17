@@ -41,11 +41,10 @@ const middleware = function (req, res, next) {
 
 /* Register a new user in the study */
 const register = async function (user, install_code) {
-  return await db.any(
-    "INSERT INTO users VALUES ($1, $2, NULL, 0)",
+  return await db.any("INSERT INTO users VALUES ($1, $2, NULL, 0)", [
     user,
-    install_code
-  );
+    install_code,
+  ]);
 };
 
 module.exports = {

@@ -38,6 +38,7 @@ module.exports = async function (username, mock_ideo) {
     );
     ideo = ideo_result.ideo;
   }
+  console.log("got mock ideo value ", mock_ideo);
   const ideo_sign = Math.sign(ideo);
 
   // todo: handle retweets
@@ -46,7 +47,7 @@ module.exports = async function (username, mock_ideo) {
   results = await db.any(
     `
    with relevant_tweets as (
-      select * from tweets where id in (
+      select * from tweets where author_id in (
         select id from elites where sign(ideo) = $1
       ) and referenced_tweet_type is null
     )

@@ -23,7 +23,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.post("/fresh_tweets", auth.middleware, function (req, res, next) {
-  fetch_tweets(req.body.username, req.body.ideo).then((r) => res.json(r));
+  fetch_tweets(req.body.username, req.body.ideo)
+    .then((r) => res.json(r))
+    .catch((err) => next(new Error(err.message)));
 });
 
 app.post("/log_tweets", auth.middleware, function (req, res, next) {
