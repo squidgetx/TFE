@@ -22,6 +22,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
+app.get("/", function(req, res, next) {
+	res.send("Server alive");
+})
+
 app.post("/fresh_tweets", auth.middleware, function (req, res, next) {
   fetch_tweets(req.body.username, req.body.ideo)
     .then((r) => res.json(r))
