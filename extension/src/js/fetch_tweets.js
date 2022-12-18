@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((message) => {
 // Non-blocking func returns undefined if the fresh_tweets pool is empty
 export const fetch_tweet = function (exp_config) {
   if (!waiting && fresh_tweets.length < 4) {
-    console.log(`requesting more tweets... for ${exp_config}`);
+    console.log(`requesting more tweets... for ${JSON.stringify(exp_config)}`);
     chrome.runtime.sendMessage({
       message: "fetch",
       username: exp_config.workerID,

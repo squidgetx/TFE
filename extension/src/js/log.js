@@ -1,34 +1,18 @@
 import { CONFIG } from "./config";
 
-const LOG_ENDPOINT = CONFIG.serverEndpoint + "/log_tweets";
-
 export const getLogger = function (workerID, installCode, treatment_group) {
   const LOG = [];
-
-  const uploadLog = async () => {
-    const response = await fetch(LOG_ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify({
-        username: workerID,
-        password: installCode,
-        tweets: LOG,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response_json = await response.json();
-    const status = response_json.status == 200;
-    if (status) {
-      console.log("uploaded log");
-      LOG.length = 0;
-    }
-  };
 
   const flushLog = function () {
     // Flush the log to the cloud
     if (LOG.length > 0) {
-      uploadLog().then(() => {});
+      chrome.runtime.sendMessage({
+        message: "log",
+        username: workerID,
+        install_code: installCode,
+        data: LOG,
+      });
+      LOG.length = 0;
     }
   };
 
@@ -44,6 +28,12 @@ export const getLogger = function (workerID, installCode, treatment_group) {
   };
 
   setInterval(flushLog, 1000 * 60 * CONFIG.logUploadRateMinutes);
+
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.message.name == "logEvent") {
+      console.log("uploaded log ", message.message.status);
+    }
+  });
 
   return {
     logEvent,
