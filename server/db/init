@@ -3,6 +3,7 @@ drop table tweets;
 drop table authors;
 drop table media;
 drop table links;
+drop table elites;
 
 create table elites (
     id bigint unique,
@@ -69,7 +70,7 @@ CREATE INDEX ideo_index
 ON elites (ideo);
 
 CREATE INDEX tweets_link_index
-ON tweets (link);
+ON tweets (link_preview_url);
 
 CREATE INDEX tweets_media_index_1
 ON tweets (media_id_1);
@@ -83,7 +84,7 @@ ON tweets (ds);
 CREATE INDEX usernames
 ON users (username);
 
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO testuser;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO twee_user;
 
 -- initial data for elites table
 COPY elites(id, username, ideo)
@@ -91,7 +92,4 @@ FROM './elites.csv'
 DELIMITER ','
 CSV HEADER;
 
--- some test data
-insert into authors values (16129920, 'Rachel Maddow MSNBC', 'maddow', TRUE, 'https://pbs.twimg.com/profile_images/59437078/icon-200x200_normal.jpg', TRUE, -1);
-insert into users values ('test', 'test-install-code', 2, 1);
 

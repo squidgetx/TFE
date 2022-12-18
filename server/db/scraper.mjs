@@ -13,8 +13,9 @@ import pgPromise from "pg-promise";
 const pgp = pgPromise({});
 
 import { default as DB } from "./db.js";
+import { default as config } from "../lib/config.js"
 
-const BEARER_TOKEN = process.env.BEARER_TOKEN;
+const BEARER_TOKEN = config.twitterBearerToken;
 
 const WRITE_DB = true;
 
@@ -338,12 +339,10 @@ const unwrapped_link = await getLinkPreview(test_link, {
   followRedirects: `follow`,
 });
 
-/*
-Maddow
+// Maddow
 test_fetch("16129920").then((result) => {
   console.log("fetched")
 });
-*/
 
 // Fox news
 test_fetch("1367531").then((result) => {

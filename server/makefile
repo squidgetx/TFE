@@ -1,5 +1,9 @@
 start:
-	npm start
+	npx pm2 start bin/www
+
+list:
+	npx pm2 list
+
 
 setup_node: install_nvm
 	npm install
