@@ -13,11 +13,11 @@ import pgPromise from "pg-promise";
 const pgp = pgPromise({});
 
 import { default as DB } from "./db.js";
-import { default as config } from "../lib/config.js"
+import { default as config } from "../lib/config.js";
 
 const BEARER_TOKEN = config.twitterBearerToken;
 
-const WRITE_DB = true;
+const WRITE_DB = false;
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
@@ -126,8 +126,9 @@ function parse_media(media) {
   return media;
 }
 
-async function get_link_preview_exp(url, attempt, max_attempts) {
+async function get_link_preview_exp(url, attempt, max_attempts, og_url) {
   if (attempt > max_attempts) {
+    console.log(`Failed to parse url ${url} (og ${og_url})`);
     return null;
   }
   try {
@@ -140,24 +141,23 @@ async function get_link_preview_exp(url, attempt, max_attempts) {
       followRedirects: `follow`,
     });
   } catch {
-    return await get_link_preview_exp(url, attempt + 1, max_attempts);
+    return await get_link_preview_exp(url, attempt + 1, max_attempts, og_url);
   }
 }
 
 async function unwrapLink(url) {
-  const unwrapped_link = await get_link_preview_exp(url, 0, 8)
+  const unwrapped_link = await get_link_preview_exp(url, 0, 8, url);
   try {
-    let _ = new URL(unwrapped_link.title)
-    if (unwrapped_link.title != url) {
-      return await unwrapLink(unwrapped_link.title)
+    let purl = new URL(unwrapped_link.title);
+    if (purl.scheme.includes("http") && unwrapped_link.title != url) {
+      return await unwrapLink(unwrapped_link.title);
     } else {
-      return unwrapped_link
+      return unwrapped_link;
     }
   } catch (e) {
     return unwrapped_link;
   }
 }
-
 
 /* Given a tweet object, generate the elements needed for a link preview and return it as a media object */
 async function process_links(tweet) {
@@ -167,7 +167,7 @@ async function process_links(tweet) {
   if (!tweet.link_preview_url) {
     return null;
   }
-  const link_meta = await unwrapLink(tweet.link_preview_url)
+  const link_meta = await unwrapLink(tweet.link_preview_url);
 
   if (link_meta) {
     link_meta.hostname = parse(link_meta["url"]).hostname;
@@ -175,7 +175,6 @@ async function process_links(tweet) {
     link_meta.media_url = link_meta.url;
     link_meta.media_image = link_meta.images[0];
     link_meta.turl = tweet.link_preview_url;
-    console.log(link_meta)
   }
   return link_meta;
 }
@@ -290,11 +289,16 @@ async function update_db(data) {
     const ops = [];
 
     if (data.tweets.length > 0) {
+      // make sure tweets array is unique by ID?
+      const tweets = data.tweets.filter(
+        (v, i, a) => a.findIndex((v2) => v2.id === v.id) === i
+      );
+
       const tweet_cs = new pgp.helpers.ColumnSet(["retweet_count"], {
         table: "tweets",
       });
       const tweet_querystring =
-        pgp.helpers.insert(data.tweets, TWEET_COLS, "tweets") +
+        pgp.helpers.insert(tweets, TWEET_COLS, "tweets") +
         " ON CONFLICT ON CONSTRAINT tweets_id_key DO UPDATE SET" +
         tweet_cs.assignColumns({ from: "EXCLUDED", skip: "id" });
       ops.push(t.none(tweet_querystring));
@@ -335,17 +339,23 @@ async function test_fetch(id) {
 
 // Maddow
 //test_fetch("16129920").then((result) => {
-  //console.log("fetched")
+//console.log("fetched")
 //});
 
 // Fox news
 
-for(const i of ['20402945','2922928743', '807095', '16467567', '3108351', '16467567']) {
-test_fetch(i).then((result) => {
-  console.log("fetched", i);
-  })
+for (const i of [
+  "20402945",
+  "2922928743",
+  "807095",
+  "16467567",
+  "3108351",
+  "16467567",
+]) {
+  test_fetch(i).then((result) => {
+    console.log("fetched", i);
+  });
 }
-
 
 /*
 Design: have a fixed table of elites that doesn't need any maintenance
