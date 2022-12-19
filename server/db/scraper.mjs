@@ -137,14 +137,27 @@ async function get_link_preview_exp(url, attempt, max_attempts) {
           "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
       },
       timeout: Math.exp(attempt) * 1000,
+      followRedirects: `follow`,
     });
   } catch {
     return await get_link_preview_exp(url, attempt + 1, max_attempts);
   }
 }
-/*
 
+async function unwrapLink(url) {
+  const unwrapped_link = await get_link_preview_exp(url, 0, 8)
+  try {
+    let _ = new URL(unwrapped_link.title)
+    if (unwrapped_link.title != url) {
+      return await unwrapLink(unwrapped_link.title)
+    } else {
+      return unwrapped_link
+    }
+  } catch (e) {
+    return unwrapped_link;
+  }
 }
+
 
 /* Given a tweet object, generate the elements needed for a link preview and return it as a media object */
 async function process_links(tweet) {
@@ -154,24 +167,15 @@ async function process_links(tweet) {
   if (!tweet.link_preview_url) {
     return null;
   }
-  const unwrapped_link = await getLinkPreview(tweet.link_preview_url, {
-    headers: {
-      "user-agent":
-        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    },
-    followRedirects: `follow`,
-  });
+  const link_meta = await unwrapLink(tweet.link_preview_url)
 
-  // check if valid URL (throw error if parse fails)
-  let _ = new URL(unwrapped_link.title);
-
-  const link_meta = await get_link_preview_exp(unwrapped_link.title, 0, 10);
   if (link_meta) {
     link_meta.hostname = parse(link_meta["url"]).hostname;
     link_meta.media_type = link_meta.mediaType;
     link_meta.media_url = link_meta.url;
     link_meta.media_image = link_meta.images[0];
     link_meta.turl = tweet.link_preview_url;
+    console.log(link_meta)
   }
   return link_meta;
 }
@@ -329,25 +333,19 @@ async function test_fetch(id) {
   }
 }
 
-let test_link = "https://t.co/8DeOSDaTsT";
-("https://www.washingtonpost.com/dc-md-va/2022/11/29/rhodes-oathkeepers-sedition-verdict-jan6/");
-const unwrapped_link = await getLinkPreview(test_link, {
-  headers: {
-    "user-agent":
-      "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
-  },
-  followRedirects: `follow`,
-});
-
 // Maddow
-test_fetch("16129920").then((result) => {
-  console.log("fetched")
-});
+//test_fetch("16129920").then((result) => {
+  //console.log("fetched")
+//});
 
 // Fox news
-test_fetch("1367531").then((result) => {
-  console.log("fetched");
-});
+
+for(const i of ['20402945','2922928743', '807095', '16467567', '3108351', '16467567']) {
+test_fetch(i).then((result) => {
+  console.log("fetched", i);
+  })
+}
+
 
 /*
 Design: have a fixed table of elites that doesn't need any maintenance
