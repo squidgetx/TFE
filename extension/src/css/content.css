@@ -51,17 +51,28 @@
     border-radius: 50%;
 }
 
-    .metric {
-        font-size: 13px;
-        padding-left: 12px;
-    }
+.metric {
+    font-size: 13px;
+    padding-left: 12px;
+}
+
+
+.injectedMediaContainer {
+    margin-top: 0.5em;
+}
 
 .media {
-    margin-top: 0.5em;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid;
     border-color: rgb(207, 217, 222);
+    height: 100%;
+}
+
+.tweet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .media-sm {
@@ -151,19 +162,15 @@ a.userName:hover, a.time:hover {
 }
 
 .retweetCount:hover {
-    color: rgb(0, 186, 124)
+    color: rgb(0, 186, 124) !important
 }
 
-.replyCount:hover{
-    color: rgb(29, 155, 240)
+.replyCount:hover, .shareButton:hover, .viewsCount:hover {
+    color: rgb(29, 155, 240) !important
 }
 
-.likeCount:hover {
-    color: rgb(249, 24, 128)
-}
-
-.shareButton:hover {
-    color: rgb(29, 155, 240)
+.likeCount:hover, .liked {
+    color: rgb(249, 24, 128) !important
 }
 
 .inline-link {

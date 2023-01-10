@@ -1,3 +1,4 @@
+// list of blacklisted accounts with 0.6 or greater absolute ideology
 exports.BLACKLIST_ACCOUNTS = [
   "DailyColler",
   "kayleighmcenany",

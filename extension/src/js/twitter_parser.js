@@ -324,6 +324,5 @@ export const parseTweetHTML = function (node, prevNode) {
   }
 
   obj.data.parseError = obj.nodes.body.parseError;
-
   return obj;
 };

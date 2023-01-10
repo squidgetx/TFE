@@ -44,4 +44,4 @@ export const fetch_tweet = function (exp_config) {
   return new_tweet;
 };
 
-// It's still jank but another way is to just ask for new tweets once per X time interval
+setInterval(() => (waiting = false), 2000);

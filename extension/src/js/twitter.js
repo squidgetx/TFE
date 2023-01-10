@@ -1,6 +1,11 @@
 import { parseTweetHTML } from "./twitter_parser";
 import { BLACKLIST_ACCOUNTS } from "./accounts";
-import { chatSVG, checkmarkSVG } from "./twitter_svgs";
+import {
+  chatSVG,
+  checkmarkSVG,
+  likeSVGEmpty,
+  likeSVGFilled,
+} from "./twitter_svgs";
 import { fetch_tweet } from "./fetch_tweets";
 
 // The proportion of tweets that should be replaced
@@ -108,6 +113,20 @@ const getTimeStr = function (created_at) {
   });
 };
 
+const shorten_str = function (str, len) {
+  if (str.length < len) {
+    return str;
+  }
+  let i = 0;
+  for (let word of str.split(" ")) {
+    if (i + word.length + 1 > len) {
+      break;
+    }
+    i += word.length + 1;
+  }
+  return str.slice(0, i) + "\u2026";
+};
+
 /*
  * Transform the tweet represented by the parsed tweet object obj,
  * replacing it with the tweet represented by the object rep
@@ -121,22 +140,29 @@ const transformTweet = function (obj, rep) {
   obj = cleanTweet(obj);
 
   const injectedMedia = document.createElement("div");
+  injectedMedia.classList.add("injectedMediaContainer");
 
   if (rep.media_url) {
-    injectedMedia.innerHTML = `<div class='media'><img src=${rep.media_url} /></div>`;
-  } else if (rep.link_url) {
+    injectedMedia.innerHTML = `<div class='media'><img class='tweet-img' src=${rep.media_url} /></div>`;
+  } else if (rep.link_url && rep.link_image) {
     if (rep.link_hostname.startsWith("www.")) {
       rep.link_hostname = rep.link_hostname.slice(4);
     }
     if (rep.link_type == "article" && rep.link_description) {
+      const link_title = shorten_str(rep.link_title, 64);
       injectedMedia.innerHTML = `
         <a class='injected-link' href='${rep.link_url}' target='_blank'>
           <div class='media'>
-            <div class='header-img'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
+            <div class='header-img'><img src=${
+              rep.link_image
+            } width=100% style='object-fit: cover'/></div>
             <div class='link-body'>
               <span class='link-domain'>${rep.link_hostname}</span>
-              <span class='link-headline'>${rep.link_title}</span>
-              <span class='link-lede'>${rep.link_description}</span>
+              <span class='link-headline'>${link_title}</span>
+              <span class='link-lede'>${shorten_str(
+                rep.link_description,
+                137
+              )}</span>
             </div>
           </div>
         </a>`;
@@ -210,21 +236,61 @@ const transformTweet = function (obj, rep) {
     <a href="/${rep.username}"><div class='avatarContainer'>
       <img class='avatar' src=${rep.profile_image_url} height=100% />
     </div></a>`;
-  obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.reply_count}</span>`;
-  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweet_count}</span>`;
-  obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.like_count}</span>`;
+  obj.nodes.replyCount.innerHTML = `<span class='metric'>${
+    rep.reply_count || ""
+  }</span>`;
+  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${
+    rep.retweet_count || ""
+  }</span>`;
+  obj.nodes.likeCount.innerHTML = `<span class='metric'>${
+    rep.like_count || ""
+  }</span>`;
   obj.nodes.like.classList.add("likeCount");
   obj.nodes.reply.classList.add("replyCount");
   obj.nodes.retweet.classList.add("retweetCount");
   obj.nodes.share.classList.add("shareButton");
 
+  // Clone tweet reaction nodes to remove existing event listeners
+  const newControls = obj.nodes.body.tweetControls.cloneNode(true);
   obj.nodes.body.tweetControls.parentNode.replaceChild(
-    obj.nodes.body.tweetControls.cloneNode(true),
+    newControls,
     obj.nodes.body.tweetControls
   );
+  obj.nodes.like = newControls.querySelector(".likeCount");
+  obj.nodes.reply = newControls.querySelector(".replyCount");
+  obj.nodes.retweet = newControls.querySelector(".retweetCount");
+  obj.nodes.share = newControls.querySelector(".shareButton");
+  obj.nodes.views = newControls.querySelector("a");
+  obj.nodes.views.firstChild.classList.add("viewsCount");
 
-  if (obj.nodes.body.preText) {
-    obj.nodes.body.preTextNode.remove();
+  obj.nodes.views.removeAttribute("href");
+  obj.nodes.views.addEventListener("click", (evt) =>
+    evt.stopImmediatePropagation()
+  );
+
+  const like = obj.nodes.like;
+
+  like.addEventListener("click", (evt) => {
+    const metric = like.querySelector(".metric");
+    if (like.getAttribute("status")) {
+      metric.innerHTML = parseInt(metric.innerHTML) - 1;
+      like.removeAttribute("status");
+      like.querySelector("svg").parentNode.innerHTML = likeSVGEmpty;
+      like.classList.remove("liked");
+    } else {
+      // Re add logging event, since the old one was removed when we
+      // cloned the nodes
+      like.setAttribute("status", true);
+      metric.innerHTML = parseInt(metric.innerHTML) + 1;
+      like.querySelector("svg").parentNode.innerHTML = likeSVGFilled;
+      like.classList.add("liked");
+    }
+  });
+
+  if (obj.nodes.body.preTextComponents.length > 0) {
+    for (const n of obj.nodes.body.preTextComponents) {
+      n.remove();
+    }
   }
 
   if (obj.nodes.avatarExpandThread != null) {
@@ -235,8 +301,8 @@ const transformTweet = function (obj, rep) {
       console.log("no link found!", obj.nodes.avatarExpandThread);
     }
     obj.nodes.avatarExpandThread.innerHTML = `
-      <div class='avatarContainerExpandThread'>
-        <img class='avatar' src=${rep.profile_image_url} width=32px height=32px />
+      <div class='avatarContainerExpandThread-'>
+        <img class='avatar avatarContainerExpandThread' src=${rep.profile_image_url} width=32px height=32px />
       </div>`;
   } else {
     obj.nodes.tweetFooter.map((a) => a.remove());
@@ -399,7 +465,19 @@ const parseTweets = function (children) {
 const monitorTweets = function (tweets, logger) {
   for (const tweet of tweets) {
     if (tweet) {
-      if (!tweet.nodes.node.getAttribute("hasObserver")) {
+      if (!tweet.nodes.node.getAttribute("hasReactionListener")) {
+        tweet.nodes.like.addEventListener("click", (evt) => {
+          console.log("like logged for tweet ", tweet.data.id);
+          logger.logEvent(tweet.data, "like");
+          if (tweet.nodes.node.getAttribute("injected")) {
+            // Stop the event propagation because otherwise
+            // we redirect to the tweet ID
+            evt.stopImmediatePropagation();
+          }
+        });
+        tweet.nodes.node.setAttribute("hasReactionListener", true);
+      }
+      if (!tweet.nodes.node.getAttribute("hasViewObserver")) {
         let observer = new IntersectionObserver(
           function (entries) {
             // isIntersecting is true when element and viewport are overlapping
@@ -411,7 +489,7 @@ const monitorTweets = function (tweets, logger) {
           { threshold: [0.2] }
         );
         observer.observe(tweet.nodes.node);
-        tweet.nodes.node.setAttribute("hasObserver", true);
+        tweet.nodes.node.setAttribute("hasViewObserver", true);
       }
     }
   }
@@ -453,6 +531,7 @@ const processFeed = function (observer, exp_config, logger) {
 };
 
 export const getObserver = function (exp_config, logger) {
+  const _ = fetch_tweet(exp_config);
   const observer = new MutationObserver(function (mutations) {
     processFeed(observer, exp_config, logger);
   });
