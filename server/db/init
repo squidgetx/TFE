@@ -9,7 +9,8 @@ create table elites (
     id bigint unique,
     username varchar,
     ideo real,
-    source varchar
+    followers_count integer,
+    rank integer
 );
 
 create table users(
@@ -87,9 +88,9 @@ ON users (username);
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO twee_user;
 
 -- initial data for elites table
-COPY elites(id, username, ideo)
-FROM './elites.csv'
-DELIMITER ','
+COPY elites(username, ideo, id, followers_count, rank)
+FROM './elites.tsv'
+DELIMITER E'\t'
 CSV HEADER;
 
 

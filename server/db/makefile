@@ -10,3 +10,6 @@ init:
 
 scrape: 
 	npm scrape
+
+copyelites:
+	psql server-dev -c "\copy elites(username, ideo, id, followers_count, rank) FROM 'elites.tsv' WITH (format csv, delimiter E'\t', header);"
