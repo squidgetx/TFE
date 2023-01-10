@@ -358,7 +358,9 @@ async function fetchTweetsForElites() {
   const elites = await fetchElites();
   for (let e of elites) {
     console.log("fetching for ", e);
-    fetch_and_write_for_id(e.id, e.date.toISOString());
+    // If no tweets found in DB default to starting from last week
+    const date = e.date || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    fetch_and_write_for_id(e.id, date.toISOString());
   }
 }
 
