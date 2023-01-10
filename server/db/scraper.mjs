@@ -91,7 +91,7 @@ function parse_tweet(tweet) {
     tweet.referenced_tweet_id = tweet.referenced_tweets[0].id;
     // TODO what if there are more than 1 referenced tweet? is that even possible
   }
-  if ("attachments" in tweet) {
+  if ("attachments" in tweet && tweet.attachments.media_keys) {
     tweet.media_id_1 = tweet.attachments.media_keys[0];
     tweet.media_id_2 = tweet.attachments.media_keys[1];
     // TODO log if > 1 media key
