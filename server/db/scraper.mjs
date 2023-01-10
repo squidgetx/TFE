@@ -17,7 +17,7 @@ import { default as config } from "../lib/config.js";
 
 const BEARER_TOKEN = config.twitterBearerToken;
 
-const WRITE_DB = false;
+const WRITE_DB = true;
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
@@ -183,6 +183,15 @@ async function parse_response(response) {
   // Todo deal with > 100 tweets, but i dont think that really is important for now
   // A bit complicated because RT/Quote tweets exist :P
   // So for RT/Quote tweets, we add 2 tweets to the DB: one for the original tweet and one for the OG
+  if (response.data == undefined) {
+    // No new tweets in the DB
+    return {
+      tweets: [],
+      users: [],
+      media: [],
+      links: [],
+    };
+  }
   const tweets = response.data
     .map((t) => parse_tweet(t))
     // filter duplicate ids, which apparently happens sometimes (keep first entry)
@@ -329,42 +338,36 @@ async function update_db(data) {
   });
 }
 
-async function test_fetch(id) {
-  const response = await fetch_for_id(id, "2022-11-11T00:00:00.000Z");
+/* Function to get the list of elites from the db
+ * that we want to get the tweets for
+ */
+async function fetchElites() {
+  // Get the top 50 center left and center right accounts
+  const query = `
+    select elites.id, max(created_at) as date 
+    from elites left join tweets 
+    on elites.id = tweets.author_id 
+    where rank < 50 
+    group by elites.id;
+  `;
+  const results = await DB.any(query);
+  return results;
+}
+
+async function fetchTweetsForElites() {
+  const elites = await fetchElites();
+  for (let e of elites) {
+    console.log("fetching for ", e);
+    fetch_and_write_for_id(e.id, e.date.toISOString());
+  }
+}
+
+async function fetch_and_write_for_id(id, date) {
+  const response = await fetch_for_id(id, date);
   const data = await parse_response(response);
   if (WRITE_DB) {
     const result = await update_db(data);
   }
 }
 
-// Maddow
-//test_fetch("16129920").then((result) => {
-//console.log("fetched")
-//});
-
-// Fox news
-
-for (const i of [
-  "20402945",
-  "2922928743",
-  "807095",
-  "16467567",
-  "3108351",
-  "16467567",
-]) {
-  test_fetch(i).then((result) => {
-    console.log("fetched", i);
-  });
-}
-
-/*
-Design: have a fixed table of elites that doesn't need any maintenance
-Then, we query for the most recent tweet we have for each elite
-With a fallback date
-Then we kick off all the fetch async jobs (2k or so?)
-If jobs fail we need to manage retry logic as well, but the update op should be idempotent I guess
-
-I wonder also if batching the db writes is necessary? or we can just not care
-
-Also remember that we will need to migrate/re-run in production 
-*/
+fetchTweetsForElites().then(() => console.log("fetched"));
