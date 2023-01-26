@@ -1,0 +1,510 @@
+	key_0	username_x	username_y	id	name	verified_type	verified	followers_count	following_count	tweet_count	listed_count	withheld
+0	cnnbrk	cnnbrk	cnnbrk	428333	CNN Breaking News	business	True	64153062.0	122.0	78936.0	192319.0	
+1	nytimes	nytimes	nytimes	807095	The New York Times	business	True	54857421.0	861.0	496401.0	216145.0	
+2	cnn	cnn	CNN	759251	CNN	business	True	60971001.0	1093.0	394664.0	156435.0	
+3	reuters	reuters	Reuters	1652541	Reuters	business	True	25710265.0	1230.0	961405.0	135968.0	
+4	foxnews	foxnews	FoxNews	1367531	Fox News	business	True	23604475.0	262.0	521359.0	73878.0	
+5	wsj	wsj	WSJ	3108351	The Wall Street Journal	business	True	20435514.0	1082.0	395121.0	127151.0	
+6	time	time	TIME	14293310	TIME	business	True	19443428.0	531.0	407065.0	105865.0	
+7	forbes	forbes	Forbes	91478624	Forbes	business	True	18664472.0	5038.0	447644.0	63357.0	
+8	abc	abc	ABC	28785486	ABC News	business	True	17788878.0	447.0	405161.0	66543.0	
+9	washingtonpost	washingtonpost	washingtonpost	2467791	The Washington Post	business	True	19991308.0	1704.0	450607.0	107879.0	
+10	ap	ap	AP	51241574	The Associated Press	business	True	16042280.0	6698.0	341032.0	105178.0	
+11	huffpost	huffpost	HuffPost	14511951	HuffPost	business	True	11226326.0	5537.0	616688.0	80926.0	
+12	theonion	theonion	TheOnion	14075928	The Onion	business	True	11915226.0	6.0	95240.0	65745.0	
+13	breakingnews	breakingnews	BreakingNews	6017542	Breaking News	business	True	9624364.0	537.0	107275.0	82887.0	
+14	newyorker	newyorker	NewYorker	14677919	The New Yorker	business	True	8979928.0	402.0	147323.0	63345.0	
+15	cnni	cnni	cnni	2097571	CNN International	business	True	14384835.0	368.0	285057.0	49588.0	
+16	npr	npr	NPR	5392522	NPR	business	True	8884398.0	65137.0	241501.0	69070.0	
+17	cbsnews	cbsnews	CBSNews	15012486	CBS News	business	True	8881924.0	600.0	362419.0	56642.0	
+18	nbcnews	nbcnews	NBCNews	14173315	NBC News	business	True	9377409.0	1841.0	359238.0	51552.0	
+19	harvardbiz	harvardbiz	HarvardBiz	14800270	Harvard Business Review	business	True	5836424.0	214.0	114097.0	51047.0	
+20	vanityfair	vanityfair	VanityFair	15279429	VANITY FAIR	business	True	4778117.0	1221.0	160979.0	18649.0	
+21	todayshow	todayshow	TODAYshow	7744592	TODAY	business	True	4204247.0	7709.0	220159.0	17906.0	
+22	usatoday	usatoday	USATODAY	15754281	USA TODAY	business	True	4924458.0	941.0	390695.0	37390.0	
+23	politico	politico	politico	9300262	POLITICO	business	True	4637230.0	1189.0	366555.0	43666.0	
+24	gma	gma	GMA	22650211	Good Morning America	business	True	3790710.0	2398.0	308158.0	15142.0	
+25	newsweek	newsweek	Newsweek	2884771	Newsweek	business	True	3588314.0	578.0	321799.0	37123.0	
+26	latimes	latimes	latimes	16664681	Los Angeles Times	business	True	3997900.0	6885.0	491357.0	35764.0	
+27	thehill	thehill	thehill	1917731	The Hill	business	True	4475277.0	314.0	1088604.0	29115.0	
+28	cnbc	cnbc	CNBC	20402945	CNBC	business	True	5034244.0	853.0	551535.0	39887.0	
+29	nprpolitics	nprpolitics	nprpolitics	5741722	NPR Politics	business	True	3011039.0	92319.0	110499.0	31170.0	
+30	cnnpolitics	cnnpolitics	CNNPolitics	13850422	CNN Politics	business	True	4477938.0	335.0	216427.0	22571.0	
+31	rt_com	rt_com	RT_com	64643056	RT	none	True	3074779.0	686.0	434006.0	21339.0	{'country_codes': ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']}
+32	businessinsider	businessinsider	BusinessInsider	20562637	Insider Business	business	True	3968865.0	415.0	723127.0	36080.0	
+33	msnbc	msnbc	MSNBC	2836421	MSNBC	business	True	4958872.0	785.0	292643.0	31091.0	
+34	fortunemagazine	fortunemagazine	FortuneMagazine	25053299	FORTUNE	business	True	2360620.0	594.0	279811.0	23995.0	
+35	pbs	pbs	PBS	12133382	PBS	business	True	2243618.0	44891.0	86989.0	17096.0	
+36	nowthisnews	nowthisnews	nowthisnews	701725963	NowThis	business	True	2707626.0	1289.0	266249.0	9986.0	
+37	foxnewspolitics	foxnewspolitics	foxnewspolitics	16032925	Fox News Politics	business	True	1841938.0	249.0	51649.0	7751.0	
+38	reutersbiz	reutersbiz	ReutersBiz	15110357	Reuters Business	business	True	2553514.0	247.0	283991.0	27168.0	
+39	vice	vice	VICE	23818581	VICE	business	True	2019913.0	10533.0	191722.0	16651.0	
+40	cspan	cspan	cspan	15675138	CSPAN	business	True	2101017.0	8500.0	61898.0	13510.0	
+41	nytimesworld	nytimesworld	nytimesworld	1877831	New York Times World	business	True	2204894.0	804.0	294953.0	20318.0	
+42	slate	slate	Slate	15164565	Slate	business	True	1719304.0	714.0	558989.0	28987.0	
+43	nymag	nymag	NYMag	45564482	New York Magazine	business	True	1795870.0	993.0	223271.0	13366.0	
+44	cnnmoney	cnnmoney	CNNMoney	1044606986946531328	moneyzab	none	False	515.0	0.0	0.0	12.0	
+45	theatlantic	theatlantic	TheAtlantic	35773039	The Atlantic	business	True	2121463.0	1078.0	216452.0	30390.0	
+46	bw	bw	BW	67358777	Businessweek	business	True	2183779.0	608.0	175107.0	20638.0	
+47	voanews	voanews	VOANews	16273831	Voice of America	business	True	1703683.0	253.0	181625.0	5509.0	
+48	wsjbusiness	wsjbusiness	WSJbusiness	28140646	WSJ Business News	business	True	1712643.0	396.0	68927.0	17084.0	
+49	huffpostpol	huffpostpol	HuffPostPol	15458694	HuffPost Politics	business	True	1417429.0	8460.0	335852.0	15828.0	
+50	drudge_report	drudge_report	DRUDGE_REPORT	14887069	DRUDGE REPORT	none	False	3.0	0.0	0.0	1.0	
+51	nypost	nypost	nypost	17469289	New York Post	business	True	2828622.0	10790.0	529245.0	20951.0	
+52	abcworldnews	abcworldnews	ABCWorldNews	86141342	World News Tonight	business	True	1635541.0	435.0	205326.0	11399.0	
+53	foxandfriends	foxandfriends	foxandfriends	15513604	FOX & friends	business	True	1200150.0	1045.0	92874.0	7522.0	
+54	buzzfeednews	buzzfeednews	BuzzFeedNews	1020058453	BuzzFeed News	business	True	1408674.0	4749.0	212758.0	11680.0	
+55	ac360	ac360	AC360	227837742	Anderson Cooper 360°	business	True	1656958.0	155.0	69225.0	7004.0	
+56	thenation	thenation	thenation	1947301	The Nation	business	True	1250730.0	8990.0	130701.0	13993.0	
+57	nightline	nightline	Nightline	19740592	Nightline	business	True	1125849.0	428.0	76687.0	5893.0	
+58	thedailybeast	thedailybeast	thedailybeast	16012783	The Daily Beast	business	True	1383368.0	1033.0	406647.0	22348.0	
+59	yahoonews	yahoonews	YahooNews	7309052	Yahoo News	business	True	1091937.0	2325.0	266385.0	13412.0	
+60	chicagotribune	chicagotribune	chicagotribune	7313362	Chicago Tribune	business	True	1157139.0	415.0	265681.0	11907.0	
+61	breitbartnews	breitbartnews	BreitbartNews	457984599	Breitbart News	business	True	1866535.0	113.0	169660.0	9681.0	
+62	foreignpolicy	foreignpolicy	ForeignPolicy	26792275	Foreign Policy	none	True	1232452.0	1054.0	138823.0	19741.0	
+63	fivethirtyeight	fivethirtyeight	FiveThirtyEight	2303751216	FiveThirtyEight	business	True	1309985.0	320.0	118488.0	18207.0	
+64	newshour	newshour	NewsHour	14437914	PBS NewsHour	business	True	1203273.0	95858.0	221830.0	14815.0	
+65	60minutes	60minutes	60Minutes	18812572	60 Minutes	business	True	1265963.0	512.0	29323.0	8163.0	
+66	salon	salon	Salon	16955991	Salon	business	True	938982.0	5804.0	248300.0	14059.0	
+67	thelastword	thelastword	TheLastWord	182503471	The Last Word	business	True	1081677.0	1548.0	68798.0	3591.0	
+68	nbcnightlynews	nbcnightlynews	NBCNightlyNews	8839632	NBC Nightly News with Lester Holt	business	True	1051164.0	529.0	194182.0	10655.0	
+69	vicenews	vicenews	VICENews	1630896181	VICE News	business	True	1018835.0	963.0	138440.0	11154.0	
+70	good	good	good	19621110	GOOD	none	True	823132.0	1344.0	49512.0	18274.0	
+71	maddowblog	maddowblog	MaddowBlog	91180720	Maddow Blog	business	True	1249575.0	1367.0	35432.0	9911.0	
+72	thinkprogress	thinkprogress	thinkprogress	55355654	ThinkProgress	none	False	746727.0	880.0	151715.0	11455.0	
+73	yahoofinance	yahoofinance	YahooFinance	19546277	Yahoo Finance	business	True	1536477.0	314.0	325809.0	16964.0	
+74	foxbusiness	foxbusiness	FoxBusiness	56413858	FOX Business	business	True	867572.0	389.0	224192.0	8123.0	
+75	nytimesbusiness	nytimesbusiness	nytimesbusiness	1754641	NYT Business	none	True	859076.0	478.0	250877.0	15484.0	
+76	voxdotcom	voxdotcom	voxdotcom	2347049341	Vox	business	True	1023455.0	170.0	148586.0	16329.0	
+77	wsjecon	wsjecon	WSJecon	16334857	Real Time Economics	business	True	914476.0	98.0	96787.0	13759.0	
+78	propublica	propublica	propublica	14606079	ProPublica	business	True	912405.0	634.0	106458.0	17673.0	
+79	motherjones	motherjones	MotherJones	18510860	Mother Jones	business	True	829835.0	249.0	256885.0	18662.0	
+80	bostonglobe	bostonglobe	BostonGlobe	95431448	The Boston Globe	business	True	807682.0	986.0	506738.0	10373.0	
+81	abcpolitics	abcpolitics	ABCPolitics	16815644	ABC News Politics	business	True	1090494.0	469.0	197835.0	1.0	
+82	nytopinion	nytopinion	nytopinion	16686144	New York Times Opinion	business	True	809438.0	1447.0	232976.0	8082.0	
+83	thefive	thefive	TheFive	334053327	The Five	business	True	669822.0	81.0	7621.0	2167.0	
+84	theblaze	theblaze	theblaze	10774652	TheBlaze	business	True	870125.0	717.0	161236.0	6650.0	
+85	foreignaffairs	foreignaffairs	ForeignAffairs	21114659	Foreign Affairs	none	True	872919.0	1979.0	98571.0	13571.0	
+86	democracynow	democracynow	democracynow	16935292	Democracy Now!	business	True	794331.0	6484.0	123755.0	16017.0	
+87	telemundonews	telemundonews	TelemundoNews	152142811	Noticias Telemundo	business	True	946245.0	1184.0	209274.0	3418.0	
+88	politifact	politifact	PolitiFact	8953122	PolitiFact	business	True	665647.0	7786.0	63404.0	10785.0	
+89	splinter_news	splinter_news	splinter_news	121817564	Splinter	none	True	510758.0	2401.0	147354.0	3570.0	
+90	meetthepress	meetthepress	MeetThePress	11856892	Meet the Press	business	True	650175.0	493.0	102519.0	6912.0	
+91	morning_joe	morning_joe	Morning_Joe	254117355	Morning Joe	business	True	758105.0	622.0	63115.0	4724.0	
+92	theintercept	theintercept	theintercept	2329066872	The Intercept	none	True	856496.0	360.0	60133.0	12291.0	
+93	business	business	business	34713362	Bloomberg	business	True	9102978.0	1454.0	887128.0	69151.0	
+94	foxnewsalert	foxnewsalert	foxnewsalert	31540671	Fox News Alert	business	True	502840.0	57.0	7127.0	5135.0	
+95	cnnsitroom	cnnsitroom	CNNSitRoom	34310801	The Situation Room	business	True	509976.0	903.0	28403.0	2606.0	
+96	wsjmarkets	wsjmarkets	WSJmarkets	28164923	WSJ Markets	business	True	830325.0	501.0	90251.0	10291.0	
+97	theroot	theroot	TheRoot	23995748	The Root	none	True	620651.0	13776.0	149036.0	5724.0	
+98	nbcpolitics	nbcpolitics	NBCPolitics	11856032	NBC Politics	business	True	663757.0	263.0	82905.0	7671.0	
+99	facethenation	facethenation	FaceTheNation	205392468	Face The Nation	business	True	520659.0	1499.0	46913.0	2638.0	
+100	abc2020	abc2020	ABC2020	16457400	20/20	business	True	452198.0	1565.0	40941.0	1674.0	
+101	markets	markets	markets	69620713	Bloomberg Markets	business	True	1463702.0	201.0	193141.0	16919.0	
+102	huffpostgreen	huffpostgreen	HuffPostGreen	45577446	HuffPost Green	business	True	451627.0	1086.0	63082.0	10465.0	
+103	dailycaller	dailycaller	DailyCaller	39308549	Daily Caller	business	True	1028650.0	7685.0	382057.0	7377.0	
+104	nytpolitics	nytpolitics	nytpolitics	14434063	NYT Politics	none	True	516531.0	225.0	144507.0	9599.0	
+105	datelinenbc	datelinenbc	DatelineNBC	11856932	Dateline NBC	business	True	459471.0	1639.0	96792.0	2452.0	
+106	usatodaymoney	usatodaymoney	USATODAYmoney	15764136	USA TODAY Money	business	True	439366.0	1493.0	128329.0	6546.0	
+107	foxnation	foxnation	foxnation	37764422	Fox Nation	business	True	403563.0	547.0	2886.0	3568.0	
+108	blackvoices	blackvoices	blackvoices	13557972	HuffPost BlackVoices	business	True	447760.0	18204.0	90694.0	4232.0	
+109	nytimeses	nytimeses	nytimeses	2975678883	NYTimes en Español	business	True	582877.0	4358.0	26019.0	5532.0	
+110	hardball	hardball	Hardball	1280916490380812288	Now: The ReidOut	none	False	165.0	1.0	0.0	0.0	
+111	cnnnewsroom	cnnnewsroom	CNNnewsroom	9567972	CNN Newsroom	business	True	464455.0	543.0	34088.0	6695.0	
+112	amjoyshow	amjoyshow	amjoyshow	731132367058968576	Formerly 'AM JOY' on @MSNBC	business	True	512673.0	2587.0	23577.0	2539.0	
+113	postpolitics	postpolitics	postpolitics	14345062	Post Politics	business	True	403604.0	1668.0	96496.0	7148.0	
+114	wsjbreakingnews	wsjbreakingnews	WSJbreakingnews	1293617964269424641	wsjbreaking	none	False	306.0	0.0	0.0	22.0	
+115	pewresearch	pewresearch	pewresearch	22642788	Pew Research Center	none	True	444418.0	93.0	97593.0	12952.0	
+116	rt_america	rt_america	RT_America	115754870	RT America	none	True	350434.0	739.0	126982.0	4456.0	{'country_codes': ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']}
+117	huffpostwomen	huffpostwomen	HuffPostWomen	309978842	HuffPost Women	business	True	351649.0	2792.0	101797.0	4264.0	
+118	mmfa	mmfa	mmfa	13493302	Media Matters	business	True	450147.0	2441.0	101224.0	9860.0	
+119	nbcnewsbusiness	nbcnewsbusiness	NBCNewsBusiness	11856142	NBC News Business	business	True	361466.0	411.0	44591.0	5507.0	
+120	qz	qz	qz	573918122	Quartz	business	True	376417.0	233.0	194049.0	9357.0	
+121	reuterslive	reuterslive										
+122	rollcall	rollcall	rollcall	15922214	Roll Call	none	True	359642.0	1568.0	137928.0	7264.0	
+123	cnbcnow	cnbcnow	CNBCnow	26574283	CNBC Now	business	True	779614.0	54.0	43518.0	10451.0	
+124	ap_politics	ap_politics	AP_Politics	426802833	AP Politics	business	True	555278.0	605.0	86066.0	7816.0	
+125	theyoungturks	theyoungturks	TheYoungTurks	14957147	The Young Turks	business	True	435263.0	9553.0	110459.0	5640.0	
+126	cbsthismorning	cbsthismorning	CBSThisMorning	1434916155735564293	CBS Mornings	none	False	539.0	0.0	0.0	2.0	
+127	washtimes	washtimes	WashTimes	14662354	The Washington Times	business	True	445650.0	1890.0	443959.0	8114.0	
+128	splcenter	splcenter	splcenter	65698096	Southern Poverty Law Center	none	True	428658.0	4068.0	39774.0	5273.0	
+129	weeklystandard	weeklystandard	weeklystandard	17546958	The Weekly Standard	business	True	289043.0	11378.0	59265.0	3568.0	
+130	frontlinepbs	frontlinepbs	frontlinepbs	16016427	FRONTLINE	business	True	343343.0	2336.0	72596.0	5621.0	
+131	jezebel	jezebel	Jezebel	8192222	Jezebel	business	True	302326.0	53.0	121409.0	5650.0	
+132	newday	newday										
+133	project_veritas	project_veritas	Project_Veritas	850036892	Project Veritas	blue	False	1106932.0	1072.0	10227.0	2945.0	
+134	nro	nro	NRO	19417492	National Review	business	True	343689.0	1374.0	156538.0	5883.0	
+135	cbseveningnews	cbseveningnews	CBSEveningNews	42958829	CBS Evening News	business	True	398941.0	1624.0	143834.0	4521.0	
+136	crookedmedia	crookedmedia	CrookedMedia	1448408372999450627	Crooked Media	none	True	14403.0	10.0	738.0	107.0	
+137	cbspolitics	cbspolitics	CBSPolitics	18767699	CBS News Politics	business	True	309993.0	328.0	28624.0	3916.0	
+138	outfrontcnn	outfrontcnn	OutFrontCNN	361342191	OutFrontCNN	business	True	298997.0	712.0	46529.0	1684.0	
+139	niemanlab	niemanlab	NiemanLab	15865878	Nieman Lab	business	True	301075.0	866.0	58069.0	12758.0	
+140	npratc	npratc	npratc	21918310	All Things Considered	business	True	337047.0	1371.0	19065.0	3742.0	
+141	hlntv	hlntv	HLNTV	26282046	HLN	business	True	266283.0	938.0	75771.0	2453.0	
+142	nbcnewsworld	nbcnewsworld	NBCNewsWorld	11855772	NBC News World	business	True	299327.0	358.0	100287.0	3636.0	
+143	tpm	tpm	TPM	14717197	Talking Points Memo	business	True	270404.0	689.0	179712.0	8112.0	
+144	reutersworld	reutersworld	ReutersWorld	335455570	Reuters World	business	True	459696.0	169.0	260960.0	8721.0	
+145	dailykos	dailykos	dailykos	20818801	Daily Kos	business	True	278954.0	2038.0	119090.0	6980.0	
+146	rasmussen_poll	rasmussen_poll	Rasmussen_Poll	19553409	Rasmussen Reports	blue	True	417507.0	590.0	59216.0	6420.0	
+147	nprfreshair	nprfreshair	nprfreshair	13783772	Fresh Air	business	True	276126.0	1900.0	28593.0	5422.0	
+148	sputnikint	sputnikint	SputnikInt	34262462	Sputnik	none	True	354130.0	309.0	212671.0	7038.0	{'country_codes': ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']}
+149	allinwithchris	allinwithchris	allinwithchris	1286312880	All In with Chris Hayes	business	True	421649.0	1091.0	35722.0	3059.0	
+150	reuterspolitics	reuterspolitics	ReutersPolitics	25562002	Reuters Politics	business	True	281384.0	381.0	113099.0	4972.0	
+151	bpolitics	bpolitics	bpolitics	564111558	Bloomberg Politics	business	True	365157.0	994.0	236913.0	5565.0	
+152	shepnewsteam	shepnewsteam	ShepNewsTeam	1454264788511559683	Jose A. Pearson	none	False	5.0	0.0	0.0	0.0	
+153	shepnewsteam	shepnewsteam	ShepNewsTeam	1454264788511559683	Jose A. Pearson	none	False	5.0	0.0	0.0	0.0	
+154	shepnewsteam	shepnewsteam	ShepNewsTeam	1454264788511559683	Jose A. Pearson	none	False	5.0	0.0	0.0	0.0	
+155	shepnewsteam	shepnewsteam	ShepNewsTeam	1454264788511559683	Jose A. Pearson	none	False	5.0	0.0	0.0	0.0	
+156	oann	oann	OANN	1209936918	One America News	business	True	1820264.0	96.0	146503.0	6010.0	
+157	foxnewssunday	foxnewssunday	FoxNewsSunday	18805644	Fox News Sunday	business	True	325055.0	869.0	16308.0	3092.0	
+158	twitchyteam	twitchyteam	TwitchyTeam	469194846	Twitchy Team	blue	True	232856.0	2894.0	136872.0	2857.0	
+159	axios	axios	axios	800707492346925056	Axios	business	True	645104.0	1017.0	132132.0	8599.0	
+160	nytmag	nytmag	NYTmag	16929600	NYT Magazine	none	True	260459.0	200.0	33037.0	5106.0	
+161	abcwnn	abcwnn	abcWNN	263970953	ABC World News Now	business	True	257400.0	722.0	22693.0	1232.0	
+162	palmerreport	palmerreport	PalmerReport	15115280	Palmer Report	blue	True	498993.0	108815.0	202411.0	3629.0	
+163	morningedition	morningedition	MorningEdition	20150502	Morning Edition	business	True	270614.0	3350.0	55434.0	4035.0	
+164	reason	reason	reason	16467567	reason	business	True	280827.0	360.0	104021.0	6409.0	
+165	snopes	snopes	snopes	14294848	snopes.com	business	True	295411.0	81.0	81002.0	5056.0	
+166	upshotnyt	upshotnyt	UpshotNYT	16955870	The Upshot	none	True	242321.0	310.0	51274.0	7597.0	
+167	viceland	viceland										
+168	realdailywire	realdailywire	realDailyWire	4081106480	Daily Wire	business	True	1455905.0	1607.0	181941.0	4042.0	
+169	cbssunday	cbssunday	CBSSunday	119829799	CBS Sunday Morning 🌞	business	True	264475.0	450.0	33068.0	2184.0	
+170	usatodaydc	usatodaydc	usatodayDC	7998482	USA TODAY Politics	business	True	227790.0	870.0	73844.0	1776.0	
+171	climateprogress	climateprogress										
+172	levintv	levintv	LevinTV	3006081057	LevinTV	none	False	284409.0	6.0	3950.0	575.0	
+173	blavity	blavity	Blavity	2466899838	Blavity	business	True	221612.0	27024.0	125642.0	1884.0	
+174	redstate	redstate	RedState	3135241	RedState	blue	True	303497.0	361.0	162191.0	4229.0	
+175	elitedaily	elitedaily	EliteDaily	331057915	Elite Daily	business	True	177634.0	623.0	144107.0	1762.0	
+176	starsandstripes	starsandstripes	starsandstripes	9130702	Stars and Stripes	none	True	277563.0	507.0	191551.0	3728.0	
+177	specialreport	specialreport	SpecialReport	122207745	Special Report Team	business	False	188334.0	1077.0	12251.0	1453.0	
+178	poynter	poynter	Poynter	8383592	Poynter	business	True	219354.0	2050.0	84695.0	8884.0	
+179	ap_noticias	ap_noticias	AP_Noticias	373490841	AP Noticias	business	True	388961.0	4939.0	172971.0	4368.0	
+180	observer	observer	observer	15738599	Observer	none	True	181768.0	56779.0	103121.0	4632.0	
+181	mic	mic	mic	139909832	Mic	business	True	169189.0	1203.0	106056.0	3237.0	
+182	rawstory	rawstory	RawStory	16041234	Raw Story	none	True	228535.0	3985.0	305904.0	4887.0	
+183	thedailyedge	thedailyedge	TheDailyEdge	179732982	@TheDailyEdge on Universeodon	none	False	192074.0	150138.0	115584.0	2679.0	
+184	wsjmoneybeat	wsjmoneybeat	WSJMoneyBeat	18858395	WSJ MoneyBeat	business	True	160922.0	159.0	26264.0	2917.0	
+185	wsjworld	wsjworld	WSJworld	28134618	WSJ World News	none	True	177404.0	54.0	51299.0	2835.0	
+186	campusreform	campusreform	campusreform	44914646	Campus Reform	none	True	139368.0	21930.0	79123.0	1379.0	
+187	dailydot	dailydot	dailydot	211620426	The Daily Dot	none	True	161451.0	16173.0	266069.0	3090.0	
+188	lawfareblog	lawfareblog	lawfareblog	186755547	Lawfare	none	True	233605.0	206.0	36436.0	3206.0	
+189	waitwait	waitwait	waitwait	13784322	waitwait	business	True	198751.0	258.0	8110.0	4053.0	
+190	newsbusters	newsbusters	newsbusters	45190383	NewsBusters	business	True	226368.0	819.0	174247.0	3484.0	
+191	outnumberedfnc	outnumberedfnc	OutnumberedFNC	2448135692	Outnumbered	business	True	250406.0	295.0	8800.0	682.0	
+192	jacobinmag	jacobinmag	jacobinmag	1395760177538863107	jacobinmag	none	False	0.0	1.0	1.0	0.0	
+193	foxnewsinsider	foxnewsinsider	FoxNewsInsider	147725246	FoxNewsInsider	business	True	138049.0	355.0	73699.0	1301.0	
+194	truthout	truthout	truthout	19605981	Truthout	none	False	178456.0	43737.0	73126.0	5698.0	
+195	chicagobreaking	chicagobreaking	ChicagoBreaking	18915579	Chicago Breaking News	none	True	202859.0	1463.0	125834.0	2843.0	
+196	factcheckdotorg	factcheckdotorg	factcheckdotorg	21344507	FactCheck.org	none	True	196049.0	37.0	14260.0	4709.0	
+197	foxnewsopinion	foxnewsopinion	FoxNewsOpinion	107125748	Fox News Opinion	business	True	137846.0	303.0	13352.0	1662.0	
+198	newrepublic	newrepublic	newrepublic	82689705	The New Republic	business	True	177496.0	1650.0	184129.0	5651.0	
+199	cnnsotu	cnnsotu	CNNSotu	17112878	State of the Union	business	True	230982.0	8621.0	36771.0	2261.0	
+200	onionpolitics	onionpolitics	OnionPolitics	326507914	Onion Politics	none	False	151778.0	131.0	2704.0	1756.0	
+201	cr	cr	CR	2316003960	Conservative Review	none	True	208128.0	695.0	73220.0	1369.0	
+202	thisweekabc	thisweekabc	ThisWeekABC	450941680	This Week	business	True	229629.0	1117.0	123133.0	2303.0	
+203	postworldnews	postworldnews	postworldnews	1526597883889217536	Post World News	none	False	347.0	1080.0	329.0	1.0	
+204	themrc	themrc	theMRC	20076659	Media Research Center	business	True	254343.0	600.0	75210.0	2125.0	
+205	mediaite	mediaite	Mediaite	29465136	Mediaite	business	True	172097.0	3203.0	221156.0	4661.0	
+206	bipartisanism	bipartisanism	Bipartisanism	487600344	Bipartisan Report	blue	True	140584.0	54268.0	57835.0	1239.0	
+207	ffweekend	ffweekend	ffweekend	272395158	FOX&friends Weekend	none	False	137262.0	110.0	6220.0	809.0	
+208	msmagazine	msmagazine	MsMagazine	14177942	Ms. Magazine	none	True	157779.0	3125.0	43162.0	3255.0	
+209	foxheadlines	foxheadlines	foxheadlines	103060329	Fox News	none	True	162232.0	61.0	108352.0	3006.0	
+210	bv	bv	BV	991740256293711874	Bloomberg View	none	False	111.0	0.0	1.0	7.0	
+211	realclearnews	realclearnews	RealClearNews	20094138	RealClearPolitics	none	True	221965.0	1271.0	29088.0	4305.0	
+212	fdrlst	fdrlst	FDRLST	1408003598	The Federalist	business	True	392074.0	726.0	63118.0	3034.0	
+213	dcexaminer	dcexaminer	dcexaminer	18956073	Washington Examiner	business	True	326618.0	419.0	652420.0	4122.0	
+214	theleadcnn	theleadcnn	TheLeadCNN	1176994477	The Lead CNN	business	True	272467.0	379.0	38662.0	2182.0	
+215	usnews	usnews	usnews	6577642	U.S. News & World Report	none	True	171556.0	704.0	212297.0	4205.0	
+216	alternet	alternet	AlterNet	18851248	AlterNet	business	True	130662.0	18013.0	77599.0	6006.0	
+217	thebeatwithari	thebeatwithari	TheBeatWithAri	887418059501305858	The Beat with Ari Melber on MSNBC 📺	business	True	355036.0	982.0	21440.0	2068.0	
+218	wsjpolitics	wsjpolitics	WSJPolitics	16311797	WSJ Politics	business	True	149375.0	269.0	165069.0	4137.0	
+219	nationaljournal	nationaljournal	nationaljournal	15210284	National Journal	none	True	132540.0	1944.0	91943.0	4274.0	
+220	foxnewsradio	foxnewsradio	foxnewsradio	11611052	FOX News Radio	business	True	178038.0	295.0	113738.0	3163.0	
+221	natseccnn	natseccnn	NatSecCNN	44935627	CNN NationalSecurity	business	True	125133.0	1881.0	12068.0	3547.0	
+222	latimesbiz	latimesbiz										
+223	theweek	theweek	TheWeek	16439471	The Week	none	True	129141.0	1458.0	112858.0	3826.0	
+224	theatlnews	theatlnews										
+225	cjr	cjr	CJR	57411021	CJR	business	True	155587.0	3500.0	68274.0	5117.0	
+226	pacificstand	pacificstand	PacificStand	34781412	Pacific Standard	none	True	96522.0	261.0	62708.0	1715.0	
+227	townhallcom	townhallcom	townhallcom	28614262	Townhall.com	blue	True	308423.0	1129.0	95813.0	3107.0	
+228	ibtimes	ibtimes	IBTimes	78714922	Intl. Business Times	none	True	120647.0	61.0	220880.0	1746.0	
+229	wsjlawnews	wsjlawnews	WSJLawNews	28144343	WSJ Law News	none	False	128744.0	32.0	6572.0	2688.0	
+230	theijr	theijr	TheIJR	474464413	IJR	business	True	99874.0	6267.0	64327.0	1315.0	
+231	rollcallpols	rollcallpols	rollcallpols	15918708	Roll Call Politics	none	False	107343.0	635.0	42950.0	4234.0	
+232	538politics	538politics	538politics	2340558698	538 politics	none	True	142989.0	255.0	2428.0	3336.0	
+233	buzzfeedpol	buzzfeedpol	BuzzFeedPol	456806128	BuzzFeed Politics	business	True	137348.0	2740.0	26268.0	1736.0	
+234	colorlines	colorlines	Colorlines	22986148	Colorlines	none	False	125222.0	2013.0	39314.0	3099.0	
+235	reuterstv	reuterstv	ReutersTV	2561597334	Reuters TV	business	True	123083.0	433.0	45014.0	1335.0	
+236	huffpostimpact	huffpostimpact	HuffPostImpact	80681990	HuffPost Impact	business	True	106646.0	227.0	36875.0	3069.0	
+237	ppppolls	ppppolls	ppppolls	61220477	PublicPolicyPolling	none	True	115496.0	352.0	35577.0	3742.0	
+238	cnsnews	cnsnews	cnsnews	34927577	CNSNews	none	True	126874.0	1214.0	94452.0	2071.0	
+239	crtv	crtv										
+240	harpers	harpers	Harpers	14287094	Harper's Magazine	none	True	122234.0	984.0	30847.0	4362.0	
+241	dealbook	dealbook	dealbook	16955517	DealBook	none	True	127454.0	330.0	73695.0	3648.0	
+242	attn	attn	attn	214112621	attn	business	True	108651.0	491.0	28976.0	1341.0	
+243	reutersus	reutersus	ReutersUS	15108530	Reuters U.S. News	business	True	119460.0	319.0	229790.0	3868.0	
+244	publici	publici										
+245	cookpolitical	cookpolitical	CookPolitical	191477653	Cook Political Report	none	True	223300.0	1689.0	4614.0	4584.0	
+246	madworldnews	madworldnews	MadWorldNews	1957674949	Mad World News	none	False	102725.0	55.0	91724.0	164.0	
+247	theworldpost	theworldpost										
+248	politicsnation	politicsnation	PoliticsNation	364423298	PoliticsNation	none	True	101773.0	9150.0	22461.0	1026.0	
+249	alpunto	alpunto	AlPunto	121540651	Al Punto con Jorge Ramos	none	True	116431.0	800.0	92347.0	729.0	
+250	cbnnews	cbnnews	CBNNews	26028938	CBN News	business	True	165803.0	454.0	151297.0	1417.0	
+251	pveritas_action	pveritas_action	PVeritas_Action	2795404498	Project Veritas Action	none	False	210432.0	704.0	3129.0	443.0	
+252	thegrio	thegrio	theGrio	38228095	theGrio.com	business	True	144147.0	3172.0	125888.0	2079.0	
+253	cnbci	cnbci	CNBCi	19898168	CNBC International	business	True	155661.0	842.0	249373.0	3287.0	
+254	wsjcentralbanks	wsjcentralbanks	WSJCentralBanks	327484803	WSJ Central Banks	business	True	127713.0	10433.0	80616.0	3744.0	
+255	whatsnewswsj	whatsnewswsj	WhatsNewsWSJ	28337697	WSJ What's News	none	False	87288.0	53.0	1.0	1870.0	
+256	freebeacon	freebeacon	FreeBeacon	455764741	Washington Free Beacon	business	True	152551.0	3996.0	158214.0	2253.0	
+257	huffpostbiz	huffpostbiz	HuffPostBiz	27073265	HuffPost Business	business	True	83856.0	1355.0	67814.0	2350.0	
+258	deadlinewh	deadlinewh	DeadlineWH	860123351154556928	Deadline White House	business	True	414131.0	179.0	14725.0	2412.0	
+259	latimesworld	latimesworld										
+260	hatewatch	hatewatch	Hatewatch	29770501	Hatewatch	none	True	124470.0	578.0	15990.0	1553.0	
+261	gallupnews	gallupnews	GallupNews	7684882	GallupNews	none	True	93529.0	142.0	15283.0	3550.0	
+262	socialgood	socialgood	socialgood	41509378	Social Good	business	True	83744.0	468.0	11949.0	3140.0	
+263	politico_45	politico_45	politico_45	18451200	POLITICO 45	none	False	74900.0	133.0	11863.0	2150.0	
+264	econus	econus	EconUS	32353291	The Economist US	business	True	147413.0	206.0	57008.0	3623.0	
+265	blacknews	blacknews	BlackNews	18029139	Black News	none	False	93474.0	193.0	14128.0	1133.0	
+266	truthdig	truthdig	Truthdig	15950681	Truthdig	none	True	83556.0	5304.0	41019.0	3019.0	
+267	circa	circa	Circa	1638074724	Circa News	none	False	4160.0	769.0	5628.0	89.0	
+268	wajournal	wajournal	WAJournal	80473367	World Affairs	none	False	81269.0	3117.0	24746.0	1841.0	
+269	rightwingwatch	rightwingwatch	RightWingWatch	17376893	Right Wing Watch	none	True	365261.0	457.0	47921.0	3576.0	
+270	crooksandliars	crooksandliars	crooksandliars	14513611	Crooks and Liars	blue	True	96251.0	514.0	165217.0	2582.0	
+271	shareblue	shareblue	shareblue	1182279424248598530	Shareblue	none	False	18.0	0.0	0.0	1.0	
+272	conserv_tribune	conserv_tribune	conserv_tribune	2217181338	Conservative Tribune	none	True	60993.0	373.0	54741.0	429.0	
+273	newsmax	newsmax	NEWSMAX	20545835	NEWSMAX	business	True	2014269.0	667.0	167123.0	5794.0	
+274	clusterstock	clusterstock	Clusterstock	1376542748464021504	Insider	none	False	7.0	0.0	0.0	0.0	
+275	cnnopinion	cnnopinion	CNNOpinion	259074538	CNN Opinion	business	True	101379.0	431.0	23502.0	1051.0	
+276	governing	governing	GOVERNING	25334900	GOVERNING	none	True	77081.0	1942.0	64234.0	1249.0	
+277	nytnational	nytnational	NYTNational	1767741	NYT National News	none	True	84296.0	713.0	239673.0	2745.0	
+278	politicomag	politicomag	POLITICOMag	1548489476	POLITICO Magazine	business	True	79618.0	203.0	59704.0	1768.0	
+279	cnntonight	cnntonight	CNNTonight	2415053456	CNN Tonight	business	True	132771.0	375.0	20621.0	964.0	
+280	morningexp	morningexp	MorningExp	229114225	Morning Express with Robin Meade	business	True	76969.0	383.0	52074.0	492.0	
+281	huffpostcontrib	huffpostcontrib	HuffPostContrib	131500972	HuffPost Contributor	none	True	63225.0	622.0	67880.0	1320.0	
+282	americanewsroom	americanewsroom	AmericaNewsroom	312800783	America's Newsroom	business	True	113828.0	517.0	37764.0	718.0	
+283	washingtonweek	washingtonweek	washingtonweek	48037533	Washington Week | PBS	business	True	78566.0	1218.0	40178.0	1784.0	
+284	marshallproj	marshallproj	MarshallProj	2216041938	The Marshall Project	business	True	129638.0	843.0	54359.0	2373.0	
+285	csmonitor	csmonitor	csmonitor	14857525	The Christian Science Monitor	business	True	80428.0	2095.0	327468.0	4188.0	
+286	nprweekend	nprweekend	NPRWeekend	13784532	Weekend Edition	business	True	82103.0	1519.0	24178.0	1793.0	
+287	intelligencer	intelligencer	intelligencer	45565185	Intelligencer	none	True	79897.0	1535.0	85706.0	2195.0	
+288	politicususa	politicususa	politicususa	14792049	PoliticusUSA	none	False	78695.0	3536.0	70539.0	1540.0	
+289	nbclatino	nbclatino	NBCLatino	377949581	NBC Latino	business	True	84088.0	3243.0	64223.0	1130.0	
+290	rsbnetwork	rsbnetwork	RSBNetwork	4041824789	RSBN 🇺🇸	blue	True	894574.0	562.0	26257.0	2158.0	
+291	unipolitica	unipolitica	UniPolitica	475294870	Univision Política	business	True	78296.0	1678.0	48227.0	569.0	
+292	latinousa	latinousa	LatinoUSA	18363255	Latino USA	none	True	86384.0	1446.0	41243.0	1388.0	
+293	wpreview	wpreview	WPReview	15462819	World Politics Review	none	True	81596.0	928.0	61535.0	2003.0	
+294	reliablesources	reliablesources	ReliableSources	547860279	Reliable Sources	business	True	92560.0	334.0	6105.0	1622.0	
+295	happeningnow	happeningnow	HappeningNow	171154131	Happening Now	none	False	53289.0	2046.0	3118.0	456.0	
+296	pjmedia_com	pjmedia_com	PJMedia_com	7597712	PJ Media	blue	False	60567.0	30047.0	123339.0	1649.0	
+297	therealnews	therealnews	TheRealNews	8719302	The Real News	none	True	87054.0	3680.0	43317.0	2370.0	
+298	newsone	newsone	newsone	18197668	NewsOne	none	False	73665.0	1050.0	92353.0	831.0	
+299	natcounterpunch	natcounterpunch	NatCounterPunch	297688038	CounterPunch	none	True	69436.0	6948.0	28645.0	1788.0	
+300	timeworld	timeworld	TIMEWorld	15723281	TIMEWorld	business	True	57168.0	120.0	27460.0	1576.0	
+301	dailysignal	dailysignal	DailySignal	2361224263	The Daily Signal	none	True	79760.0	4257.0	68119.0	1146.0	
+302	dailysignal	dailysignal	DailySignal	2361224263	The Daily Signal	none	True	79760.0	4257.0	68119.0	1146.0	
+303	dailysignal	dailysignal	DailySignal	2361224263	The Daily Signal	none	True	79760.0	4257.0	68119.0	1146.0	
+304	dailysignal	dailysignal	DailySignal	2361224263	The Daily Signal	none	True	79760.0	4257.0	68119.0	1146.0	
+305	quinnipiacpoll	quinnipiacpoll	QuinnipiacPoll	76707735	Quinnipiac University Poll	none	False	84402.0	2.0	3553.0	2067.0	
+306	cspanwj	cspanwj	cspanwj	15923226	Washington Journal	business	True	69067.0	6081.0	50380.0	1828.0	
+307	commondreams	commondreams	commondreams	14296273	Common Dreams	none	True	85683.0	3358.0	87497.0	2930.0	
+308	rare	rare	Rare	822039337	Rare	none	True	51500.0	1412.0	89177.0	476.0	
+309	foxnewslatino	foxnewslatino	foxnewslatino	161319475	Fox News Latino	none	True	51114.0	255.0	34414.0	1023.0	
+310	dissentmag	dissentmag	DissentMag	22974854	Dissent Magazine	none	False	85420.0	2099.0	20355.0	1926.0	
+311	curaffairs	curaffairs	curaffairs	4128420672	Current Affairs	none	True	155527.0	418.0	24296.0	1206.0	
+312	pewglobal	pewglobal	pewglobal	831470472	Pew Research Global	none	True	73430.0	108.0	17130.0	1867.0	
+313	reveal	reveal	reveal	1726074810	Reveal	none	True	84505.0	810.0	33814.0	1807.0	
+314	firstthingsmag	firstthingsmag	firstthingsmag	25314580	First Things	none	True	68326.0	6.0	36391.0	1542.0	
+315	nbcfirstread	nbcfirstread										
+316	innovation	innovation	innovation	25372760	Observer Business	none	False	49051.0	10983.0	17317.0	1586.0	
+317	theinquisitr	theinquisitr	theinquisitr	14722676	The Inquisitr	none	True	44923.0	48.0	209349.0	1074.0	
+318	redalert	redalert	RedAlert	418991627	Red Alert Politics	none	True	40881.0	2039.0	113313.0	944.0	
+319	wsjthinktank	wsjthinktank										
+320	msnnews	msnnews	MSNNews	637351664	MSN News	none	True	49386.0	307.0	77507.0	325.0	
+321	just_security	just_security	just_security	1459232030	Just Security	blue	False	111199.0	3343.0	43448.0	2080.0	
+322	thenatlinterest	thenatlinterest	TheNatlInterest	152311372	National Interest	none	True	100351.0	10024.0	134245.0	2204.0	
+323	cironline	cironline	CIRonline	15173859	CIR	none	True	43616.0	3697.0	20571.0	2159.0	
+324	timepolitics	timepolitics	TIMEPolitics	15723290	TIME Politics	business	True	46978.0	600.0	38785.0	1362.0	
+325	11thhour	11thhour	11thHour	771388593130483712	11th Hour	business	True	191657.0	736.0	15665.0	1333.0	
+326	abcnewslive	abcnewslive	ABCNewsLive	384438102	ABC News Live	business	True	99079.0	317.0	39214.0	2241.0	
+327	reutersopinion	reutersopinion										
+328	timeideas	timeideas	TIMEIdeas	386742828	TIME Ideas	business	True	41678.0	269.0	16843.0	805.0	
+329	apbusiness	apbusiness	APBusiness	3066084185	AP Business News	business	True	84589.0	1410.0	24227.0	1253.0	
+330	dkelections	dkelections	DKElections	24619328	Daily Kos Elections	none	True	54884.0	128.0	60251.0	2539.0	
+331	tytpolitics	tytpolitics	TYTPolitics	710682575870795776	Rebel HQ	none	True	54224.0	444.0	4539.0	524.0	
+332	thebafflermag	thebafflermag	thebafflermag	54619276	The Baffler	none	True	64913.0	1232.0	36228.0	1473.0	
+333	upi	upi	UPI	16666806	UPI.com	none	True	50808.0	646.0	122048.0	2834.0	
+334	bizpacreview	bizpacreview	BIZPACReview	237888723	Conservative News	none	True	46597.0	7089.0	187562.0	435.0	
+335	nbcblk	nbcblk	NBCBLK	2910022539	NBCBLK	business	True	67705.0	1761.0	34027.0	993.0	
+336	monkeycageblog	monkeycageblog	monkeycageblog	116630713	The Monkey Cage (TMC)	none	True	57080.0	762.0	26166.0	1612.0	
+337	mrctv	mrctv	mrctv	13737002	MRCTV	business	True	92561.0	421.0	48045.0	528.0	
+338	amspectator	amspectator	amspectator	16180004	The American Spectator	blue	False	42354.0	13938.0	44842.0	1210.0	
+339	mcclatchydc	mcclatchydc	McClatchyDC	17487795	McClatchyDC	none	True	42012.0	1335.0	79242.0	1866.0	
+340	mintpressnews	mintpressnews	MintPressNews	414962189	MintPress News	blue	False	135194.0	296.0	111159.0	2236.0	
+341	americanthinker	americanthinker	AmericanThinker	34109146	American Thinker	none	False	43586.0	111.0	68964.0	1208.0	
+342	trscoop	trscoop	trscoop	18208120	✟ Right Scoop ✟	none	False	36390.0	1335.0	171069.0	946.0	
+343	blackamericaweb	blackamericaweb	BlackAmericaWeb	58845996	BlackAmericaWeb.com	none	False	58865.0	63.0	76707.0	441.0	
+344	fullmeasurenews	fullmeasurenews	FullMeasureNews	3434177986	Full Measure News	none	True	75854.0	300.0	5273.0	548.0	
+345	conversationus	conversationus	ConversationUS	2733320850	The Conversation U.S.	none	True	69070.0	6198.0	68564.0	1890.0	
+346	epochtimes	epochtimes	EpochTimes	29097819	The Epoch Times	business	True	560242.0	95.0	254048.0	3267.0	
+347	atlblackstar	atlblackstar	ATLBlackStar	565521611	Atlanta Black Star	none	False	43468.0	216.0	73355.0	645.0	
+348	timebusiness	timebusiness	TIMEBusiness	15723933	TIMEBusiness	none	False	36790.0	153.0	6143.0	776.0	
+349	amconmag	amconmag	amconmag	35511525	The American Conservative	business	True	60935.0	394.0	144531.0	1421.0	
+350	westjournalism	westjournalism	WestJournalism	46520074	The Western Journal	none	True	45670.0	400.0	93723.0	676.0	
+351	msnbcyourbiz	msnbcyourbiz	MSNBCYourBiz	153140346	MSNBC Your Business	none	True	33391.0	351.0	11247.0	775.0	
+352	rcdefense	rcdefense	RCDefense	1222716350	RealClearDefense	none	True	62701.0	4293.0	46776.0	1589.0	
+353	wsjmag	wsjmag	WSJMag	85590450	WSJ. Magazine	business	True	57933.0	1413.0	45627.0	923.0	
+354	bostonreview	bostonreview	BostonReview	36969470	Boston Review	none	False	48317.0	3270.0	125193.0	1669.0	
+355	lifezette	lifezette	LifeZette	3016071993	LifeZette	none	True	26206.0	369.0	46626.0	281.0	
+356	ozy	ozy	ozy	1396151678	OZY	none	True	42243.0	994.0	48458.0	770.0	
+357	theprospect	theprospect	TheProspect	15949696	The American Prospect	none	True	63736.0	2864.0	98583.0	2038.0	
+358	commentary	commentary	Commentary	18653221	Commentary Magazine	none	True	39463.0	517.0	49210.0	1150.0	
+359	politicsinsider	politicsinsider										
+360	postopinions	postopinions	PostOpinions	14345812	Washington Post Opinions	business	True	103003.0	801.0	175799.0	1509.0	
+361	fairmediawatch	fairmediawatch	FAIRmediawatch	54679731	FAIR	none	True	49155.0	1555.0	29732.0	1492.0	
+362	cityjournal	cityjournal	CityJournal	18086993	City Journal	none	True	64361.0	1521.0	95239.0	1401.0	
+363	wsjusnews	wsjusnews	WSJusnews	28135853	WSJ U.S. News	none	False	41334.0	40.0	32905.0	1197.0	
+364	inthesetimesmag	inthesetimesmag	inthesetimesmag	45629254	In These Times	none	False	56159.0	1734.0	18979.0	1649.0	
+365	wsws_updates	wsws_updates	WSWS_Updates	117810351	World Socialist Web Site	none	False	46248.0	25129.0	128019.0	1003.0	
+366	jdbmsnbc	jdbmsnbc										
+367	jdbmsnbc	jdbmsnbc										
+368	theprogressive	theprogressive	theprogressive	10117892	The Progressive	none	False	33157.0	15716.0	17039.0	1619.0	
+369	taskandpurpose	taskandpurpose	TaskandPurpose	2374466929	Task & Purpose	none	True	71155.0	95.0	67698.0	1012.0	
+370	mildefinsider	mildefinsider										
+371	latimesnational	latimesnational										
+372	niemanreports	niemanreports	NiemanReports	70706313	Nieman Reports	business	True	37862.0	1747.0	19021.0	1877.0	
+373	intellihubnews	intellihubnews	intellihubnews	167716675	Intellihub	none	False	27606.0	1462.0	36605.0	543.0	
+374	specialreports	specialreports	specialreports	372862603	Reuters Investigates	business	True	39603.0	107.0	7698.0	952.0	
+375	pewhispanic	pewhispanic	pewhispanic	1473021681010622473	pewhispanic	none	False	11.0	1.0	2.0	0.0	
+376	cnbcopinion	cnbcopinion	CNBCopinion	263936580	CNBC Opinion	business	False	24248.0	205.0	3868.0	561.0	
+377	earlystart	earlystart	EarlyStart	447410369	CNN Early Start	business	True	29933.0	1346.0	27436.0	471.0	
+378	accuracyinmedia	accuracyinmedia	AccuracyInMedia	15256077	Accuracy In Media	none	True	32926.0	637.0	79483.0	1108.0	
+379	postpolls	postpolls	PostPolls	14703188	Post Polls	none	True	26654.0	348.0	8153.0	1448.0	
+380	tnynews	tnynews										
+381	wonkblog	wonkblog										
+382	kasiedc	kasiedc	KasieDC	2858499696	KasieDC	none	False	2668.0	82.0	693.0	54.0	
+383	njhotline	njhotline	njhotline	15210410	National Journal Hotline	none	True	22732.0	283.0	11419.0	915.0	
+384	postgreen	postgreen	postgreen	14493552	Post Green	none	True	21381.0	80.0	9817.0	1183.0	
+385	resurgent	resurgent	resurgent	4569690923	The Resurgent	none	True	18376.0	534.0	33576.0	359.0	
+386	megyntoday	megyntoday										
+387	megyntoday	megyntoday										
+388	theatlpolitics	theatlpolitics	TheAtlPolitics	140844060	TheAtlanticPolitics	none	True	20705.0	986.0	13960.0	1028.0	
+389	thepolitichicks	thepolitichicks	ThePolitiChicks	431698111	The PolitiChicks	none	False	21010.0	4243.0	22028.0	188.0	
+390	realclearworld	realclearworld	RealClearWorld	19338715	RealClearWorld	none	True	20492.0	2726.0	30044.0	998.0	
+391	playbookplus	playbookplus	playbookplus	1368922651926872066	POLITICO Playbook	none	False	0.0	0.0	0.0	0.0	
+392	nbcasianamerica	nbcasianamerica	NBCAsianAmerica	2535377622	NBC Asian America	business	True	37455.0	488.0	37897.0	632.0	
+393	usatopinion	usatopinion	usatopinion	968557022349324288	old opinion ac	none	False	41.0	32.0	0.0	0.0	
+394	cqnow	cqnow	CQnow	2312829909	CQ Now	none	True	20557.0	3490.0	80962.0	813.0	
+395	univisionnews	univisionnews	UnivisionNews	1596835069	Univision News	business	True	50430.0	249.0	8281.0	354.0	
+396	briefingroom	briefingroom	briefingroom	19659031	Briefing Room	none	False	15853.0	15141.0	40346.0	836.0	
+397	abcinvestigates	abcinvestigates	ABCInvestigates	50683521	ABC News Investigates	business	True	18692.0	190.0	6323.0	539.0	
+398	politicopro	politicopro	POLITICOPro	207660339	POLITICO Pro	none	True	23042.0	671.0	66155.0	804.0	
+399	nbcinvestigates	nbcinvestigates	NBCInvestigates	218289790	NBC Investigations	business	True	23338.0	208.0	14331.0	594.0	
+400	morningconsult	morningconsult	MorningConsult	149954544	Morning Consult	none	True	57453.0	691.0	47964.0	1262.0	
+401	latimesopinion	latimesopinion	latimesopinion	17825891	L.A. Times Opinion	none	True	21077.0	2426.0	50018.0	635.0	
+402	congressblog	congressblog	congressblog	19658614	Congress Blog	none	True	15125.0	13365.0	14473.0	569.0	
+403	nbcout	nbcout	NBCOUT	3331875599	NBC Out	business	True	39811.0	725.0	26408.0	556.0	
+404	slatest	slatest	slatest	274559013	The Slatest	none	False	14543.0	132.0	8360.0	541.0	
+405	bulwarkonline	bulwarkonline	BulwarkOnline	1049475664804532225	The Bulwark	none	True	110460.0	37.0	19626.0	1218.0	
+406	livedesk	livedesk	livedesk	17872744	livedesk	none	False	13414.0	153.0	959.0	606.0	
+407	thelilynews	thelilynews	thelilynews	763382314629992448	The Lily	none	True	29234.0	484.0	29881.0	412.0	
+408	hotairblog	hotairblog	hotairblog	1517872886	HotAir.com	blue	False	16614.0	17.0	129410.0	592.0	
+409	crisismag	crisismag	CrisisMag	39725086	Crisis Magazine	blue	False	19798.0	426.0	13069.0	474.0	
+410	streamdotorg	streamdotorg	Streamdotorg	2993959370	The Stream	none	False	15635.0	5977.0	24942.0	217.0	
+411	democracypost	democracypost	DemocracyPost	455039820	DemocracyPost	none	False	13489.0	1623.0	8891.0	440.0	
+412	velshiruhle	velshiruhle	VelshiRuhle	1292902200713392146	Velshi&Ruhle	none	False	50.0	0.0	0.0	0.0	
+413	abcnewsradio	abcnewsradio	abcnewsradio	525746551	ABC News Radio	business	True	4125.0	122.0	2173.0	90.0	
+414	fpmag	fpmag	fpmag	89485180	FrontPage Magazine	none	False	11155.0	5461.0	12412.0	361.0	
+415	worldnewsdotcom	worldnewsdotcom	worldnewsdotcom	143142203	World News Network	none	True	24057.0	5122.0	142805.0	948.0	
+416	e2wire	e2wire	E2Wire	90725320	E2Wire	none	False	12662.0	11111.0	13782.0	631.0	
+417	weekendexp	weekendexp	WeekendExp	807247170	Weekend Express with Susan Hendricks	business	True	14659.0	197.0	10663.0	113.0	
+418	nypostopinion	nypostopinion	NYPostOpinion	298158534	NY Post Opinion	none	False	25668.0	2319.0	28905.0	560.0	
+419	bostonglobemag	bostonglobemag	BostonGlobeMag	210667042	Globe Magazine	none	True	14557.0	2663.0	21307.0	463.0	
+420	tpinsidr	tpinsidr	TPInsidr	2363057095	ThePoliticalInsider	blue	False	17867.0	8365.0	62894.0	148.0	
+421	forbesopinion	forbesopinion	ForbesOpinion	89713893	Forbes Opinion	business	True	11173.0	147.0	11683.0	317.0	
+422	globespotlight	globespotlight	GlobeSpotlight	2396682116	Boston Globe Spotlight Team	none	True	15831.0	226.0	1250.0	298.0	
+423	cnbcpolitics	cnbcpolitics	CNBCPolitics	381724050	CNBC Politics	business	True	22034.0	206.0	22166.0	522.0	
+424	trib_ed_board	trib_ed_board	trib_ed_board	1168540074029572098	Trib_Ed_Board	none	False	0.0	1.0	0.0	0.0	
+425	nbcnewsthink	nbcnewsthink	NBCNewsTHINK	905416143313219584	NBC News THINK	business	True	24681.0	1115.0	12183.0	361.0	
+426	flooraction	flooraction	flooraction	234361966	Floor Action	none	False	10141.0	9633.0	7672.0	237.0	
+427	navigatingtrump	navigatingtrump	NavigatingTrump	2575941744	NTA by Mic	none	True	9104.0	197.0	7511.0	214.0	
+428	politicolive	politicolive	POLITICOLive	479856992	POLITICO Live	none	True	13991.0	3144.0	11155.0	234.0	
+429	apfactcheck	apfactcheck	APFactCheck	407464670	AP Fact Check	business	True	78661.0	12.0	1664.0	1547.0	
+430	washpostecon	washpostecon										
+431	bizrpt	bizrpt	bizrpt	13159032	NBR	none	True	9948.0	643.0	16156.0	438.0	
+432	latimespolitics	latimespolitics	latimespolitics	293012979	L.A. Times Politics	business	True	12149.0	517.0	38417.0	575.0	
+433	washpostbiz	washpostbiz	washpostbiz	16909907	Post Business	none	True	11370.0	349.0	73310.0	568.0	
+434	punditfact	punditfact	PunditFact	1733274007	PunditFact	none	True	8586.0	1180.0	1961.0	356.0	
+435	usnewsinvesting	usnewsinvesting	USNewsInvesting	204916935	U.S. News Investing	none	True	15489.0	219.0	40913.0	466.0	
+436	globeopinion	globeopinion	GlobeOpinion	324962560	Boston Globe Opinion	none	True	15079.0	382.0	41040.0	454.0	
+437	ondeadline	ondeadline	ondeadline	7512602	USAT On Deadline	none	False	8387.0	242.0	18336.0	527.0	
+438	powerpost	powerpost	PowerPost	3086975121	PowerPost	none	True	9004.0	6299.0	31746.0	460.0	
+439	hillballotbox	hillballotbox	hillballotbox	115724271	The Hill Ballot Box	none	False	7924.0	7999.0	20321.0	372.0	
+440	mclaughlingroup	mclaughlingroup	McLaughlinGroup	23635356	The McLaughlin Group	none	False	8932.0	200.0	2202.0	293.0	
+441	highline	highline	highline	3031345253	HuffPost Highline	none	True	8414.0	330.0	310.0	164.0	
+442	theatlglobal	theatlglobal	TheAtlGlobal	256845587	The Atlantic Global	none	True	7327.0	265.0	9836.0	406.0	
+443	theoval	theoval	TheOval	18026148	USA TODAY's The Oval	business	True	9235.0	43.0	13741.0	411.0	
+444	posteverything	posteverything	PostEverything	2518793269	PostEverything	none	True	10952.0	124.0	7731.0	254.0	
+445	washmonthly	washmonthly	washmonthly	1115702235235667968	washmonthly	none	False	12.0	0.0	0.0	0.0	
+446	globepolitical	globepolitical	GlobePolitical	24765589	Globe Politics	none	False	9183.0	88.0	22046.0	479.0	
+447	yahoopolitics	yahoopolitics										
+448	globeideas	globeideas	GlobeIdeas	24237542	Boston Globe Ideas	none	True	8950.0	350.0	11991.0	480.0	
+449	townhallcolumns	townhallcolumns	TownhallColumns	336025704	Townhall Columnists	none	False	6220.0	23.0	30266.0	165.0	
+450	nbcnewsvideo	nbcnewsvideo										
+451	cnnspecreport	cnnspecreport	CNNSpecReport	2376389412	CNN Special Report	none	False	10893.0	293.0	781.0	133.0	
+452	newshourworld	newshourworld	NewsHourWorld	164271458	News of Our World	business	True	7642.0	614.0	7142.0	306.0	
+453	chitribbiz	chitribbiz	ChiTribBiz	112468256	Chicago Tribune Business	none	True	7649.0	2913.0	58627.0	395.0	
+454	viceimpact	viceimpact	viceimpact	743569320790401024	VICE Impact	none	True	6653.0	438.0	5499.0	73.0	
+455	thedailybanter	thedailybanter	thedailybanter	18040475	Ben Cohen	none	False	6134.0	954.0	18657.0	180.0	
+456	groundtruth	groundtruth	GroundTruth	961201465	The GroundTruth Project	none	True	14323.0	6372.0	17680.0	448.0	
+457	postoutlook	postoutlook	PostOutlook	97006234	Post Outlook	none	True	8078.0	569.0	3977.0	285.0	
+458	realclearpolicy	realclearpolicy	realclearpolicy	493199977	RealClearPolicy	none	True	8265.0	2001.0	15527.0	0.0	
+459	thedcpolitics	thedcpolitics	TheDCPolitics	4507160241	DailyCaller Politics	business	True	8043.0	943.0	10897.0	214.0	
+460	wpinvestigates	wpinvestigates	wpinvestigates	17466933	Washington Post Investigations	none	True	9823.0	1432.0	4180.0	471.0	
+461	nypostbiz	nypostbiz	nypostbiz	874278126	NY Post Business	none	True	12817.0	167.0	16037.0	338.0	
+462	rc_markets	rc_markets	rc_markets	389001032	RealClearMarkets	none	True	8646.0	1871.0	25663.0	347.0	
+463	axiosworld	axiosworld	AxiosWorld	952639892995047424	Axios World	none	True	7472.0	179.0	878.0	267.0	
+464	uniplaneta	uniplaneta	uniplaneta	2798888582	Univision Planeta	none	False	4986.0	554.0	4570.0	76.0	
+465	wpmagazine	wpmagazine	wpmagazine	219343808	The Washington Post Magazine	none	True	10927.0	81.0	8015.0	296.0	
+466	wsjfinreg	wsjfinreg	WSJFinReg	702881258641051648	WSJ Financial Reg	none	False	4442.0	290.0	17130.0	148.0	
+467	hillsonthemoney	hillsonthemoney	hillsonthemoney	121788510	On the Money	none	False	4593.0	4562.0	11200.0	140.0	
+468	themovement	themovement	TheMovement	1952364625	The Movement	none	False	4092.0	546.0	6401.0	136.0	
+469	thefix	thefix	thefix	846354889819279360	The Fix	none	True	16206.0	44.0	7167.0	329.0	
+470	hqfox	hqfox	HQFOX	1920976124	America's News HQ	none	False	4391.0	42.0	32.0	61.0	
+471	povengage	povengage	POVengage	292401745	POV Engage	none	False	4270.0	1795.0	11262.0	181.0	
+472	theatlbusiness	theatlbusiness	TheAtlBusiness	19506546	TheAtlanticBusiness	none	False	3687.0	57.0	1557.0	188.0	
+473	nationalaffairs	nationalaffairs	NationalAffairs	62934976	National Affairs	none	True	6196.0	278.0	4180.0	203.0	
+474	washtimesoped	washtimesoped	WashTimesOpEd	41207697	Washington Times Opinion	none	True	11480.0	3240.0	90147.0	228.0	
+475	slateforeign	slateforeign										
+476	rcinvestigates	rcinvestigates	RCInvestigates	786603006187843584	RealClearInvestigations	blue	False	7088.0	550.0	5738.0	198.0	
+477	enfoque	enfoque	Enfoque	1578051320	ENFOQUE	none	False	2455.0	294.0	1888.0	37.0	
+478	politicopi	politicopi	PoliticoPI	338597175	POLITICO Influence	none	False	2407.0	115.0	166.0	92.0	
+479	examineropeds	examineropeds	examineropeds	41634245	Examiner Opinion	none	False	1898.0	49.0	17187.0	111.0	
+480	internationalbi	internationalbi	InternationalBI	523383042	BI International	none	False	2148.0	29.0	13133.0	71.0	
+481	thedc_opinion	thedc_opinion										
+482	thedcworldnews	thedcworldnews	thedcworldnews	750433667516948481	Daily Caller World	none	False	1414.0	453.0	2220.0	28.0	
+483	defconhill	defconhill	defconhill	392961241	DEFCON Hill	none	False	1505.0	57.0	11223.0	163.0	
+484	waytooearly	waytooearly	WayTooEarly	917577254221336578	Way Too Early with Jonathan Lemire	business	True	52865.0	130.0	6083.0	490.0	
+485	wpthewatch	wpthewatch										
+486	dailyondefense	dailyondefense	dailyondefense	724702259712499713	Daily on Defense	none	False	1907.0	1648.0	24953.0	77.0	
+487	world_mic	world_mic	World_Mic	2342241901	WorldMic	none	False	1159.0	118.0	1578.0	62.0	
+488	globebiz	globebiz										
+489	wtimespolitics	wtimespolitics	wtimespolitics	762231576	The Washington Times	none	False	1444.0	1.0	55923.0	73.0	
+490	usnewsweekly	usnewsweekly	USNewsWeekly	55370984	US News Weekly	none	False	982.0	4.0	25792.0	76.0	
+491	morningmix	morningmix	MorningMix	2450619818	Morning Mix	none	False	902.0	5.0	5980.0	41.0	
+492	check_your_fact	check_your_fact	Check_Your_Fact	892106504832258048	Check Your Fact	none	True	3362.0	158.0	653.0	131.0	
+493	vice_money	vice_money	vice_money	823976579156049923	VICE Money	none	False	637.0	23.0	116.0	13.0	
+494	timemaglive	timemaglive	timemaglive	887032729	TIMELive	none	False	798.0	10.0	62.0	13.0	
+495	beastbiz	beastbiz	BeastBiz	627814254	Business Beast	none	False	370.0	161.0	958.0	14.0	
+496	secindustrynews	secindustrynews	SecIndustryNews	3362551979	Defense & Security	none	False	604.0	48.0	8554.0	44.0	
+497	townhallfinance	townhallfinance	TownhallFinance	1872110173	Townhall Finance	none	False	328.0	18.0	1978.0	24.0	
+498	thedcbusiness	thedcbusiness	thedcbusiness	874301298216247297	TheDC Business	none	False	67.0	74.0	408.0	4.0	
+499	nowinamerica	nowinamerica										
+500	eveningexp	eveningexp										
+501	prisonplanettv	prisonplanettv										
+502	infowarsinsider	infowarsinsider										
+503	antimedia	antimedia										
+504	infowars	infowars										
+505	instapundit	instapundit	instapundit	1096049238671273984	@instapundit	none	False	842.0	62.0	11.0	9.0	
+506	reverbpress	reverbpress										
+507	rightwingnews	rightwingnews										
+508	guardianus	guardianus	GuardianUS	16042794	Guardian US	business	True	219265.0	724.0	276427.0	5659.0	

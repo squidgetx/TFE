@@ -10,6 +10,10 @@ server/db/pgdata/*
 server/db/logfile
 server/node_modules
 
+choosing-elites/deprecated
+choosing-elites/following
+choosing-elites/followers
+
 
 .venv
 *.zip

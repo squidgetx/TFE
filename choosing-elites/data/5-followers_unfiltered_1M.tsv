@@ -1,0 +1,880 @@
+X1	name	verified	username	description	id	verified_type	followers_count	following_count	tweet_count	listed_count	seed	withheld	by
+24	John Oliver	TRUE	iamjohnoliver	Comedian. @LastWeekTonight, @TheDailyShow, The Bugle Podcast (@hellobuglers)	316389142	none	5603195	150	672	15494	propublica	NA	iamjohnoliver
+67	Judd Apatow 🇺🇦	TRUE	JuddApatow	NA	88749392	none	2398126	1909	110520	10580	propublica	NA	JuddApatow
+95	The Kyiv Independent	TRUE	KyivIndependent	"Independent English-language journalism in Ukraine.
+
+Become our patron: https://t.co/4OIXdyilwG
+
+Donate: https://t.co/LRyVncAl5z…"	1462548977367359500	none	2192012	23	18588	18755	propublica	NA	KyivIndependent
+123	MIT Technology Review	TRUE	techreview	Our in-depth reporting on innovation reveals and explains what’s really happening now to help you know what’s coming next. https://t.co/91v2qZ3SCM	15808647	none	1197029	3386	120708	21003	propublica	NA	techreview
+180	Greta Van Susteren	TRUE	greta	Lawyer/Journalist/Anchor of The Record on Newsmax at 6p eastern daily	16031927	blue	1180331	3291	206113	7365	propublica	NA	greta
+203	Lifehacker	TRUE	lifehacker	Do everything better.	7144422	business	3867791	242	109868	32016	propublica	NA	lifehacker
+353	Maggie Haberman	TRUE	maggieNYT	Senior Political Corresp NYT/analyst CNN/Author CONFIDENCE MAN: The Making of Donald Trump and the Breaking of America, Penguin maggie.haberman@nytimes.com	93069110	none	1662940	5919	274482	18888	propublica	NA	maggieNYT
+490	Christiane Amanpour	TRUE	amanpour	"@CNN Chief International Anchor. Host, @CNNi & @PBS's nightly global affairs program. https://t.co/ohAPPIq4pY & https://t.co/5CC4uxElpA
+
+Hear the podcast: https://t.co/6MbmubLOY7"	69181624	none	3197534	1080	15331	17520	propublica	NA	amanpour
+507	PBS NewsHour	TRUE	NewsHour	PBS NewsHour is one of the most trusted news programs on TV and online.	14437914	business	1204175	95820	222280	14837	propublica	NA	NewsHour
+536	CBS News	TRUE	CBSNews	"Your source for original reporting and trusted news.
+
+📺 CBS | Streaming on the CBS News app | @ParamountPlus"	15012486	business	8891764	601	363626	56859	propublica	NA	CBSNews
+569	Foreign Policy	TRUE	ForeignPolicy	The magazine for global politics, economics, and ideas 🌎 || Sign up for our newsletters: https://t.co/vasoTyHsYj	26792275	none	1233968	1057	139146	19774	propublica	NA	ForeignPolicy
+570	Chicago Tribune	TRUE	chicagotribune	Breaking news since 1847	7313362	business	1157137	415	266065	11918	propublica	NA	chicagotribune
+574	MSNBC	TRUE	MSNBC	The place for in-depth analysis, political commentary and diverse perspectives. Home of @MSNBCDaily.	2836421	business	4967198	786	293184	31257	propublica	NA	MSNBC
+583	The Wall Street Journal	TRUE	WSJ	Sign up for our newsletters and alerts: https://t.co/QevH0DLisA | Got a tip? https://t.co/iXIigdOLPr | For WSJ customer support: https://t.co/DZgH9n4vAI	3108351	business	20457088	1085	396173	127621	propublica	NA	WSJ
+585	NPR	TRUE	NPR	News. Arts & Life. Music & more. This is NPR. 🕵️ Securely send us news tips: https://t.co/qfEoMDe1Hw	5392522	business	8884463	65117	241945	69190	propublica	NA	NPR
+586	The New Yorker	TRUE	NewYorker	Unparalleled reporting and commentary on politics and culture, plus humor and cartoons, fiction and poetry. Get our Daily newsletter: https://t.co/CW0Z2jHao9	14677919	business	8980347	402	147761	63420	propublica	NA	NewYorker
+588	The Daily Beast	TRUE	thedailybeast	"Independent. Intelligent. Influential. Send tips to tips@thedailybeast.com
+
+Check out @beastobsessed, our new hub for pop-culture's moments, movies and shows!"	16012783	business	1384168	1033	407862	22378	propublica	NA	thedailybeast
+589	The Washington Post	TRUE	washingtonpost	Democracy Dies in Darkness	2467791	business	20011698	1705	451673	108274	propublica	NA	washingtonpost
+590	The New York Times	TRUE	nytimes	News tips? Share them here: https://t.co/ghL9OoYKMM	807095	business	54912935	863	497420	216657	propublica	NA	nytimes
+592	USA TODAY	TRUE	USATODAY	The pulse of the nation in the palm of your hand.	15754281	business	4933025	946	391395	37538	propublica	NA	USATODAY
+593	The Associated Press	TRUE	AP	Advancing the power of facts, globally 🌎	51241574	business	16049110	6697	341849	105476	propublica	NA	AP
+596	CNN	TRUE	CNN	It’s our job to #GoThere & tell the most difficult stories. For breaking news, follow @CNNBRK and download our app https://t.co/ceNBoNi8y6	759251	business	61056839	1092	395700	156978	propublica	NA	CNN
+597	Slate	TRUE	Slate	A daily magazine on the web. Listen to Slow Burn: Roe v. Wade, @ApplePodcasts Show of the Year 2022.	15164565	business	1718391	713	560007	28997	propublica	NA	Slate
+6	José Andrés	TRUE	chefjoseandres	We all are Citizens of the World. What's good for you, must be good for all. If you are lost, share a plate of food with a stranger...you will find who you are.	73206956	none	1170999	1578	53219	6169	mmfa	NA	chefjoseandres
+58	Greta Thunberg	TRUE	GretaThunberg	"Autistic climate justice activist
+Born at 375 ppm"	1006419421244678100	none	5847953	2861	11726	12434	mmfa	NA	GretaThunberg
+130	Cardi B	TRUE	iamcardib	Mrs.DANGEROUS	866953267	blue	28304995	116	31643	5819	mmfa	NA	iamcardib
+146	Molly Jong-Fast	TRUE	MollyJongFast	subscribe to fast politics https://t.co/8oCGnjfIKm follow me on instagram https://t.co/bZreuBOHrV @vanityfair special correspondent	14298769	blue	1072039	6716	16819	7407	mmfa	NA	MollyJongFast
+159	BuzzFeed News	TRUE	BuzzFeedNews	"Got something that needs 👀? Send us tips here: 
+ https://t.co/DLxLgeEYzq. Support our reporting: https://t.co/Dd5TqEPQEb"	1020058453	business	1408438	4751	212952	11636	mmfa	NA	BuzzFeedNews
+215	Demokrat TV	FALSE	Demokrat_TV	NA	284830933	none	5966473	23407	177354	3211	mmfa	NA	Demokrat_TV
+231	Michelle Beadle	TRUE	MichelleDBeadle	Yup. It’s me.	52529345	blue	1375094	3886	27451	8506	mmfa	NA	MichelleDBeadle
+254	David Hogg ☮️	TRUE	davidhogg111	A March For Our Lives founder and board member contactdavidhogg@gmail.com	1915033663	none	1215250	2596	29261	4343	mmfa	NA	davidhogg111
+255	X González	TRUE	callmeX	Abolish the Police and Prisons, unfollow me if you don’t wanna hear me cursing out Nazis and the White Supremacist Powers that Be https://t.co/mL7ECsjfv3	965266179836252200	none	1328034	257	3875	3213	mmfa	NA	callmeX
+256	Gizmodo	TRUE	Gizmodo	We come from the future	2890961	business	2776579	163	177872	42332	mmfa	NA	Gizmodo
+268	Sally Yates	TRUE	SallyQYates	Former Deputy Attorney General of the United States.	875029068223316e3	none	1088836	222	106	4935	mmfa	NA	SallyQYates
+269	Preet Bharara	TRUE	PreetBharara	"Patriotic American & proud immigrant. @Springsteen fan. Banned by Putin, fired by Trump. Former US Atty, SDNY. Host of ""Stay Tuned"" https://t.co/9hagjcZule"	834081571493785600	none	1778473	3118	13600	10040	mmfa	NA	PreetBharara
+275	Trevor Noah	TRUE	Trevornoah	Comedian from South Africa. I was in the crowd when Rafiki held Simba over the edge of the cliff, like an African Michael Jackson.	46335511	none	11861436	480	11653	11941	mmfa	NA	Trevornoah
+283	Jim Acosta	TRUE	Acosta	CNN Anchor - Chief Domestic Correspondent. Catch me on CNN weekends. Author of NYT Bestseller “The Enemy of the People.” I believe in #realnews / #HoldOn	22771961	none	2286172	5037	42887	13937	mmfa	NA	Acosta
+331	Auschwitz Memorial	TRUE	AuschwitzMuseum	Former German Nazi concentration & extermination camp Auschwitz. Official account. Also at Mastodon (https://t.co/UoWXra0xnb), FB & IN	586291040	none	1502589	2447	125218	2813	mmfa	NA	AuschwitzMuseum
+336	Bill Simmons	TRUE	BillSimmons	@ringer (founder) @spotify + The BS Podcast + @therewatchables + @BookoBasketball + Music Box series on @hbo ... Past Life: @grantland33 @30for30	32765534	blue	5642616	803	34492	33207	mmfa	NA	BillSimmons
+337	hasanabi	TRUE	hasanthehun	i stream everyday on https://t.co/8ITEAngeFt - for thirst traps and anarchy my ig is hasandpiker // business: mailto:Hasan@night.co	326756275	none	1315524	2141	33101	2537	mmfa	NA	hasanthehun
+339	Jimmy Kimmel	TRUE	jimmykimmel	Businessperson	26053643	none	11740858	855	8021	23065	mmfa	NA	jimmykimmel
+340	Jimmy Kimmel Live	TRUE	JimmyKimmelLive	The official Twitter for Jimmy Kimmel Live with @JimmyKimmel on ABC! We have fun. #Kimmel	34036028	business	2101881	2740	21181	5445	mmfa	NA	JimmyKimmelLive
+347	Jemele Hill	TRUE	jemelehill	Contributing writer for The ATLANTIC. Spotify podcast host. Born and raised in Detroit. Grew up at Michigan State. MY MEMOIR UPHILL IS ON SALE NOW. LINK BELOW.	35586563	none	1445963	2530	132073	8346	mmfa	NA	jemelehill
+351	Ava DuVernay	TRUE	ava	NA	14982804	none	2650096	15752	54459	5761	mmfa	NA	ava
+358	Alyssa Milano	TRUE	Alyssa_Milano	🇺🇸 Check out @sorrynotsorry @PatNotPart and @NoRA4USA Please follow my other accounts for career updates @AlyssaDotCom @TouchByAM Text Me: (323)396-9923	26642006	none	3536896	6958	77191	32949	mmfa	NA	Alyssa_Milano
+359	Sarah Silverman	TRUE	SarahKSilverman	We are on a planet in outer space	30364057	none	12033182	1807	20521	48689	mmfa	NA	SarahKSilverman
+365	chrissy teigen	TRUE	chrissyteigen	de-motivational speaker	39364684	none	12972437	4724	15636	8555	mmfa	NA	chrissyteigen
+382	Edward Snowden	TRUE	Snowden	I used to work for the government. Now I work for the public. Author of Permanent Record (https://t.co/3PR1rD6CkQ)	2916305152	none	5769772	1	7874	23522	mmfa	NA	Snowden
+437	George Takei	TRUE	GeorgeTakei	I am a parody of myself, if anyone wonders if this is really me.	237845487	none	3466609	1130	101721	20986	mmfa	NA	GeorgeTakei
+450	billy eichner	TRUE	billyeichner	4x Emmy nom for Billy on the Street. Star/co-writer of the new comedy BROS. IN THEATERS OR WATCH AT HOME: https://t.co/LyR0bD1qj0	74669397	none	2314686	2636	31707	3879	mmfa	NA	billyeichner
+459	The Cut	TRUE	TheCut	"Style. Self. Culture. Power.
+Find us on Instagram: @TheCut
+Subscribe to New York for more: https://t.co/1OtjTJftYM"	19923638	business	1428923	4186	233070	10126	mmfa	NA	TheCut
+478	Chris Sacca 🇺🇸	TRUE	sacca	In love w/ @crystale & our 3 girls. Had fun on @ABCSharkTank.  Been working hard to unf**k the planet at Lowercarbon.	586	none	1649349	992	79922	12557	mmfa	NA	sacca
+481	Cher	TRUE	cher	Stand & B Counted or Sit & B Nothing. Don't Litter,Chew Gum,Walk Past Homeless PPL w/out Smile.DOESNT MATTER in 5 yrs IT DOESNT MATTER THERE'S ONLY LOVE&FEAR	124003770	none	4049608	187	36667	11546	mmfa	NA	cher
+484	Ronan Farrow	TRUE	RonanFarrow	Investigative reporter | Tips ronan_farrow@newyorker.com | @HBO | @newyorker | Fmr undiplomatic diplomat | Bad lawyer | PhD but took yonks | Get WAR ON PEACE:	340613443	none	1086363	5183	2229	6159	mmfa	NA	RonanFarrow
+497	David Axelrod	TRUE	davidaxelrod	Founder, @UChiPolitics. Sr. Political Commentator @CNN. Author, Believer: My Forty Years in Politics. Host of The Axe Files & Hacks on Tap podcasts.	244655353	none	1449560	1185	18803	12245	mmfa	NA	davidaxelrod
+505	Daniel Dale	TRUE	ddale8	Senior reporter for CNN. Fact-checking the president, 2024 candidates, others.	225265639	none	1170465	1680	110530	11160	mmfa	NA	ddale8
+523	Rob Reiner	TRUE	robreiner	Filmmaker, actor, producer, husband, and father.	738080573365702700	none	2174941	363	5363	5412	mmfa	NA	robreiner
+532	Jessica Chastain	TRUE	jes_chastain	You are fully & unconditionally loved ❤️ tickets for A Doll’s House available now	2439032786	none	1018302	637	5646	2442	mmfa	NA	jes_chastain
+536	Scientific American	TRUE	sciam	Awesome discoveries. Expert insights. Science that shapes the world.	14647570	none	4179489	813	70876	29218	mmfa	NA	sciam
+537	Kyle Griffin	TRUE	kylegriffin1	Executive Producer. MSNBC's @AymanMSNBC and @MehdiHasanShow. Opinions mine. Do not congratulate.   https://t.co/4WQ1aNuXLs	32871086	none	1389303	783	84541	10524	mmfa	NA	kylegriffin1
+543	NBC News	TRUE	NBCNews	News updates from around the 🌎, all day, every day.	14173315	business	9387314	1842	360138	51783	mmfa	NA	NBCNews
+547	Gavin Newsom	TRUE	GavinNewsom	Husband to @JenSiebelNewsom and father. 40th Governor of California. Former Lt. Governor of California. Former San Francisco Mayor. Personal account.	11347122	none	2057435	22089	15906	9601	mmfa	NA	GavinNewsom
+554	JORGE RAMOS	TRUE	jorgeramosnews	immigrant and journalist.          Inmigrante, periodista, conductor del Noticiero Univision y Al Punto, y entrevistador de “Algo Personal” en ViX.	110213431	none	3794097	158	32428	10090	mmfa	NA	jorgeramosnews
+555	Andrea Mitchell	TRUE	mitchellreports	NBC News Chief Washington Correspondent and Chief Foreign Affairs Correspondent/Anchor, Andrea Mitchell Reports, weekdays at 12pm ET on @MSNBC.	89820928	none	1927894	1944	73812	9965	mmfa	NA	mitchellreports
+587	Mark Hamill	TRUE	MarkHamill	Believe in yourself! Work hard, never give up & anything's possible! OR: Kick back, relax & aim low: You'll never be disappointed...😜 I IGNORE ALL DMs!	304679484	none	5296508	1021	24711	13182	mmfa	NA	MarkHamill
+608	John Legend	TRUE	johnlegend	Chrissy's husband. Father of Luna & Miles. #LoveInLasVegas The Residency in 2022. Tickets and VIP at https://t.co/W0YOsNZmGG. Drink like me: @lve_wines	18228898	none	13721435	1541	16873	21159	mmfa	NA	johnlegend
+616	Wolf Blitzer	TRUE	wolfblitzer	I anchor CNN's The Situation Room (@CNNSitRoom) Weekdays 6PM ET and have a front row seat to history.	71294756	none	1726960	1688	14158	11285	mmfa	NA	wolfblitzer
+620	Soledad O'Brien	TRUE	soledadobrien	working mom	26548315	none	1325265	424005	123273	10558	mmfa	NA	soledadobrien
+622	The Guardian	TRUE	guardian	The need for independent journalism has never been greater. Become a Guardian supporter: https://t.co/gWyuUVlObq	87818409	business	10869426	1051	802960	70857	mmfa	NA	guardian
+628	Mark Ruffalo	TRUE	MarkRuffalo	A husband, father, actor, director, & a climate justice advocate with an eye out for a better, brighter, cleaner, & more hopeful future for all of us.	47285504	none	8377503	2275	50197	15091	mmfa	NA	MarkRuffalo
+639	Variety	TRUE	Variety	The business of entertainment.	17525171	business	2890969	227919	409102	18761	mmfa	NA	Variety
+665	Andy Richter	TRUE	AndyRichter	@richtercommaandy on Instagram, Podcast: The Three Questions https://t.co/2Sp1d4hCqB	165511377	none	1068577	1657	86302	8773	mmfa	NA	AndyRichter
+682	The Daily Show	TRUE	TheDailyShow	Weeknights 11/10c on @ComedyCentral and @paramountplus. Visit https://t.co/xzoeWdoFjD to take action.	158414847	business	9503670	1169	30228	34540	mmfa	NA	TheDailyShow
+691	Gabrielle Union	TRUE	itsgabrielleu	Loving fashion, beauty, fitness, dogs and sports :) IG: GabUnion FB: GabrielleUnionOfficial Snap: GabUnionWade	256881576	none	4471673	993	30019	5029	mmfa	NA	itsgabrielleu
+701	Megan Amram	FALSE	meganamram	it's this weird, sexual, anti-comedy comedy that's 'in' right now. - my mom	35206553	none	1072810	4519	12891	7943	mmfa	NA	meganamram
+709	kerry washington	TRUE	kerrywashington	For new projects follow @simpsonstreet 718-400-7118	205302299	none	5532538	886	34854	6771	mmfa	NA	kerrywashington
+751	Melinda French Gates	TRUE	melindagates	Philanthropist, businesswoman, & global advocate for women & girls. Co-chair of the @gatesfoundation. Founder of @pivotalventures. Author of The Moment of Lift.	161801527	none	2545209	572	4130	8348	mmfa	NA	melindagates
+787	jesse Williams.	TRUE	iJesseWilliams	Tony nominated in Tony winning Broadway play #TakeMeOut Oscar winning producer: #2DistantStrangers Tech: @BLeBRiTYgame @MyScholly BoardofDirectors: @Adv_Project	30602016	none	2335655	3411	20911	4826	mmfa	NA	iJesseWilliams
+824	NowThis	TRUE	nowthisnews	Subscribe to our newsletter: https://t.co/Zi51dpnKnD	701725963	business	2706404	1290	267350	9987	mmfa	NA	nowthisnews
+865	Vox	TRUE	voxdotcom	Understand the news. Support Vox with a contribution: https://t.co/qfyfYWde1E	2347049341	business	1023365	170	148817	16349	mmfa	NA	voxdotcom
+869	Yamiche Alcindor	TRUE	Yamiche	Anchor and Moderator of @WashingtonWeek on @PBS. Washington Correspondent for @NBCNews.	89887215	none	1206519	8151	43206	9177	mmfa	NA	Yamiche
+871	Dr. Love	TRUE	questlove	THE HIP HOP REX CHAPMAN❓❤.y.at	14939981	none	3400132	9908	83554	17770	mmfa	NA	questlove
+892	Fox News	TRUE	FoxNews	Follow America's #1 cable news network, delivering you breaking news, insightful analysis, and must-see videos. https://t.co/sXA1eVB5Gv	1367531	business	23663071	262	523691	74487	mmfa	NA	FoxNews
+893	TIME	TRUE	TIME	News and current events from around the globe. Subscribe: https://t.co/yT0dueLEm0	14293310	business	19451017	531	407674	106057	mmfa	NA	TIME
+894	Bloomberg	TRUE	business	"The first word in business news.
+Our newsletters: https://t.co/nWaCxHSKuU
+Our podcasts: https://t.co/096e9xMbPz
+The Big Take podcast: https://t.co/UqskwXtp5Z"	34713362	business	9136372	1458	891650	69512	mmfa	NA	business
+904	VICE News	TRUE	VICENews	Original reporting on everything that matters. Sign up for our newsletter here: https://t.co/RKniEj0B2u	1630896181	business	1019441	961	138599	11180	mmfa	NA	VICENews
+920	Jon Favreau	TRUE	jonfavs	The other one. @PodSaveAmerica, @CrookedMedia, https://t.co/mKXKFl0EF4, https://t.co/zvWhe0ETFE	130496027	none	1451247	1642	14239	11027	mmfa	NA	jonfavs
+978	Chelsea Clinton	TRUE	ChelseaClinton	Mom of Charlotte, Aidan & Jasper, Married to Marc, Advocate, Author, Teacher, @ClintonFdn & @CHAI_health & @HealthierGen, New Yorker	757303975	none	2857988	968	15856	9129	mmfa	NA	ChelseaClinton
+1016	Robert Reich	TRUE	RBReich	"Berkeley professor, former Secretary of Labor. Co-founder, 
+@InequalityMedia & @imcivicaction. Substack: https://t.co/U9YAAOMZJo | Linktree: https://t.co/DhNs34ZfP0"	148529707	none	1590830	850	27490	13304	mmfa	NA	RBReich
+1017	Ezra Klein	TRUE	ezraklein	"Columnist, @NYTOpinion
+Author, ""Why We're Polarized""
+Host of ""The Ezra Klein Show"" podcast"	18622869	none	2652931	1447	7514	22428	mmfa	NA	ezraklein
+1018	rob delaney	TRUE	robdelaney	You can get my new book, A Heart That Works, at the link below.	22084427	none	1569328	9	68139	14474	mmfa	NA	robdelaney
+1047	Maxine Waters	TRUE	RepMaxineWaters	Proudly serving the people of California's 43rd District in Congress. Chairwoman of the House Financial Services Committee (@FSCDems).	36686040	government	1632855	681	3567	7453	mmfa	NA	RepMaxineWaters
+1122	BBC Breaking News	TRUE	BBCBreaking	Breaking news alerts and updates from the BBC. For news, features, analysis follow @BBCWorld (international) or @BBCNews (UK). Latest sport news @BBCSport.	5402612	business	51606582	3	38728	148634	mmfa	NA	BBCBreaking
+1194	VANITY FAIR	TRUE	VanityFair	Vanitas vanitatum.	15279429	business	4777206	1220	161534	18672	mmfa	NA	VanityFair
+1226	Mehdi Hasan	TRUE	mehdirhasan	Host, @mehdihasanshow on @MSNBC & NBC's @peacockTV. Also on Mastodon: @mehdihasan@journa.host Pre-order my new book: https://t.co/qGY4mV7rN8	130557513	none	1236086	3788	135758	7881	mmfa	NA	mehdirhasan
+1305	Chelsea Handler	TRUE	chelseahandler	Revolution is now streaming on @Netflix | Listen to Dear Chelsea Season 2 now	19877186	none	7713181	640	13338	29154	mmfa	NA	chelseahandler
+1319	Ars Technica	TRUE	arstechnica	Original news, reviews, analysis of tech trends, and expert advice on the most fundamental aspects of tech.	717313	business	1163846	1323	136710	27477	mmfa	NA	arstechnica
+1335	World News Tonight	TRUE	ABCWorldNews	The official Twitter account for @ABC's World News Tonight with @DavidMuir.	86141342	business	1636993	432	205580	11434	mmfa	NA	ABCWorldNews
+1365	Anderson Cooper 360°	TRUE	AC360	A behind the scenes look at Anderson Cooper 360°. Watch AC360° M-F at 8pm/ET on @CNN and follow Anderson on twitter: @AndersonCooper.	227837742	business	1656337	155	69231	7001	mmfa	NA	AC360
+1394	Arianna Huffington	TRUE	ariannahuff	Mother. Sister. @HuffPost Founder. Founder & CEO of @Thrive whose mission is to end the stress and burnout epidemic. https://t.co/FgDtySJ3fU	21982720	none	2760858	2898	47948	25071	mmfa	NA	ariannahuff
+1407	Change.org	TRUE	Change	The world’s largest nonprofit-owned platform for social change. We empower people everywhere to create the change they want to see.	15947602	none	1517839	766	32520	8645	mmfa	NA	Change
+1415	UK Prime Minister	TRUE	10DowningStreet	Official page for Prime Minister @RishiSunak's office, based at 10 Downing Street.	14224719	government	6043738	297	18586	22729	mmfa	NA	10DowningStreet
+1432	The Atlantic	TRUE	TheAtlantic	Exploring the American idea through ambitious, essential reporting and storytelling. Of no party or clique since 1857. https://t.co/uHeZCz8ahz	35773039	business	2121494	1079	216922	30395	mmfa	NA	TheAtlantic
+1434	UNICEF	TRUE	UNICEF	The needs of children caught up in emergencies are greater than ever. Help save lives by donating today.	33933259	government	9332654	825	56666	26695	mmfa	NA	UNICEF
+1437	ROSIE	TRUE	Rosie	goodnight twitter - enjoy maga madness - elon sux	25203361	none	1177705	35002	102911	6402	mmfa	NA	Rosie
+1441	CNN Politics	TRUE	CNNPolitics	Political news, campaign stories and Washington coverage from CNN Politics.	13850422	business	4483567	335	216625	22680	mmfa	NA	CNNPolitics
+1444	AlecBaldwin(HABF)	TRUE	AlecBaldwin	Hilaria and Alec Baldwin Foundation. Supporting the arts + artists, amateur + professional. https://t.co/nWbuglFBR6	288452305	none	1019107	2103	30079	7877	mmfa	NA	AlecBaldwin
+1484	Maddow Blog	TRUE	MaddowBlog	Rachel Maddow and her staff have a blog. This is its voice on Twitter.	91180720	business	1249875	1370	35459	9914	mmfa	NA	MaddowBlog
+1508	Lawrence O'Donnell	TRUE	Lawrence	NA	158426909	none	2839407	1375	41501	10805	mmfa	NA	Lawrence
+1532	Mashable	TRUE	mashable	Mashable is for superfans. We're not for the casually curious. Obsess with us.	972651	business	9317871	2694	496235	114917	mmfa	NA	mashable
+1533	Patton Oswalt	TRUE	pattonoswalt	@Netflix special WE ALL SCREAM now streaming!!! MINOR THREATS from @DarkHorse out now! I like making stuff. IG: pattonoswalt Hive: pattonoswalt	139162440	none	4705298	4566	59816	24060	mmfa	NA	pattonoswalt
+1534	Funny Or Die	TRUE	funnyordie	We love to make you laugh.	15693493	business	13023439	6077	34918	28361	mmfa	NA	funnyordie
+1546	Seth Meyers	TRUE	sethmeyers	NA	44039298	none	4888594	902	10806	17971	mmfa	NA	sethmeyers
+1568	Joy-Ann (Pro-Democracy) Reid 😷	TRUE	JoyAnnReid	"""You must be bold, brave, and courageous and find a way... to get in good trouble."" -John Lewis #TheReidOut ❤️ #reiders. Likes are sometimes just bookmarks."	49698134	none	2059066	7505	199744	13033	mmfa	NA	JoyAnnReid
+1582	Kayleigh McEnany 45 Archived	FALSE	PressSec45	This is an archive of a Trump Administration account, maintained by the National Archives and Records Administration.	818927131883356200	none	5781691	329	4312	11717	mmfa	NA	PressSec45
+1583	J Earnest (Archived)	TRUE	PressSec44	WH Press Secretary. This is an archive of an Obama Administration account maintained by the National Archives and Records Administration (NARA).	113420831	none	1071435	616	4016	11085	mmfa	NA	PressSec44
+1593	Guardian news	TRUE	guardiannews	The need for independent journalism has never been greater. Become a Guardian supporter: https://t.co/2j7ifvSW8t	788524	business	3856368	1216	339153	35506	mmfa	NA	guardiannews
+1601	PBS	TRUE	PBS	New year, same us.	12133382	business	2243490	44875	87083	17096	mmfa	NA	PBS
+1606	Chuck Todd	TRUE	chucktodd	Moderator of @meetthepress and @nbcnews political director; Covering politics since '92; And, yes, I tweet about sports too.	50325797	none	2062997	1966	50339	15790	mmfa	NA	chucktodd
+1607	Chris Hayes	TRUE	chrislhayes	"Dad to Ryan, David and Anya.
+Proud husband of @kateashaw1
+Host: @allinwithchris on MSNBC, weeknights 8pm. 
+#WITHPod Host
+Bronx boy; Cubs fan
+gram: chrislhayes"	4207961	none	2402161	1521	164578	21541	mmfa	NA	chrislhayes
+1622	Jake Tapper	TRUE	jaketapper	Dad; husband; anchor of @TheLeadCNN & @CNNSOTU; Author of @TheOutpostbook, @TheHellfireClub, and The @Devil_May_Dance; long-suffering Philly sports fan	14529929	none	3185381	10831	264708	24990	mmfa	NA	jaketapper
+1629	suzeormanshow	TRUE	SuzeOrmanShow	Emmy Award Winning TV Show Host, Number One NYTimes Best Selling Author, Motivational Speaker and America's Most Trusted Personal Finance Expert	26551204	none	1334632	134	28790	8831	mmfa	NA	SuzeOrmanShow
+1655	Dana Perino	TRUE	DanaPerino	Fox News, Co-anchor of America’s Newsroom, Co-host of The Five, Fmr Press Sec to George W. Bush. Speaking opps: The Harry Walker Agency	27311044	none	2336024	9667	43472	7881	mmfa	NA	DanaPerino
+1656	Gov. Mike Huckabee	TRUE	GovMikeHuckabee	"Hosts “Huckabee"" on TBN Sat 8/11pm ET, Sun9pm ET;Fox News contributor, author, Fmr AR Gov, Bass Guitarist, grandfather of 7 cutest kids in world!"	15416505	none	1895554	568	14623	9153	mmfa	NA	GovMikeHuckabee
+1681	David Frum	TRUE	davidfrum	"Read more at https://t.co/ncUQxYcjF4
+and at https://t.co/k8AaBWWopx 
+Reach me via https://t.co/7LYiJE1CvB"	18686907	none	1014780	1081	93070	13289	mmfa	NA	davidfrum
+1684	Al Gore	TRUE	algore	NA	17220934	none	2941739	45	3059	34562	mmfa	NA	algore
+1691	Lou Dobbs	TRUE	LouDobbs	NA	26487169	blue	2376705	2644	41270	5691	mmfa	NA	LouDobbs
+1696	Nate Silver	TRUE	NateSilver538	Founder, EIC @FiveThirtyEight. Author, The Signal and the Noise (https://t.co/v6tgsFf8gD). Sports/politics/food geek. Not a virologist.	16017475	none	3474178	1558	38525	34265	mmfa	NA	NateSilver538
+1718	BuzzFeed	TRUE	BuzzFeed	Brb, taking quizzes 📈 some links may be affiliate 👍	5695632	business	6236728	2881	329764	20736	mmfa	NA	BuzzFeed
+1726	Lara Setrakian	TRUE	Lara	Co-Founder and CEO of News Deeply, now hosted by The @newhumanitarian. Impact investing enthusiast. Former MidEast Correspondent for BloombergTV & ABC.	21481343	none	1696666	4103	15587	3155	mmfa	NA	Lara
+1727	Good Morning America	TRUE	GMA	Put some GOOD in your morning! Watch @GMA at 7am and around the clock at https://t.co/9MTJvPi246	22650211	business	3791298	2396	308813	15141	mmfa	NA	GMA
+1730	Rob Riggle	TRUE	RobRiggle	Actor, Comedian, Writer, U.S. Marine	26604904	none	1464437	471	3390	6259	mmfa	NA	RobRiggle
+1731	White House Archived	TRUE	ObamaWhiteHouse	This is an archive of an Obama Administration account maintained by the National Archives and Records Administration (NARA).	30313925	none	12024515	225	28219	54131	mmfa	NA	ObamaWhiteHouse
+1732	The White House 45 Archived	TRUE	WhiteHouse45	This is an archive of a Trump Administration account, maintained by the National Archives and Records Administration.	822215673812119600	none	25022991	11	24060	17622	mmfa	NA	WhiteHouse45
+1765	Scott Simon	TRUE	nprscottsimon	Host NPR's Weekend Edition Saturday Author, SUNNYSIDE PLAZA, 1/21/20. Special Contributor CBS Sunday Morning. Husband, father. @nprweekend @upfirst	20245775	none	1039135	852	50008	5225	mmfa	NA	nprscottsimon
+1801	Stephen Colbert	TRUE	StephenAtHome	Evie’s husband	16303106	none	19197178	49	7078	61520	mmfa	NA	StephenAtHome
+1849	Christopher C. Cuomo	TRUE	ChrisCuomo	@newsnation 8p east M-F Instagram: chrisccuomo	22799750	none	2056089	234	93478	7493	mmfa	NA	ChrisCuomo
+1851	NBC Entertainment	TRUE	nbc	#1 Mariska Hargitay stan account. Watch your favorite shows on NBC and stream on @Peacock. Need help? Tweet @nbcsupport.	26585095	business	2101001	701	46375	10366	mmfa	NA	nbc
+1852	ABC News	TRUE	ABC	The only official ABC News Twitter account. Download our new mobile app: https://t.co/6WupJH6wUx	28785486	business	17798761	446	405908	66805	mmfa	NA	ABC
+1863	Dr. Sanjay Gupta	TRUE	drsanjaygupta	Associate Professor of Neurosurgery, Emory University Hospital; CNN Chief Medical Correspondent	18170896	none	2482267	315	6306	15297	mmfa	NA	drsanjaygupta
+1876	Barbara Walters	FALSE	BarbaraJWalters	ABC News Anchor....Creator and Co-Host of THE VIEW.	33514869	none	1431875	16	544	8493	mmfa	NA	BarbaraJWalters
+1877	Joy Behar	TRUE	JoyVBehar	Comedian, Writer, Actor and Co-Host of @TheView. Instagram: joyvbehar | You can order my new book 'The Great Gasbag' now: https://t.co/azaXKJ9zpx	32004130	none	1036441	1072	6291	7734	mmfa	NA	JoyVBehar
+1879	Larry King	TRUE	kingsthings	Love suspenders & interviewing people. Watch #LarryKingNow & #PoliticKING. Airs Monday, Wednesday and Friday on @Hulu and @OraTV. Go Dodgers! ⚾️	22685200	none	2332168	881	16502	18175	mmfa	NA	kingsthings
+1887	Anderson Cooper	TRUE	andersoncooper	CNN/ 60Minutes. Podcast “All There Is.” Link below	15224867	none	9821792	318	18386	48281	mmfa	NA	andersoncooper
+1961	John Dickerson	TRUE	jdickerson	Anchor, CBS News Prime Time.  Contributor, @CBSSunday. Co-Host, @SlateGabfest Contributor @TheAtlantic. Author, The Hardest Job in the World.	4119741	none	1926590	3488	38651	6898	mmfa	NA	jdickerson
+1964	TODAY	TRUE	TODAYshow	Your day starts here. ☀️ At Olivia Benson’s apartment waiting for Elliot Stabler.	7744592	business	4203957	7704	220990	17920	mmfa	NA	TODAYshow
+1969	Reuters	TRUE	Reuters	Top and breaking news, pictures and videos from Reuters. For more breaking business news, follow @ReutersBiz.	1652541	business	25722251	1234	966202	136410	mmfa	NA	Reuters
+1973	The Economist	TRUE	TheEconomist	News and analysis with a global perspective. Subscribe here: https://t.co/aFLDkU0JGd	5988062	business	27180811	151	331800	122290	mmfa	NA	TheEconomist
+1996	Newt Gingrich	TRUE	newtgingrich	Husband, father, grandfather, citizen, small businessman, author, former Speaker of the House.	20713061	none	2364497	982	20511	13545	mmfa	NA	newtgingrich
+2004	Ann Curry	TRUE	AnnCurry	Journalism is an act of faith in the future.  TedTalk: https://t.co/DMe5PQ9Nji	20109973	none	1408859	2604	7015	11724	mmfa	NA	AnnCurry
+2006	Nightline	TRUE	Nightline	@ABC News Nightline anchored by @JujuChangABC and @byronpitts. Weeknights at 12:35am ET.	19740592	business	1125610	427	76687	5887	mmfa	NA	Nightline
+2015	Paul Krugman	TRUE	paulkrugman	"Nobel laureate. Op-Ed columnist, @nytopinion. Author, “The Return of Depression Economics,” “The Great Unraveling,” ""Arguing With Zombies,""  + more."	17006157	none	4587722	116	24008	36040	mmfa	NA	paulkrugman
+2033	60 Minutes	TRUE	60Minutes	The most successful news magazine in TV history, offering hard-hitting investigative reports, interviews, feature segments and profiles of people in the news.	18812572	business	1267087	513	29364	8164	mmfa	NA	60Minutes
+2034	Katie Couric	TRUE	katiecouric	Journalist, @SU2C founder, podcaster, and Co-Founder of the eponymous Katie Couric Media. #1 New York Times bestselling author (Couldn’t resist)	18812301	none	1699531	4418	49648	11162	mmfa	NA	katiecouric
+2036	NBC Nightly News with Lester Holt	TRUE	NBCNightlyNews	Breaking news, in-depth reporting, context on news around the world | Full episodes: https://t.co/CKPLkRYQJK | Nightly News Kids Edition: https://t.co/jVHjlzsNQe	8839632	business	1051472	529	194410	10678	mmfa	NA	NBCNightlyNews
+2038	FOX & friends	TRUE	foxandfriends	America's #1 cable morning news show	15513604	business	1200166	1047	92872	7554	mmfa	NA	foxandfriends
+2045	HuffPost	TRUE	HuffPost	At HuffPost, we put people first. We believe that real life is news, and news is personal.	14511951	business	11222476	5531	617391	80985	mmfa	NA	HuffPost
+2056	POLITICO	TRUE	politico	"Nobody knows politics and policy like POLITICO. 
+Congress nerds 👉 @politicongress 
+All 2022 race calls 👉 @politicoelex
+Got a news tip? 👉 https://t.co/JBzpu5pJz6"	9300262	business	4639580	1188	366769	43770	mmfa	NA	politico
+2057	The Hill	TRUE	thehill	The Hill is the premier source for policy and political news. Follow for tweets on what's happening in Washington, breaking news and retweets of our reporters.	1917731	business	4476907	325	1090901	29201	mmfa	NA	thehill
+2062	HuffPost Politics	TRUE	HuffPostPol	"The latest political news from HuffPost's politics team.
+
+Need help with HuffPost login or membership? Tweet @HuffPostSupport"	15458694	business	1416989	8458	336137	15824	mmfa	NA	HuffPostPol
+2067	The Nation	TRUE	thenation	Founded by abolitionists in 1865. Committed to progressive journalism. Subscribe: https://t.co/iJh9hpMCwv.	1947301	business	1250578	8991	131046	14000	mmfa	NA	thenation
+2076	Mika Brzezinski	TRUE	morningmika	"""Bipartisanship helps to avoid extremes and imbalances. It causes compromises and accommodations. So let's cooperate."" ~Zbigniew Brzezinski"	18227519	none	1038839	1643	16434	5815	mmfa	NA	morningmika
+2082	Joe Scarborough	TRUE	JoeNBC	With Malice Toward None	21619519	none	2766577	881	57819	12000	mmfa	NA	JoeNBC
+2083	George Stephanopoulos	TRUE	GStephanopoulos	@GMA Anchor                       @ThisWeekABC Anchor	17074440	none	2373002	845	7738	16305	mmfa	NA	GStephanopoulos
+2182	Twitter	TRUE	Twitter	What's happening?!	783214	business	65559015	5	15045	87734	mmfa	NA	Twitter
+2234	CNN Breaking News	TRUE	cnnbrk	Breaking news from CNN Digital. Now 64M strong. Check @cnn for all things CNN, breaking and more. Download the app for custom alerts: https://t.co/8bf79vV51N	428333	business	64167399	122	78990	192584	mmfa	NA	cnnbrk
+2242	The Onion	TRUE	TheOnion	America's Finest News Source.	14075928	business	11910391	6	95520	65749	mmfa	NA	TheOnion
+2246	CSPAN	TRUE	cspan	Capitol Hill. The White House. National Politics. Powered by Cable.	15675138	business	2103493	8539	62074	13526	mmfa	NA	cspan
+2247	NPR Politics	TRUE	nprpolitics	The latest on politics, policy, government and more from NPR. Check out the NPR Politics Podcast https://t.co/O5GCES2xXK and subscribe to our newsletter https://t.co/UDmhoic4zX	5741722	business	3011115	92275	110705	31238	mmfa	NA	nprpolitics
+2259	Glenn Greenwald	TRUE	ggreenwald	Journalist; Author; Host, @SystemUpdate_; Co-Founder: The Intercept, @TheInterceptBr, @abrigo_hope, @FreedomofPress, @ongcriadefavela. Vegan and Animals.	16076032	none	1984745	979	87200	21623	mmfa	NA	ggreenwald
+2265	WIRED	TRUE	WIRED	Where tomorrow is realized || Sign up for our newsletters: https://t.co/xljcWJbKVa	1344951	business	10194670	457	157230	87515	mmfa	NA	WIRED
+2268	Newsweek	TRUE	Newsweek	The freedom to disagree.	2884771	business	3590763	578	322539	37213	mmfa	NA	Newsweek
+2272	MarketWatch	TRUE	MarketWatch	"News, personal finance & commentary from MarketWatch.
+
+For customer support, visit https://t.co/Uu49STq7M6"	624413	business	4451149	227	392192	30629	mmfa	NA	MarketWatch
+2273	Engadget	TRUE	engadget	Engadget is the original home for technology news and reviews. https://t.co/XnAXVxyA78	14372486	business	2400826	263	204771	48294	mmfa	NA	engadget
+2274	NEWS MAKER	FALSE	NEWS_MAKER	"America's #1 NEWS MAKER.
+""...and I'm all out of bubblegum.""
+https://t.co/HJjVKQgs5J"	14669951	blue	1043325	454	147073	16550	mmfa	NA	NEWS_MAKER
+2280	Breaking News	TRUE	BreakingNews	NA	6017542	business	9625004	537	107307	82961	mmfa	NA	BreakingNews
+2281	ABC News	TRUE	abcnews	Latest news updates (mostly automated) from the Australian Broadcasting Corp. This is an official @abcaustralia account.	2768501	business	2163853	1162	373733	13358	mmfa	NA	abcnews
+2282	Greenpeace	TRUE	Greenpeace	Greenpeace exists because this fragile Earth deserves a voice. It needs solutions. It needs change. It needs action.	3459051	none	1903548	4259	81056	18923	mmfa	NA	Greenpeace
+2320	Los Angeles Times	TRUE	latimes	News from a West Coast perspective.	16664681	business	4000610	6889	493324	35867	mmfa	NA	latimes
+2333	Rachel Maddow MSNBC	TRUE	maddow	"I see political people...
+(Retweets do not imply endorsement.)"	16129920	none	10457070	4639	20042	50799	mmfa	NA	maddow
+2348	Don Lemon	TRUE	donlemon	🍋 Co-Anchor #CNNThisMorning 🔥 Author: This Is The Fire 👇🏾Buy My Book	16051471	none	1412878	13904	24887	8626	mmfa	NA	donlemon
+2361	No longer posting here.	TRUE	anamariecox	It was fun while it lasted.	11640472	none	1108444	5216	144320	7279	mmfa	NA	anamariecox
+2407	ACLU	TRUE	ACLU	The ACLU is a nonprofit, nonpartisan, legal and advocacy 501(c)(4) organization. Visit our site for more about us and our affiliated org, the ACLU Foundation.	13393052	none	1913318	5504	61501	14808	mmfa	NA	ACLU
+11	Jennette McCurdy	TRUE	jennettemccurdy	NA	15460081	none	5540635	33462	248	11434	salon	NA	jennettemccurdy
+14	Katherine Heigl	TRUE	KatieHeigl	Actress / producer / animal advocate. Mother of three beautiful children and wife to one sexy musician.	87239242	none	1254344	117	9932	3089	salon	NA	KatieHeigl
+18	Kevin Nealon	TRUE	kevin_nealon	Accommodator/Apologist/Passive Aggressor	23680913	none	1294715	314	4480	9751	salon	NA	kevin_nealon
+67	Adam Schiff	TRUE	RepAdamSchiff	Representing California's 30th Congressional District. Father. Husband. Fighting for our democracy and an economy that works for everyone.	29501253	government	3286023	874	6930	13349	salon	NA	RepAdamSchiff
+68	Andrew Yang🧢⬆️🇺🇸	TRUE	AndrewYang	Entrepreneur, Champion of a Human-Centered Economy, #YangGang, UBI, RCV, Co-chair @fwd_party founder @humanityforward @venture4america @lobby3_dao @goldendaoxyz	2228878592	blue	1720594	9065	35985	5996	salon	NA	AndrewYang
+69	Food Network	TRUE	FoodNetwork	Download @discoveryplus & stream #KidsBakingChampionship, @NFL #TailgateTakedown, #ChefDynasty and more of your fave shows:	20710809	business	5958978	22083	97740	20240	salon	NA	FoodNetwork
+77	Michael Strahan	TRUE	michaelstrahan	TEXT ME: +1 (917) 540-8367 @MbyMStrahan	26553086	none	1305139	1004	27273	7371	salon	NA	michaelstrahan
+94	HBO Max	TRUE	hbomax	When you're lost in the darkness...	89090040	business	1197227	784	19250	3302	salon	NA	hbomax
+103	Paul McCartney	TRUE	PaulMcCartney	Official Paul McCartney account administered by MPL | #EyesOfTheStorm | Text me: +1(212)313-9547	74712538	none	4281221	17	6140	16844	salon	NA	PaulMcCartney
+128	Nigella Lawson	TRUE	Nigella_Lawson	My eating - and other - updates. If you need to contact me for work, you can find the right email on this link https://t.co/DmAtrxi41L	173195708	none	2761897	1018	84866	5747	salon	NA	Nigella_Lawson
+133	Giada De Laurentiis	TRUE	GDeLaurentiis	#Chef, #Author, #Mother and #Founder of @giadzy	20661539	none	1682042	189	18788	10190	salon	NA	GDeLaurentiis
+168	Hulu	TRUE	hulu	You’re invited to #BeObsessed.	15033883	business	1124661	1656	144913	7840	salon	NA	hulu
+170	Deadline Hollywood	TRUE	DEADLINE	Hollywood's source for breaking news	586032653	business	1104776	120589	218282	7129	salon	NA	DEADLINE
+195	Anthony Scaramucci	TRUE	Scaramucci	American entrepreneur. Founder @skybridge @saltconference. https://t.co/t4SOzQk5k6	24578794	none	1009272	2792	41393	4213	salon	NA	Scaramucci
+206	Stacey Abrams	TRUE	staceyabrams	Bestselling Author: Stacey’s Remarkable Books (12/22). Rogue Justice (Coming 5/23). I also focus on democracy & voting, public policy, small biz & film+tv.	216065430	none	2882375	1923	15344	8783	salon	NA	staceyabrams
+208	CNBC	TRUE	CNBC	First in business worldwide.	20402945	business	5053101	853	554035	40133	salon	NA	CNBC
+212	Mary L Trump	TRUE	MaryLTrump	"Watch The Mary Trump Show on YouTube/Politcon
+Subscribe to my newsletter: https://t.co/rNGwSBzc81
+#blacklivesmatter, 🏳️‍🌈, she/her"	1045110787	none	1612697	1305	4289	4774	salon	NA	MaryLTrump
+222	George Conway🌻	TRUE	gtconway3d	Recovering lawyer. Contributing columnist, @WashingtonPost.  Also at https://t.co/XO58zunY4a.	471677441	blue	2150660	1922	118654	9494	salon	NA	gtconway3d
+250	Black Lives Matter	TRUE	Blklivesmatter	BLM is an affirmation & embrace of the resistance & resilience of Black people. Founded by Patrisse Cullors, @opalayo, @aliciagarza press@blacklivesmatter.com	1604931252	none	1027463	768	22351	3736	salon	NA	Blklivesmatter
+253	Ben Schwartz	TRUE	rejectedjokes	Coming soon: Renfield, Sonic 3, Die Hart 2 & much more. Out now: Sonic 2. The Afterparty. Get tix for Ben Schwartz & Friends improv shows at https://t.co/21CHoCYvNi.	27022632	none	1280795	952	16021	3712	salon	NA	rejectedjokes
+264	nick kroll	TRUE	nickkroll	🌎 History of The World Part 2 on Hulu March 6th! 🎤 MY NETFLIX SPECIAL, LITTLE BIG BOY, IS STREAMING NOW!	23027237	none	1384606	1122	10922	5869	salon	NA	nickkroll
+266	Jim Gaffigan	TRUE	JimGaffigan	Male Model. COMEDY MONSTER on Netflix. Touring with all new material on DARK PALE TOUR. My first wife is @jeanniegaffigan.	6539592	none	3140371	2891	21124	22052	salon	NA	JimGaffigan
+289	kate del castillo	TRUE	katedelcastillo	Actress, Mexican, instagram: katedelcastillo  Starring in @AudibleTheater’s #thewayshespoke, July 8-Aug 18 https://t.co/ae1kDTBz8l	32745368	none	3941175	499	13189	5040	salon	NA	katedelcastillo
+293	Penn Jillette	TRUE	pennjillette	I'm Penn Jillette, I work in the Penn & Teller Theater in Las Vegas and I work on http://t.co/1xAkunv6mr  I do other stuff too.	14749383	none	1696069	187	53256	14533	salon	NA	pennjillette
+294	Ted Lieu	TRUE	tedlieu	Husband of Betty, the love of my life. Father of two great kids. USAF veteran. Member of Congress. In that order. Also, empathy is good.	21059255	none	1648472	11054	34437	9209	salon	NA	tedlieu
+297	Julia Louis-Dreyfus	TRUE	OfficialJLD	NA	502281810	none	1335784	629	7620	4760	salon	NA	OfficialJLD
+317	Rep. Ilhan Omar	TRUE	Ilhan	Representing Minnesota's 5th District in the People's House. @USProgressives Deputy Chair.	1082334352711790600	government	1292292	460	4504	3513	salon	NA	Ilhan
+339	Malcolm Nance	TRUE	MalcolmNance	US Intelligence +36 yrs. Expert Terrorism Extremism,Russians getting ass kicked| x5 NYT Bestselling Author, Navy Senior Chief, Widower, Ukrainian Legionnaire	2573480784	none	1151454	2673	256327	8626	salon	NA	MalcolmNance
+426	Paul Wesley	TRUE	paulwesley	🌱 @brothersbond	264498030	none	4192043	1968	2137	11808	salon	NA	paulwesley
+430	Lil B THE BASEDGOD	TRUE	LILBTHEBASEDGOD	Mogul, First Rapper Ever To Write And Publish A Book at 19, Film Score, Composer, Producer,Director/Photo/Branding/Marketing/Historical Online Figure #BASED	37836873	blue	1259433	1253608	265126	4938	salon	NA	LILBTHEBASEDGOD
+495	Fast Company	TRUE	FastCompany	Inspiring readers to think beyond traditional boundaries & create the future of business. Subscribe to our daily newsletter: https://t.co/BpH3KmBae9	2735591	business	2325746	4139	298506	41704	salon	NA	FastCompany
+570	Shaun King	TRUE	shaunking	Writer. Organizer. Executive Director @Grassroots_Law. Host of @TheBreakdown podcast.	755113	none	1033643	13769	1732	7675	salon	NA	shaunking
+634	LeVar Burton	TRUE	levarburton	Kunta, Geordi, Reading Rainbow Guy IG: levar.burton	18396070	none	2184320	1185	19226	17588	salon	NA	levarburton
+647	Sarah Millican	TRUE	SarahMillican75	Comedian, writer, founder of Standard Issue podcast.Feminist, dog & cat mam. Tweets ending TEAMSM or TSM are by my team. For work, contact Chambers Management.	20244875	none	2126414	4393	4420	4728	salon	NA	SarahMillican75
+662	Jon Favreau	TRUE	Jon_Favreau	actor/writer/director	22677790	none	2380927	219	3791	16483	salon	NA	Jon_Favreau
+669	Leslie Jones 🦋	TRUE	Lesdoggg	Im a stand up comedian	47216804	none	1411736	1697	23189	4531	salon	NA	Lesdoggg
+695	Kumail Nanjiani	TRUE	kumailn	Steve Banerjee on Welcome to Chippendales	28406270	none	3041902	3441	318	8081	salon	NA	kumailn
+739	Human Rights Watch	TRUE	hrw	Exposing #HumanRights abuses around the world. Join us to help end them! Staff: https://t.co/2JflyBeYHI Instagram: https://t.co/sgwyaoHACO	14700316	none	5065436	21125	134052	23184	salon	NA	hrw
+790	Michael B. Jordan	TRUE	michaelb4jordan	NA	29403387	none	1427043	499	1025	2438	salon	NA	michaelb4jordan
+792	Lupita Nyong'o	TRUE	Lupita_Nyongo	NA	2155649270	none	1999619	227	3407	3237	salon	NA	Lupita_Nyongo
+817	Stephen King	TRUE	StephenKing	Author	2233154425	none	7122887	150	7579	15997	salon	NA	StephenKing
+826	Eliza Dushku	TRUE	elizadushku	Official Eliza Dushku. Be forewarned: I'm accused of speaking my own language here… Support #aDayForDemocracy & #TakeThePledge TODAY ⬇️	34747631	none	1573955	1563	21196	16032	salon	NA	elizadushku
+866	The Dodo	TRUE	dodo	For animal people.	1604444052	business	2701430	4443	80810	7152	salon	NA	dodo
+1039	shonda rhimes	TRUE	shondarhimes	"""What will you do instead?"" ""WHATEVER I WANT."" | TED Talk: https://t.co/8qafqTfFO1 | @byshondaland @shondaland | Check out https://t.co/H61l3WnMuG"	17565514	none	1954829	1716	22952	7557	salon	NA	shondarhimes
+1075	Hassan Rouhani	TRUE	HassanRouhani	"7th President of the I.R of Iran 🇮🇷 |‌
+Persian @Rouhani_ir"	1404590618	none	1100195	7	3598	4083	salon	NA	HassanRouhani
+1111	Popular Science	TRUE	PopSci	Awe-inspiring science, tech, DIY, and sustainability. Read all about it: https://t.co/wTDnw3tT9Q	19722699	business	1543879	1485	143287	15313	salon	NA	PopSci
+1116	Al Jazeera Breaking News	TRUE	AJENews	Breaking news from around the world. Follow @AJEnglish for news, unique perspectives, analysis, videos and more.	18424289	business	2130846	168	145039	20609	salon	NA	AJENews
+1176	Tony Robbins	TRUE	TonyRobbins	"📈The Nation’s #1 Life & Business Strategist
+💡Entrepreneur⚡️Top Business Leader
+📚NYT Bestselling Author"	17266725	none	3198112	1090	11724	27287	salon	NA	TonyRobbins
+1278	Smithsonian	TRUE	smithsonian	We're not a museum. We're 21 of them! (Plus a zoo & 9 research centers.) Find visiting info at https://t.co/DUhPwllAU8 | Legal: https://t.co/m1RRg3okOi	14199378	none	2550477	309	24774	17663	salon	NA	smithsonian
+1287	Rob Lowe	TRUE	RobLowe	Shop: @CobaltByRobLowe // Podcasts: LITERALLY! With Rob Lowe & Parks and Recollection (link belo) // Lowe Down Line: (323) 570-4551 ☎️ call me!	121626258	none	1411183	485	10979	6619	salon	NA	RobLowe
+1291	Elijah Wood	TRUE	elijahwood	@_Spectrevision	215060612	none	1015264	3567	21140	4774	salon	NA	elijahwood
+1293	olivia wilde	TRUE	oliviawilde	World champion parallel parker.	89503894	none	1704839	516	7079	10421	salon	NA	oliviawilde
+1300	Goodreads	TRUE	goodreads	The largest site for readers and book recommendations. Find new books, recommend books, track your reading, join book clubs, win advanced copies, and much more!	15898172	business	4061501	2405	45222	16254	salon	NA	goodreads
+1333	Mr. Bob Odenkirk	TRUE	mrbobodenkirk	"Mr. Show. Better Call Saul. Undone. Father March in ""Little Women"". Annoying Dad in actual reality"	292092669	none	1196396	81	2746	3250	salon	NA	mrbobodenkirk
+1338	Dylan Sprouse	TRUE	dylansprouse	an account	91408245	none	4489024	516	3819	2357	salon	NA	dylansprouse
+1403	David Lynch	TRUE	DAVID_LYNCH	Filmmaker. Born Missoula, MT. Eagle Scout.	15962096	none	3237883	40	921	22432	salon	NA	DAVID_LYNCH
+1433	Amy Schumer	TRUE	amyschumer	2022 tour dates on sale now! Get tickets here: https://t.co/7eyPdjXFYK	55117855	none	4330469	1878	244	11049	salon	NA	amyschumer
+1440	𝔊𝔯𝔦𝔪𝔢𝔰	TRUE	Grimezsz	our lady of perpetual chaos, Apprentice Planetologist at @makesoil 🧚🏻‍♀️ Lore for Modern Magic 🪐	276540738	blue	1339838	1599	4173	3290	salon	NA	Grimezsz
+1462	Businessweek	TRUE	BW	"Covering the business world like no one else.
+Subscribe here: https://t.co/azBwR9LmQS 
+Read The Crypto Story: https://t.co/LpYLitaNA9
+Bw Daily: https://t.co/2ntK5Q4bo8"	67358777	business	2189486	608	175751	20714	salon	NA	BW
+1481	Eric Schmidt	TRUE	ericschmidt	Former Executive Chairman & CEO and tweets from Schmidt Foundation	93957809	none	2210516	194	1093	18503	salon	NA	ericschmidt
+1528	Bill Clinton	TRUE	BillClinton	Father, grandfather, 42nd President of the United States, Founder, Clinton Foundation. Follow @ClintonFdn for more on our work around the world.	1330457336	none	13337949	39	1402	22849	salon	NA	BillClinton
+1538	Benny Johnson	TRUE	bennyjohnson	🇺🇸 God, Family, America 🚀 Pod - The Benny Show 📺 Host - The Benny Report on Newsmax 💀 The Left Can’t Meme on Parler 🎥 TPUSA 📰 Journalist	15212187	blue	1274147	2244	72969	4244	salon	NA	bennyjohnson
+1543	Rick Warren	TRUE	RickWarren	Loves seekers, skeptics, strugglers & critics. Served Saddleback for free for 43 years. Wrote some books. Taught 1.1 million pastors in 164 nations. Prays4you.	5577902	none	2270449	5836	4449	14986	salon	NA	RickWarren
+1545	wint	FALSE	dril	"My account and all of my posts are officially ""Verified.""
+
+now available... ""The Dril Archives"" 10000 posts condensed into 1 book. very good: https://t.co/UWaQ2vb0nU"	16298441	none	1759616	409	12298	4639	salon	NA	dril
+1592	The Hollywood Reporter	TRUE	THR	The Hollywood Reporter is the premier destination & most widely trusted resource for entertainment news, reviews, videos & more.	17446621	business	3459617	3483	481346	21586	salon	NA	THR
+1609	Tim Minchin	TRUE	timminchin	"Upright (TV Show out now)
+Apart Together (Album out now)
+Matilda & Groundhog Day (Musicals)
+Atticus Fetch. Judas. Friar Tuck.
+Pianist
+Comedian
+Words³"	18980276	none	1457424	506	16467	6899	salon	NA	timminchin
+1625	Ben & Candy Carson	TRUE	RealBenCarson	The Official Twitter Page of Dr. Ben & Candy Carson. https://t.co/VxYtSHuSm7	1180379185	none	2203154	48	3726	5538	salon	NA	RealBenCarson
+1633	Martha Stewart	TRUE	MarthaStewart	curious,inquisitive,experimental entrepreneur who cares about the world we live in	21324258	none	3443084	4495	9861	20514	salon	NA	MarthaStewart
+1666	Rick Wilson	TRUE	TheRickWilson	Lincoln Project Founder and Resolute Square guy. Ad-maker. Writer. Instrument-rated pilot. NYT #1 best-seller. Host: The Enemies List.	19084896	none	1569385	7314	357741	10883	salon	NA	TheRickWilson
+1685	Laura Ingraham	TRUE	IngrahamAngle	Mom, author, host, The Ingraham Angle, 10p ET @FoxNews. Retweets do not = Endorsements	50769180	none	4554963	451	52220	14372	salon	NA	IngrahamAngle
+1690	Breitbart News	TRUE	BreitbartNews	News, commentary, and destruction of the political/media establishment.	457984599	business	1878713	113	170073	9907	salon	NA	BreitbartNews
+1711	Amanda Palmer 🎹 https://home.social/@amandapalmer	TRUE	amandapalmer	head over to mastodon, it’s getting weird here. if you don’t me know me, i’m a crowdfunded singer and writer. cofounder of @dresdendolls. i like kind people.	10798802	none	1024183	2143	107746	9617	salon	NA	amandapalmer
+1731	Anthony Bourdain	TRUE	Bourdain	Enthusiast.	14353392	none	6522433	698	13327	21279	salon	NA	Bourdain
+1775	David Pogue	TRUE	Pogue	"Host of “Unsung Science” podcast; ""CBS Sunday Morning"" correspondent; ""NOVA"" host; author; dad of 3! Get my stuff by email: https://t.co/dWX7ur7BTU"	9534522	none	1279736	1810	12855	18074	salon	NA	Pogue
+1783	Patrick Stewart	TRUE	SirPatStew	NA	602317143	none	3531722	208	1515	13533	salon	NA	SirPatStew
+1790	Louis Theroux	TRUE	louistheroux	I am involved in the making of documentaries. Warning: Some tweets may contain irony.	76351820	none	2255690	2740	4158	3406	salon	NA	louistheroux
+1820	Elizabeth Warren	TRUE	SenWarren	U.S. Senator, Massachusetts. She/her/hers. Official Senate account.	970207298	government	7042189	511	10537	20054	salon	NA	SenWarren
+1856	Piers Morgan	TRUE	piersmorgan	‘Live every day as if it’s your last.. because one day you’ll be right.’	216299334	none	8355126	2120	151847	17314	salon	NA	piersmorgan
+1903	Digg	TRUE	digg	Curating the chaos of the Internet. Find something great? 📲 tips@digg.com	15163466	none	1222345	367	101028	10791	salon	NA	digg
+1958	Richard Grenell	TRUE	RichardGrenell	I’m stronger after cancer. my dog runs my life. imperfect follower of Christ. https://t.co/id5AM5jPGZ	90480218	none	1113281	3131	4730	3742	salon	NA	RichardGrenell
+1959	Jesse Tyler Ferguson (he/him/his)	TRUE	jessetyler	I memorize other peoples words and say them in funny ways or dramatical ways. instagram: jessetyler, foodbetweenfriends, pronounorg	17350250	none	1177663	675	11463	5521	salon	NA	jessetyler
+1970	dick costolo	TRUE	dickc	NA	6385432	none	1503178	773	6595	7855	salon	NA	dickc
+1977	Vine Creators	FALSE	VineCreators	This account is no longer active. Follow @TwitterVideo to see the best videos from creators and people all over the world.	586671909	none	12256541	2	3629	6814	salon	NA	VineCreators
+1987	RuPaul	TRUE	RuPaul	You're born naked & the rest is drag	82455213	none	1515663	714	38753	4656	salon	NA	RuPaul
+1991	Twitter Books	TRUE	TwitterBooks	Reading: everything	427475002	business	5992599	0	2677	5844	salon	NA	TwitterBooks
+2020	Brit Hume	TRUE	brithume	Chief Political Analyst, Fox News Channel. Arguments welcome. Name callers & verbal abusers blocked.	112047805	blue	1378935	912	26987	6065	salon	NA	brithume
+2050	Kim Dotcom	TRUE	KimDotcom	Entrepreneur, Innovator, Gamer, Artist, Internet Freedom Fighter & Father of 6	611986351	blue	1280240	18954	26520	8253	salon	NA	KimDotcom
+2055	Hoda Kotb	TRUE	hodakotb	Mom to Haley Joy!!! and Hope!!! Co-Anchor, @TODAYshow & @hodaandjenna	25321854	none	1279071	1262	19263	2634	salon	NA	hodakotb
+2081	Melania Trump 45 Archived	FALSE	FLOTUS45	This is an archive of a Trump Administration account, maintained by the National Archives and Records Administration.	818876014390603800	none	15639885	8	1369	10895	salon	NA	FLOTUS45
+2082	First Lady- Archived	TRUE	FLOTUS44	Office of First Lady Michelle Obama. This is an archive of an Obama Administration account maintained by the National Archives and Records Administration (NARA)	1093090866	none	6050840	27	4063	11036	salon	NA	FLOTUS44
+2127	GQ Magazine	TRUE	GQMagazine	"Big fits start here.
+@GQStyle
+@GQSports
+@GQRecommends"	21701757	business	1342968	931	171218	7931	salon	NA	GQMagazine
+2192	Ben Shapiro	TRUE	benshapiro	"Editor Emeritus, Daily Wire, Host of ""The Ben Shapiro Show” and author of 4 NYT bestsellers including ""The Authoritarian Moment.”"	17995040	blue	5438227	349	183515	14597	salon	NA	benshapiro
+2220	Steven Crowder	TRUE	scrowder	https://t.co/QSuQgFesDE and Apple Podcast. Join #MugClub. For the latest video calling out Big Con, click the link below.	19091173	none	1993384	2582	3213	6138	salon	NA	scrowder
+2221	Pitchfork	TRUE	pitchfork	"The most trusted voice in music
+〰️"	14089195	business	3217394	3862	148786	30367	salon	NA	pitchfork
+2246	Pope Francis	TRUE	Pontifex	Welcome to the official Twitter page of His Holiness Pope Francis	500704345	none	18933758	8	4648	23823	salon	NA	Pontifex
+2275	GregGutfeld	TRUE	greggutfeld	"4 hit shows; 5 NYTs bestsellers & also ridiculously good looking. Watch Gutfeld! check out https://t.co/iL2CxIQ2qo
+ https://t.co/DYi9Cq06VZ…"	28628850	none	2384009	878	28590	7802	salon	NA	greggutfeld
+2278	bettemidler	TRUE	BetteMidler	Child of Nature.	139823781	none	2175073	21	19789	8252	salon	NA	BetteMidler
+2302	Guy Kawasaki	TRUE	GuyKawasaki	Chief evangelist @Canva 🎧 Host Remarkable People podcast https://t.co/Hout7Lxh9a	8453452	none	1395021	524	203267	35625	salon	NA	GuyKawasaki
+2308	Tracy Morgan	TRUE	TracyMorgan	@TheLastOGtbs	80700514	none	2776727	74	964	16650	salon	NA	TracyMorgan
+2327	James O'Keefe	FALSE	JamesOKeefeIII	Guerrilla Journalist, Project Veritas & Project Veritas Action. On the Inside? veritastips@protonmail.com or send us an encrypted Signal message at 914-653-3110	16989178	blue	1023282	1342	18809	4726	salon	NA	JamesOKeefeIII
+2374	The Awesome Coffee Club	TRUE	johngreen	This is a coffee company that donates all its profit to charity. Account managed by @paytmitch. Any tweets by John will be signed off with a J.	18055737	none	4637006	831	234	11506	salon	NA	johngreen
+2400	Andy Cohen	TRUE	Andy	Dad,Host,Producer,4x NYT bstslg Author 📺: #WWHL #RHOC #RHOA #RHONY #RHOBH #RHONJ #RHOP #RHOSLC #RHOM #RHDUBAI #RHUGT #CNNNYE 📻 :@RadioAndySXM @andyskikilounge	48100887	none	2485199	475	69097	8794	salon	NA	Andy
+2404	Bill Nye	TRUE	BillNye	Science Guy and CEO of @exploreplanets. Check out my new show 'The End is Nye' on @Peacock.	37710752	none	5971537	136	2590	19291	salon	NA	BillNye
+2421	Bret Baier	TRUE	BretBaier	Chief Political Anchor @FoxNews. Anchor & Executive Editor of @SpecialReport NYT bestselling author-“To Rescue The Republic” which hit #1 is available for order	18646108	none	1490206	8344	101720	7896	salon	NA	BretBaier
+2431	Michelle Malkin	TRUE	michellemalkin	Recovering journalist	15976697	none	2050060	17097	79260	12597	salon	NA	michellemalkin
+2440	Ana Navarro-Cárdenas	TRUE	ananavarro	Proud Nicaraguan-AMERICAN. I ❤️ hyphens. Catch me on @CNN @Telemundo @TheView. Failed dieter. This is my country. I’m not going back anywhere. Deal w/it.	19568591	none	2000670	1391	27391	8625	salon	NA	ananavarro
+2451	Issa Rae	TRUE	IssaRae	"@HOORAEmedia
+https://t.co/Lepn7urT1R"	78525538	none	1660697	1479	768	2656	salon	NA	IssaRae
+2461	Alex Gaskarth	TRUE	AlexGaskarth	semi-conscious time machine experiencing the forward flow and doing his best (he/him)	18734884	none	1674566	637	6085	6642	salon	NA	AlexGaskarth
+2510	Evil Hag Productions	TRUE	evilhag	A production company founded by Aubrey Plaza and Dan Murphy.	19879313	none	2054508	887	872	6316	salon	NA	evilhag
+2579	🏴‍☠️ERIC BOLLING 🏴‍☠️	TRUE	ericbolling	“Eric Bolling The Balance” @newsmax, 2x @NYTimes BestSelling author, 2 Emmy Noms @WHCA, Toll-free Hot🔥line (888) 601-0032, Speaking: contact@ericbolling.com	14839147	none	1131957	1043	37947	3947	salon	NA	ericbolling
+2639	Dinesh D'Souza	TRUE	DineshDSouza	I am an author, filmmaker, and host of the Dinesh D'Souza Podcast. Subscribe: https://t.co/hXjh7J5oW9	91882544	blue	3071393	6452	105976	8604	salon	NA	DineshDSouza
+2689	Neil deGrasse Tyson	TRUE	neiltyson	Astrophysicist	19725644	none	14827680	27	8037	44098	salon	NA	neiltyson
+2692	Anonymous	FALSE	YourAnonNews	"We are Anonymous, we are legion, we do not forgive, we do not forget. Expect us. 
+
+Prepared to go forward w/it. Here live. Not a cat.
+
+#Anonymous #HackThePlanet"	279390084	none	7966697	926	192183	16440	salon	NA	YourAnonNews
+2698	Discover Magazine	TRUE	DiscoverMag	Science that matters, for readers that matter.	23962323	none	1261489	194	95853	11321	salon	NA	DiscoverMag
+2732	Elizabeth Warren	TRUE	ewarren	U.S. Senator, former teacher. Wife, mom (Amelia, Alex, Bailey, @CFPB), grandmother, and Okie. She/her. Official campaign account.	357606935	none	5908341	567	13230	18197	salon	NA	ewarren
+2734	Kirsten Gillibrand	TRUE	SenGillibrand	Mom to Theo, Henry and dog Maple. Wife to Jonathan. U.S. Senator for New York. Not “very polite.” She/her.	72198806	none	1549540	1074	21444	9675	salon	NA	SenGillibrand
+2737	moby XⓋX	TRUE	thelittleidiot	adopted son of john waters. #animalrights #vegan since 1987. vegan for life. xvx.	14464766	none	1126260	2045	16720	9689	salon	NA	thelittleidiot
+2741	WikiLeaks	TRUE	wikileaks	"Securely submit leaks: https://t.co/6szoawI7fT
+PGP: A04C 5E09 ED02 B328 03EB 6116 93ED 732E
+Shop: @WikiLeaksShop
+Defend: https://t.co/48MnUzC5xw"	16589206	blue	5649766	7382	63594	48449	salon	NA	wikileaks
+2744	Twitter Verified	TRUE	verified	The blue checkmark is now included in @TwitterBlue. Subscribe on web or iOS to get yours!	63796828	business	4189345	420018	2499	9039	salon	NA	verified
+2745	Ellen DeGeneres	TRUE	EllenDeGeneres	Comedian, talk show host and ice road trucker. My tweets are real, and they’re spectacular.	15846407	none	76818158	25824	24507	93903	salon	NA	EllenDeGeneres
+2747	Ann Coulter	TRUE	AnnCoulter	Author.  NEW SUBSTACK: https://t.co/0ZGEwebZia	196168350	none	2114546	1620	70953	10778	salon	NA	AnnCoulter
+2767	Donald J. Trump	TRUE	realDonaldTrump	45th President of the United States of America🇺🇸	25073877	none	87715912	50	59144	113056	salon	NA	realDonaldTrump
+2777	Medium	TRUE	Medium	We’re an open platform where readers find insightful thinking, and where creators can share their writing on any topic.	571202103	business	2209611	419	48801	12516	salon	NA	Medium
+2954	Darren Rovell	TRUE	darrenrovell	Business of Sports Betting & Memorabilia Collector of tickets. Sports Business Reporter for @ActionNetworkHQ, Founder of @DrinkKickStand.	24277551	none	1994911	3547	197485	11839	salon	NA	darrenrovell
+2966	Joe Rogan	TRUE	joerogan	Stand up comic/mixed martial arts fanatic/psychedelic adventurer Host of The Joe Rogan Experience #FreakParty https://t.co/AZOVBquseu	18208354	none	10487467	3875	45882	23826	salon	NA	joerogan
+2977	Dave Rubin	TRUE	RubinReport	Florida Man	18379614	none	1323165	856	95364	5271	salon	NA	RubinReport
+3031	Reddit	TRUE	Reddit	Dive into anything • Get the app: https://t.co/pGG1fr2CN3 • Follow @redditstatus for our current status • For support: @Reddit_Support or https://t.co/aPjB7YyVXM	811377	business	1143299	565	79042	7274	salon	NA	Reddit
+3036	The Tonight Show	TRUE	FallonTonight	The Tonight Show Starring @JimmyFallon Weeknights 11:35/10:35c on @NBC | Tweet along with us using #FallonTonight	19777398	business	4506783	20514	99532	9475	salon	NA	FallonTonight
+3083	Salman Rushdie	TRUE	SalmanRushdie	In the immortal words of Popeye the Sailor Man: I yam what I yam and that's all that I yam.	373416209	none	1191491	564	4924	5947	salon	NA	SalmanRushdie
+3148	Conan O'Brien	TRUE	ConanOBrien	The voice of the people. Sorry, people.	115485051	none	28377415	1	5329	74048	salon	NA	ConanOBrien
+3154	John Hodgman	TRUE	hodgman	only Judge John Hodgman can judge me. plus: #dicktown on @hulu	14348594	none	1011084	4279	67043	13460	salon	NA	hodgman
+3164	ʞɔiwbɿɒH ꙅiɿʜƆ	TRUE	hardwick	Stand-upper, Zombie Therapist, Ball Dropper, Ravenclaw, @Nerdist Inventor and ID10T	15666380	none	2400920	766	40361	17855	salon	NA	hardwick
+3167	Bernie Sanders	TRUE	SenSanders	U.S. Senator Bernie Sanders of Vermont, Chair of the Senate Budget Committee, is the longest-serving independent in congressional history.	29442313	government	12501690	2304	23494	27290	salon	NA	SenSanders
+3169	Jimmy Fallon	TRUE	jimmyfallon	astrophysicist	15485441	none	51174362	10935	14416	60211	salon	NA	jimmyfallon
+3202	Kara Swisher	TRUE	karaswisher	Mother of (4) Dragons. Future resident of Hawaii. Occasional podcast lady. Find me here: https://t.co/girk6gN6yh	5763262	none	1492636	2170	169813	16217	salon	NA	karaswisher
+3233	Shashi Tharoor	TRUE	ShashiTharoor	INC. MP for Thiruvananthapuram. Author of 24 books. FounderChmn @ProfCong(AIPC). ExMinister ofState, Govt.of India. Former UnderSecretaryGeneral, UnitedNations.	24705126	none	8483762	1133	68949	13066	salon	NA	ShashiTharoor
+3276	Felicia Day🇺🇸	TRUE	feliciaday	Actress, New Media Geek, Author, Gamer, Misanthrope. I like to keep my Tweets real and not waste people's time. she/her	7861312	none	2587298	1055	41113	26657	salon	NA	feliciaday
+3413	Paul Kagame	TRUE	PaulKagame	President of the Republic of Rwanda, write to: paulkagame@gov.rw	37601149	none	2976480	226	2999	2396	salon	NA	PaulKagame
+3424	Hugo Chávez Frías	TRUE	chavezcandanga	Presidente de la República Bolivariana de Venezuela. Soldado Bolivariano, Socialista y Antiimperialista.	128637475	none	3846684	18	1824	56167	salon	NA	chavezcandanga
+3428	Robert Peston	TRUE	Peston	ITV (pol ed), Speakers for Schools (founder), writer (WTF), Hospice UK (vice pres), Arsenal (East Stand), Peston (as in #Peston show, 10.45pm Weds). So?	14157134	none	1333805	1468	34151	9470	salon	NA	Peston
+3609	Neil Gaiman	TRUE	neilhimself	grew up and never got a real job. Still making things up and writing them down. @neilhimself@mastodon.social, neil-gaiman on Tumblr, @neilhimself on IG.	18393773	none	3073465	985	187732	32450	salon	NA	neilhimself
+3802	timoreilly	TRUE	timoreilly	Founder and CEO, O'Reilly Media. Watching the alpha geeks, sharing their stories, helping the future unfold.	2384071	none	1677765	2172	47918	25152	salon	NA	timoreilly
+3868	Mario Batali	FALSE	Mariobatali	Food, like most things, is best when left to its own simple beauty.	148496087	none	1600680	909	33586	6058	salon	NA	Mariobatali
+3939	John Lewis	FALSE	repjohnlewis	Congressman, Georgia's Fifth Congressional District	29450962	none	1114822	144	2006	5200	salon	NA	repjohnlewis
+4049	Chris Rock	TRUE	chrisrock	EGO DEATH WORLD TOUR 2022. Click the link for tickets below. Text me at 718-223-4313 ----- Non Verbal Learning Disorder; read about it here https://t.co/BSRlcUI79q	238319766	none	5541633	277	2608	12248	salon	NA	chrisrock
+4068	Capital Weather Gang	TRUE	capitalweather	D.C.-area and worldwide weather news from the Washington Post | contact: weather@washpost.com	15309804	business	1106212	2380	111290	5817	salon	NA	capitalweather
+4162	Leonardo DiCaprio	TRUE	LeoDiCaprio	Actor and Environmentalist	133880286	none	19560450	238	2746	33800	salon	NA	LeoDiCaprio
+4258	RT	TRUE	RT_com	Freedom over censorship, truth over narrative. On air in 100+ countries. Don’t want your news filtered - find us at https://t.co/cOLF9KBzlq	64643056	none	3074089	688	434789	21353	salon	NA	RT_com
+4284	Ev	TRUE	ev	there's more than one way to do it	20	none	1690455	1285	8555	17822	salon	NA	ev
+4287	Gael García Bernal	TRUE	GaelGarciaB	Pachanga y su banda en pesero	109387470	none	2467378	1584	11621	7199	salon	NA	GaelGarciaB
+4289	diplo	TRUE	diplo	random white dude be everywhere, founder of smoothie wolf, feeding the streets since 1885. also in major lazer, silk city, jack ü, and LSD	17174309	none	2454105	5069	72806	8984	salon	NA	diplo
+4350	Chris Anderson	TRUE	TEDchris	Head of TED. Dreamer. Most days an optimist. TED = free talks on the web in Technology, Entertainment, Design & ideas worth spreading	14761795	blue	1546775	962	5538	16031	salon	NA	TEDchris
+4379	Guardian Books	TRUE	GuardianBooks	News, reviews and author interviews plus tweets from the @Guardian and Observer books team. Support the Guardian today: https://t.co/g2jWebD5y0	22001973	business	2124279	1190	50317	12513	salon	NA	GuardianBooks
+4467	Pinterest	TRUE	Pinterest	brb predicting the next big trend 🔮	106837463	business	2279472	351	11533	15013	salon	NA	Pinterest
+4512	Game of Thrones	TRUE	GameOfThrones	"Fire reigns. 
+
+@HouseofDragon, the @HBO original series and prequel to #GameOfThrones, is now streaming on @HBOMax."	180463340	business	8104316	36376	61030	13581	salon	NA	GameOfThrones
+4659	Daily Caller	TRUE	DailyCaller	#RealNewsStartsHere	39308549	business	1040379	7713	383129	7474	salon	NA	DailyCaller
+4768	PETA	TRUE	peta	Animals are not ours to experiment on, eat, wear, use for entertainment, or abuse in any other way. #EndSpeciesism	9890492	blue	1079674	1867	518603	7506	salon	NA	peta
+4770	HarperCollins	TRUE	HarperCollins	Publishing great authors since 1817.	46696817	none	1008792	3594	76283	5169	salon	NA	HarperCollins
+4803	zerohedge	FALSE	zerohedge	NA	18856867	none	1564300	891	494373	26624	salon	NA	zerohedge
+4851	Danny Glover	TRUE	mrdannyglover	Actor, Director, Producer, Political Activist	32309662	none	1197018	1336	4687	7105	salon	NA	mrdannyglover
+4893	New Scientist	TRUE	newscientist	The best place to find out what’s new in science – and why it matters.	19658826	business	4303880	291	108577	33504	salon	NA	newscientist
+4943	MTV	TRUE	MTV	"Silly little posts about my silly little crushes
+
+TEXT ME📱 (917) 920-2070 
+Stream all your MTV faves on @ParamountPlus"	2367911	business	17763194	29798	312018	27635	salon	NA	MTV
+4958	E! News	TRUE	enews	Your source for entertainment news, celebrities and pop culture.	2883841	business	11976983	108710	310319	32552	salon	NA	enews
+4977	Aziz Ansari	TRUE	azizansari	Pasta lover. I don't tweet much. My new Netflix series Master of None is now streaming on Netflix. I wrote a book called Modern Romance.	6480682	none	9886411	0	7578	24664	salon	NA	azizansari
+4979	Deepak Chopra	TRUE	DeepakChopra	Founder of @chopraglobal @ChopraFNDN @NeveraloneWorld & #author #AbundanceBook #TotalMeditation #Metahuman NEW BOOK - #LivingintheLight - Now Available👇	15588657	none	3167715	800	83066	25643	salon	NA	DeepakChopra
+4980	Rotten Tomatoes	TRUE	RottenTomatoes	Serving Up Fresh and Rotten Reviews for Movies and TV: https://t.co/5p0vc5cacf	20108560	business	2402090	1588	55889	14806	salon	NA	RottenTomatoes
+4982	ShareThis	FALSE	ShareThis	Unlocking the power of global digital behavior by synthesizing social share, interest, and intent data since 2007	14116807	none	1951972	4030	6097	3904	salon	NA	ShareThis
+4987	Kevin Spacey	TRUE	KevinSpacey	Former shoe salesman now making a go at film and theater.	27457788	none	3965352	30	2089	22835	salon	NA	KevinSpacey
+4998	Mitt Romney	TRUE	MittRomney	Husband, Father, Grandfather, Former Governor, U.S. Senator (R-UT). Follow @SenatorRomney for official updates.	50055701	none	2053141	295	2148	13569	salon	NA	MittRomney
+5066	HBO	TRUE	HBO	Look for the light.	15635604	business	3275178	814	56815	13073	salon	NA	HBO
+5071	Eddie Izzard	TRUE	eddieizzard	Performing Charles Dickens' Great Expectations December 22 - February 11. Tickets at: https://t.co/u7PRHZGAXI	24447643	none	4298526	595	9186	22879	salon	NA	eddieizzard
+5082	Amnesty International USA	TRUE	amnestyusa	We've been fighting the bad guys since 1961 - you can join us! Official Amnesty International USA profile - RTs≠endorsements.	16153562	none	4174486	5990	38347	16628	salon	NA	amnestyusa
+5086	Forbes	TRUE	Forbes	Official account of Forbes, the world’s leading voice for entrepreneurial success and free enterprise, and home to breaking news, business, money and more.	91478624	business	18689141	5037	450969	63568	salon	NA	Forbes
+5121	Biz Stone	TRUE	biz	Co-founder of Twitter and Medium.	13	none	2624905	1619	10099	18704	salon	NA	biz
+5132	Megyn Kelly	TRUE	megynkelly	Happily married to Doug, crazy in love with my children Yates, Yardley, and Thatcher, journalist.	110445334	none	2705730	3035	17918	10797	salon	NA	megynkelly
+5134	Bill O'Reilly	TRUE	BillOReilly	"""Killing the Legends"" is on sale now and available at https://t.co/kWFiRg3iuO. Sign up to become a Premium Member and watch the @NoSpinNews, get the book free."	23970102	none	3287998	103	18518	10622	salon	NA	BillOReilly
+5164	Matt Taibbi	TRUE	mtaibbi	Author of GRIFTOPIA, THE DIVIDE, THE BUSINESS SECRETS OF DRUG DEALING, and HATE INC. https://t.co/I7ld6ZAti9	38271276	none	1745339	4051	25569	12379	salon	NA	mtaibbi
+5175	ReadWrite	TRUE	RWW	The latest #news, analysis, and conversation on the #InternetOfThings	4641021	none	1491951	2634	70374	23526	salon	NA	RWW
+5180	Wael Ghonim	TRUE	Ghonim	My personal views are in constant maintenance mode. I look for what is constructive and productive. My Hope is better manifested by actions & less by words.	23188724	none	2879901	24324	43791	6665	salon	NA	Ghonim
+5182	The Last Word	TRUE	TheLastWord	Official Twitter account for @MSNBC's The #LastWord with @Lawrence O'Donnell. Join us: https://t.co/FAgrljLzFt	182503471	business	1082355	1553	69049	3594	salon	NA	TheLastWord
+5224	Ricky Gervais	TRUE	rickygervais	Godless Ape. Writer. Director. Actor. Comedian. #TheOffice #GhostTown #Extras #TheInventionOfLying #Derek #Humanity #AfterLife #SuperNature https://t.co/4hSlXqi7W5	20015311	none	15133713	1541	72618	27321	salon	NA	rickygervais
+5301	Mindy Kaling	TRUE	mindykaling	new money	23544596	none	11443231	901	21048	21163	salon	NA	mindykaling
+5302	Rick Mercer	TRUE	rickmercer	Anger is my cardio.	17881732	none	1695299	3462	2700	6595	salon	NA	rickmercer
+5305	Lena Dunham	TRUE	lenadunham	Good Thing Going | Stream #CatherineCalledBirdy on Amazon Prime 🕊️	31080039	none	5155286	753	14834	8943	salon	NA	lenadunham
+5313	Charlie Sheen	TRUE	charliesheen	Actor, Dad, world champion air guitarist.	259379883	none	10269830	186	2335	32596	salon	NA	charliesheen
+5315	P!nk	TRUE	Pink	Pre-order my new album TRUSTFALL out Feb 17 💜 Summer Carnival 2023 European and North American tickets on sale now! 🎡🛼	28706024	none	31510836	469	8297	57670	salon	NA	Pink
+5316	ashton kutcher	TRUE	aplusk	I build things, stories, companies, collaborations of thoughts, dreams, & believe in a future where we all have a right to pursue happiness. +1 (319) 519-0576	19058681	none	17023514	776	10736	63740	salon	NA	aplusk
+5317	Lady Gaga	TRUE	ladygaga	THE CHROMATICA BALL ⚔️💓 | Hold My Hand ✈️ Out Now | HAUS LABS 💄 @hauslabs | Love For Sale 🎺 Out Now https://t.co/CO0n8zLh7T	14230524	none	85129569	116473	9933	201147	salon	NA	ladygaga
+5318	Danny DeVito	TRUE	DannyDeVito	I'm an actor, director and producer.	71876190	none	4458063	32	7858	19670	salon	NA	DannyDeVito
+5324	New York Magazine	TRUE	NYMag	"The ideas, people, and cultural currents that are forever reshaping the world.
+Subscribe: https://t.co/eO5NQ0hSUF
+Get the One Great Story newsletter: https://t.co/FtV7tlY7aX"	45564482	business	1795947	998	223851	13387	salon	NA	NYMag
+5330	Margaret E. Atwood	TRUE	MargaretAtwood	author	54730258	none	2046316	1552	51271	12389	salon	NA	MargaretAtwood
+5332	The New York Review of Books	TRUE	nybooks	‘The premier literary-intellectual magazine in the English language.’	11178902	blue	2295847	648	18312	15168	salon	NA	nybooks
+5349	TechCrunch	TRUE	TechCrunch	Technology news and analysis with a focus on founders and startup teams. Got a tip? https://t.co/J0WxnZxSRY	816653	business	10286294	427	249129	107429	salon	NA	TechCrunch
+5359	fllwrs	FALSE	_fllwrs	track your followers and unfollowers - go to http://t.co/mBjG8d4t4f for more info and to get started	219807531	none	2071930	6	1095	881	salon	NA	_fllwrs
+5390	Mike Bloomberg	TRUE	MikeBloomberg	Entrepreneur, philanthropist, UN Special Envoy for Climate Ambition & Solutions, WHO Amb. for NCDs & Injuries, mayor of NYC, father, grandfather, and data nerd.	16581604	none	2672122	715	14100	12268	salon	NA	MikeBloomberg
+5391	GOP	TRUE	GOP	Text FREEDOM to 80810 to receive exclusive updates from the Republican National Committee!	11134252	none	3278231	1640	52774	12317	salon	NA	GOP
+5392	John Boehner	TRUE	SpeakerBoehner	Official Twitter account for former U.S. House Speaker John Boehner (R-OH)	7713202	none	1291267	6743	22751	10078	salon	NA	SpeakerBoehner
+5395	Nancy Pelosi	TRUE	SpeakerPelosi	Representative for CA-11, fighting for the people of San Francisco. 52nd Speaker of the House. Wife, mother, grandmother, dark chocolate connoisseur.	15764644	government	8116558	468	14191	25791	salon	NA	SpeakerPelosi
+5396	Cornel West	TRUE	CornelWest	1 of America's most provocative public intellectuals; a champion for racial justice through the traditions of the black Church, progressive politics, & jazz.	36743910	none	1046005	189	3466	10543	salon	NA	CornelWest
+5407	Bill Maher	TRUE	billmaher	The Official Bill Maher Twitter	19697415	none	10948493	37	5480	35284	salon	NA	billmaher
+5411	Marshall Mathers	TRUE	Eminem	NA	22940219	none	22727989	0	1248	53011	salon	NA	Eminem
+5425	John Kerry	TRUE	JohnKerry	Teresa's husband, 28 years representing Massachusetts in the U.S. Senate, 68th U.S. Secretary of State, now fighting the climate crisis.	15007149	none	3359466	577	2796	9148	salon	NA	JohnKerry
+5430	Elizabeth Banks	TRUE	ElizabethBanks	Amateur Goofball; proud native, Pittsfield, MA; 'Charlie’s Angels’ this, ‘Hunger Games’ that, with a sprinkle of 'Pitch Perfect'.	20196258	none	2196206	531	12339	11323	salon	NA	ElizabethBanks
+5438	Craig Ferguson	TRUE	CraigyFerg	NA	112508240	none	2587890	233	3025	21034	salon	NA	CraigyFerg
+5444	Tucker Carlson	TRUE	TuckerCarlson	Emmy-award-winning broadcast journalist, graduate of Harvard College & Yale Law School. Frequent visitor to the Aspen Inst. Fully vaccinated. She/Hers 🇺🇦	22703645	none	5453675	158	4571	15099	salon	NA	TuckerCarlson
+5446	Chris Colfer	TRUE	chriscolfer	#1 New York Times Bestselling author, Golden Globe winning actor, Member of TIME 100... still mastering motor skills. He/Him. Instagram: @ChrisColfer	32985158	none	2102731	833	4474	17924	salon	NA	chriscolfer
+5453	Heather B. Hamilton	TRUE	dooce	NYTimes Bestselling Author and creator of ᖱooce®	5391882	none	1186714	2312	8237	6784	salon	NA	dooce
+5456	Zagat	TRUE	Zagat	The most trusted name in restaurant guides since 1979.	19195914	none	1647242	28938	38652	9256	salon	NA	Zagat
+5462	Pixar	TRUE	Pixar	The official Twitter for Pixar.	43192807	business	12058633	72	10994	24394	salon	NA	Pixar
+5463	Demi Moore	TRUE	justdemi	NA	19554706	none	4411793	338	5510	28062	salon	NA	justdemi
+5468	Sarah Palin	TRUE	SarahPalinUSA	Former Governor of Alaska and GOP Vice Presidential Nominee. Tweets by Sarah Palin signed - SP	65493023	none	1436046	151	17932	16922	salon	NA	SarahPalinUSA
+5491	Glenn Beck	TRUE	glennbeck	Radio hall-of-famer, digital disruptor, chalkboard enthusiast, fine art artist, against ESG before it was cool.	17454769	none	1636501	602	22503	14768	salon	NA	glennbeck
+5493	Cory Booker	TRUE	CoryBooker	U.S. Senator from New Jersey. Most tweets (and typos) are mine, some are my team’s. He/him.	15808765	none	4837193	85127	67721	19066	salon	NA	CoryBooker
+5494	galifianakisz	TRUE	galifianakisz	NA	36686415	none	3040170	0	107	17018	salon	NA	galifianakisz
+5522	Michael Moore	TRUE	MMFlint	Filmmaker. Writer. Citizen. Podcaster. Listen to my podcast “Rumble with Michael Moore” on Apple & Spotify. Sign-up for my free newsletter at https://t.co/VALHKq2Deg	20479813	none	5892643	573	16061	28294	salon	NA	MMFlint
+5532	Arnold	TRUE	Schwarzenegger	Former Mr. Olympia, Conan, Terminator, and Governor of California. I killed the Predator. I told you I'd be back. Sign up for my newsletter:	12044602	none	5143811	453	7971	29680	salon	NA	Schwarzenegger
+5533	Jerry Brown	TRUE	JerryBrownGov	Governor of California, 1975-83 & 2011-19. Executive Chair @BulletinAtomic. Chair @CalChinaClimate. Member @NTI_WMD & @CouncilonCJ. Age quod agis.	19418459	none	1027919	51	2499	5116	salon	NA	JerryBrownGov
+5540	Pearl Jam 🇺🇦	TRUE	PearlJam	Gigaton - Out Now. Listen to the new album: https://t.co/p27bfTiqQ0	15155074	none	3497868	922	9736	16617	salon	NA	PearlJam
+5542	John Cleese	TRUE	JohnCleese	Trainee hermit, & keen Amateur Squirrel Trainer	10810102	none	5699641	255	13254	33137	salon	NA	JohnCleese
+5547	Barack Obama	TRUE	BarackObama	Dad, husband, President, citizen.	813286	none	133538007	565691	16756	218585	salon	NA	BarackObama
+5550	Stephen Fry	TRUE	stephenfry	Verified Twitter account of Stephen Fry reactivated by https://t.co/XZGJlUTfW7 management in order to prevent impersonation accounts.	15439395	none	12394716	46932	25829	49067	salon	NA	stephenfry
+5568	Wil Wheaton	TRUE	wilw	#BlackLivesMatter	1183041	none	2648562	6	432	31553	salon	NA	wilw
+5576	NYT Photo	TRUE	nytimesphoto	This Twitter account is no longer active. For the best of @nytimes photography, follow us on Twitter or on Instagram https://t.co/9ThrRobOiw.	22411875	none	1134998	446	26025	12843	salon	NA	nytimesphoto
+5586	New York Times Travel	TRUE	nytimestravel	Open up your world with The New York Times. 🌍	1774391	business	1192734	337	41343	11291	salon	NA	nytimestravel
+5587	New York Times World	TRUE	nytimesworld	"Global news from The New York Times
+
+Lee en español: https://t.co/le10ZtxEIP
+阅读中文新闻简报: https://t.co/ToNL143zvh
+Lisez en français: https://t.co/ooipOXGX3T"	1877831	business	2206457	803	295366	20361	salon	NA	nytimesworld
+5588	NYT Health	TRUE	NYTHealth	Health and medical news from The NYT's Health & Science desk. Sign up for the Science Times email, in your inbox every Tuesday: https://t.co/kpdN2C1hDy	1769551	none	1178109	124	89455	13252	salon	NA	NYTHealth
+5589	New York Times Arts	TRUE	nytimesarts	Arts and entertainment news from The New York Times.	1440641	business	2698050	248	193382	18765	salon	NA	nytimesarts
+5590	New York Times Books	TRUE	nytimesbooks	All things books from The New York Times. You like reading, we do too.	1434251	none	5585660	165	60522	18230	salon	NA	nytimesbooks
+5593	NYT Science	TRUE	NYTScience	Science, Medicine, Environment, Space & Astronomy. Sign up for the Science Times email, in your inbox every Tuesday: https://t.co/kpdN2C1hDy	1435461	business	1230818	459	124611	17750	salon	NA	NYTScience
+5596	T Magazine	TRUE	tmagazine	Of @nytimes fame. Follow @Tmagazine on Instagram: https://t.co/zW324YWSAw	14575107	none	1729611	842	33159	8996	salon	NA	tmagazine
+5601	Oprah Winfrey	TRUE	Oprah	NA	19397785	none	43011209	317	13654	82379	salon	NA	Oprah
+5602	Google	TRUE	Google	#HeyGoogle	20536157	business	28321676	294	175330	93365	salon	NA	Google
+5607	Financial Times	TRUE	FinancialTimes	The best of FT journalism, including breaking news and analysis. Follow @ftopinion @ftweekend and @ftworldnews for more from the Financial Times	4898091	business	7508348	1042	326290	47741	salon	NA	FinancialTimes
+5608	BBC News (World)	TRUE	BBCWorld	News, features and analysis from the World's newsroom. Breaking news, follow @BBCBreaking. UK news, @BBCNews. Latest sports news @BBCSport	742143	business	39387341	18	358021	134002	salon	NA	BBCWorld
+5610	The Independent	TRUE	Independent	News, comment and features from The Independent. Get the app: https://t.co/3YtPa9YnU9…  Telegram: https://t.co/Xji8GXv7cc	16973333	business	3622449	434	1374208	25697	salon	NA	Independent
+5613	Al Jazeera English	TRUE	AJEnglish	Hear the human story and join the discussion. We go beyond cold facts and bring to light what matters. For breaking news alerts, follow @AJENews.	4970411	business	8262215	243	324298	56784	salon	NA	AJEnglish
+5645	John McCain	TRUE	SenJohnMcCain	Memorial account for U.S. Senator John McCain, 1936-2018. To support the causes to which Senator McCain dedicated his life & service, follow @McCainInstitute.	19394188	none	2807774	371	14397	16400	salon	NA	SenJohnMcCain
+5692	Nicholas Kristof	TRUE	NickKristof	NY Times columnist, author and apple farmer @KristofFarms	17004618	none	1962414	3385	53057	20839	salon	NA	NickKristof
+5745	Fareed Zakaria	TRUE	FareedZakaria	"WaPo columnist. Host of CNN's GPS, Sundays @ 10am and 1pm ET in the US. Order my book ""Ten Lessons for a Post-Pandemic World"" https://t.co/YRdyeBMWuX"	41814169	none	1038900	452	10921	10837	salon	NA	FareedZakaria
+5748	Octavia Nasr	TRUE	octavianasr	This account has moved to https://t.co/2QynHbrvZz Insta: @octavianasr #journalism | #socialmedia | #yoga | @CNN Alumna — Principal @BridgesMediaC	14517000	none	1624613	1961	45008	1777	salon	NA	octavianasr
+83	Charlamagne Tha God	TRUE	cthagod	“Hell Of A Week” Every Thursday NIGHT @ 11:30PM EST on @comedycentral	17878322	none	2145454	2352	15078	4593	msnbc	NA	cthagod
+117	Andrew Zimmern	TRUE	andrewzimmern	Chef, Writer, Traveler, TV Host, @wfp ambassador. Family Dinner on @MagnoliaNetwork. Wild Game Kitchen on @outdchannel. Sign up for my newsletter at the link.	17008726	none	1260229	16989	76093	8840	msnbc	NA	andrewzimmern
+212	Telemundo	TRUE	Telemundo	Telemundo lo mejor de las noticias, entretenimiento, salud, series y mucho más aquí. Telemundo app. Descárgala aquí 👇🏻	22952132	business	3110452	1140	159361	6074	msnbc	NA	Telemundo
+249	TikTok US	TRUE	tiktok_us	the 🕰 app	2401980110	business	2117966	931	74736	2503	msnbc	NA	tiktok_us
+290	Steve Schmidt	TRUE	SteveSchmidtSES	NA	786309892990574600	none	1594997	207	11616	8155	msnbc	NA	SteveSchmidtSES
+301	Nicolle Wallace	TRUE	NicolleDWallace	Mom, dog lover, Host of Deadline White House airing for a couple hours these days on MSNBC	860555190	none	1220686	2220	34755	7265	msnbc	NA	NicolleDWallace
+327	Federal Reserve	TRUE	federalreserve	The official Twitter channel of the Board of Governors of the Federal Reserve System. Privacy Policy: http://t.co/pbRRCfwyou	26538229	government	1053787	29	8253	11018	msnbc	NA	federalreserve
+333	TwitterGov	TRUE	TwitterGov	What’s happening in government & elections worldwide.  🗣️ Multilingual	222953824	business	2357493	31	6556	4846	msnbc	NA	TwitterGov
+342	Homeland Security	TRUE	DHSgov	With honor and integrity, we will safeguard the American people, our homeland, and our values. #WeAreDHS, led by @SecMayorkas and @DepSecTien.	15647676	none	2310071	445	21145	12484	msnbc	NA	DHSgov
+491	Mike Seidel	TRUE	mikeseidel	"30+ years at TWC
+🎥 24,602 live shots 
+
+B.S. Math Salisbury State
+M.S. Meteorology Penn State
+
+https://t.co/GDCOJUpG7i https://t.co/VzUH1f8Eke"	24111487	none	2489549	159	7037	2057	msnbc	NA	mikeseidel
+510	NBC Olympics	TRUE	NBCOlympics	The official home of NBC’s coverage of the Olympics and Paralympics.	14955353	business	1093226	2910	45305	7242	msnbc	NA	NBCOlympics
+557	Pharrell Williams	TRUE	Pharrell	i am OTHER. @sitw @humanrace	338084918	none	10637274	1093	4954	11782	msnbc	NA	Pharrell
+667	FRANCE 24	TRUE	FRANCE24	"🌍 International News 24/7 in 4 languages: 
+@France24_fr - @France24_en - @France24_es - @France24_ar 
+📱 https://t.co/xDU6EWz22o  ✉️ https://t.co/ZaaXsh7FeN"	1994321	business	4096248	453	380691	12693	msnbc	NA	FRANCE24
+668	AFP News Agency	TRUE	AFP	Top news and features from AFP's reporters around the world. Elsewhere on Twitter: https://t.co/ELSlBpSrHN	380648579	business	2431550	603	321525	27579	msnbc	NA	AFP
+671	Channel 4 News	TRUE	Channel4News	"Stories that reveal and inspire, challenging expectations. 
+
+Weekdays 7-8pm on Channel 4.
+
+Subscribe to our podcast: https://t.co/FSs8pWrXc5"	14569869	business	2471437	4390	117718	10500	msnbc	NA	Channel4News
+672	World Health Organization (WHO)	TRUE	WHO	"We are the #UnitedNations’ health agency - #HealthForAll.
+▶️ Always check our latest tweets on #COVID19 for updated advice/information."	14499829	government	12049752	1771	72757	35301	msnbc	NA	WHO
+679	Presidency | South Africa 🇿🇦	TRUE	PresidencyZA	This is the official Twitter page of The Presidency of the Republic of South Africa #LeaveNoOneBehind 🇿🇦	40839292	government	2339592	22	28167	2672	msnbc	NA	PresidencyZA
+680	Mohamed ElBaradei	TRUE	ElBaradei	NA	119360445	none	6119771	179	5355	12169	msnbc	NA	ElBaradei
+687	CNN International	TRUE	cnni	Breaking news from around the world, plus business, style, travel, sport and entertainment. We #gothere.	2097571	business	14404006	368	285620	49853	msnbc	NA	cnni
+690	ICRC	TRUE	ICRC	20,000 staff, 100 countries, 1 humanitarian mission: to uphold #IHL and protect + assist people affected by conflict and violence.	85289376	none	2301525	1291	22625	5049	msnbc	NA	ICRC
+691	UNHCR, the UN Refugee Agency	TRUE	Refugees	We are UNHCR, the @UN Refugee Agency. We save lives and protect the rights of refugees, asylum-seekers, stateless people and all who are forced to flee.	14361155	government	2804146	2457	91803	14238	msnbc	NA	Refugees
+695	Dalai Lama	TRUE	DalaiLama	Welcome to the official twitter page of the Office of His Holiness the 14th Dalai Lama.	20609518	none	19176534	0	1861	71487	msnbc	NA	DalaiLama
+697	United Nations	TRUE	UN	"Official account of the United Nations. 
+For peace, dignity & equality on a healthy planet."	14159148	government	16193669	1208	88986	45137	msnbc	NA	UN
+700	The Royal Family	TRUE	RoyalFamily	The latest news and updates on the work of The King, The Queen Consort and The Royal Family.	36042554	none	5754358	458	37712	10527	msnbc	NA	RoyalFamily
+707	Dilma Rousseff	TRUE	dilmabr	Primeira presidenta do Brasil	131574396	none	6714644	275	9143	15504	msnbc	NA	dilmabr
+709	Nicolas Sarkozy	TRUE	NicolasSarkozy	6ème Président de la Vème République française	490126636	none	2376354	14051	9797	5110	msnbc	NA	NicolasSarkozy
+710	CERN	TRUE	CERN	#CERN, the European Organization for Nuclear Research, is the world's largest particle physics lab, home of the #LHC. French: @CERN_FR	15234407	none	2597907	465	6344	22421	msnbc	NA	CERN
+711	NASA	TRUE	NASA	There's space for everybody. ✨	11348282	government	70205127	181	69420	99672	msnbc	NA	NASA
+712	BBC News (UK)	TRUE	BBCNews	News, features and analysis. For world news, follow @BBCWorld. Breaking news, follow @BBCBreaking. Latest sport news @BBCSport. Our Instagram: BBCNews	612473	business	14969328	82	512539	50383	msnbc	NA	BBCNews
+745	Sky News Breaking	TRUE	SkyNewsBreak	"Watch live on Sky 501, Virgin Media 602, Freeview 233 & YouTube. Follow @SkyNews for more. Insta & Tiktok: SkyNews
+
+Download our app: https://t.co/pwV8v7v56K"	87416722	business	4987996	3	57323	21988	msnbc	NA	SkyNewsBreak
+782	NBC Sports	TRUE	NBCSports	The official Twitter of NBC Sports.	11856342	business	1248588	1043	164149	7760	msnbc	NA	NBCSports
+473	barkha dutt	TRUE	BDUTT	Barkha Rani Jamke Barasti Hai. Emmy Nominated Reporter. Columnist @WashingtonPost. Editor, @themojostory. Argumentative! Yaaron Ka Yaar	19929890	none	7152104	3948	151136	10464	washingtonpost	NA	BDUTT
+536	Mr. Tweet	TRUE	elonmusk	NA	44196397	none	127388827	172	22351	113680	washingtonpost	NA	elonmusk
+629	Jeff Bezos	TRUE	JeffBezos	Amazon. Blue Origin. Washington Post. Bezos Earth Fund. Bezos Academy.	15506669	none	6096663	160	384	11634	washingtonpost	NA	JeffBezos
+655	Univision Noticias	TRUE	UniNoticias	Noticias de la comunidad hispana y el acontecer mundial, al instante.	35785401	business	2227452	1883	330857	8202	washingtonpost	NA	UniNoticias
+730	Canada #StandWithUkraine🇺🇦	TRUE	Canada	"Showcasing Canada to the world - français: @AuCanada - https://t.co/hKNrf2Ameu
+#StandWithUkraine🇺🇦"	2459609448	government	1118378	757	8845	2470	washingtonpost	NA	Canada
+733	Tiffany & Co.	TRUE	TiffanyAndCo	Expertly crafting jewelry for the world’s greatest love stories since 1837.	90774609	business	1826401	119	18075	4838	washingtonpost	NA	TiffanyAndCo
+734	CHANEL	TRUE	CHANEL	'CHANEL is above all a style. Fashion passes, style remains.' Gabrielle Chanel	326359913	business	13550252	1	4220	11492	washingtonpost	NA	CHANEL
+735	Vogue Magazine	TRUE	voguemagazine	The official Twitter of Vogue	136361303	business	15008184	456	179963	22547	washingtonpost	NA	voguemagazine
+801	solange knowles	TRUE	solangeknowles	water, melanin, bones, blood.	18395177	none	4073895	144	595	8653	washingtonpost	NA	solangeknowles
+816	Robert Downey Jr	TRUE	RobertDowneyJr	You know who I am.	47786101	none	18018236	5	926	18371	washingtonpost	NA	RobertDowneyJr
+828	Bill Cosby	TRUE	BillCosby	My first TV concert special in 30 years, Far From Finished debuted on @ComedyCentral on Nov 23rd. Buy the DVD today: https://t.co/Ym2tpBtbba #FarFromFinished	54682125	none	3162449	7	2624	21106	washingtonpost	NA	BillCosby
+840	FiveThirtyEight	TRUE	FiveThirtyEight	Data-driven news and analysis from ABC News’s FiveThirtyEight	2303751216	business	1309271	321	118681	18215	washingtonpost	NA	FiveThirtyEight
+865	Garry Kasparov	TRUE	Kasparov63	Join RDI! @Renew_Democracy. Chairman of the Human Rights Foundation (@HRF). Author, speaker, 13th World Chess Champion https://t.co/CmCdvMlxMi	449588356	none	1029931	624	38948	9810	washingtonpost	NA	Kasparov63
+914	Le Parisien	TRUE	le_Parisien	L’actualité qui vous concerne📱🗞️	38142665	business	3219450	841	527335	10499	washingtonpost	NA	le_Parisien
+920	U.S. Secret Service	TRUE	SecretService	The Secret Service is mandated by Congress to carry out an integrated mission of protection and criminal investigations.	115749048	none	1200785	78	4956	5757	washingtonpost	NA	SecretService
+922	Entertainment Weekly	TRUE	EW	Our 2023 #Oscars preview cover, featuring Michelle Williams, is out now! https://t.co/MbCKp7XqYQ	16312576	business	6457131	4310	295492	23523	washingtonpost	NA	EW
+980	Senator Dianne Feinstein	TRUE	SenFeinstein	United States Senator from California. On Facebook at: https://t.co/RVLkJPLS9Y	476256944	government	1452707	261	14250	6913	washingtonpost	NA	SenFeinstein
+985	US Department of the Interior	TRUE	Interior	Stewarding conservation and powering our future. For news & policy: @USInteriorPress	76348185	government	4958750	122205	25894	7636	washingtonpost	NA	Interior
+986	Amazon	TRUE	amazon	Delivering smiles one box at a time 📦🧡. Use @AmazonHelp for customer support and @AmazonNews for the latest.	20793816	business	5191835	51	47941	16298	washingtonpost	NA	amazon
+992	Yahoo News	TRUE	YahooNews	Top stories. Trusted sources. Your window to the news that matters most to you. Current live events pinned below. Download our app here: https://t.co/aOTqWBhwuB	7309052	business	1091928	2325	266927	13421	washingtonpost	NA	YahooNews
+993	Yahoo	TRUE	Yahoo	Yahoo's official Twitter, sharing the best of our network. For email help: @YahooCare	19380829	business	1429279	7507	115714	8293	washingtonpost	NA	Yahoo
+1007	Walmart	TRUE	Walmart	"If you Walmart, you know you'll leave with a full cart & wallet. 😉 #IYWYK
+Customer support questions? @WalmartHelp"	17137891	business	1359628	350	631970	5993	washingtonpost	NA	Walmart
+1020	Edwy Plenel	TRUE	edwyplenel	Journaliste (depuis 1976), président et co-fondateur de @Mediapart (créé en 2008).	47399805	none	1064236	5809	103521	5530	washingtonpost	NA	edwyplenel
+1083	OREO Cookie	TRUE	Oreo	Your favorite cookie, filling your world with playful moments, 280 characters at a time.	126084292	business	1041333	1274	55305	3299	washingtonpost	NA	Oreo
+1115	Nat Geo Photography	TRUE	NatGeoPhotos	All things photography from National Geographic.	117662694	business	5133784	141	15516	16546	washingtonpost	NA	NatGeoPhotos
+1141	The Weather Channel	TRUE	weatherchannel	The World's Leading Weather Provider. Home to The Weather Channel TV network, apps, and https://t.co/arXumily0e. Follow for forecasts, news, and alerts. #GetIntoTheOutThere	20998647	business	4355061	4748	127565	16810	washingtonpost	NA	weatherchannel
+1211	U.S. Department of Education	TRUE	usedgov	The official United States Department of Education Twitter account. Follows, Retweets and shared links ≠ endorsement.	20437286	government	1411688	164	28783	12580	washingtonpost	NA	usedgov
+1232	Joel Osteen	TRUE	JoelOsteen	Inspiring people to reach their dreams and live their best life. Download the latest episode of the #JoelOsteenPodcast today!	20545055	none	10261296	163	22103	13414	washingtonpost	NA	JoelOsteen
+1276	Twitter News	TRUE	TwitterNews	Spotlighting best practices and innovative uses of Twitter by journalists and newsrooms.	372575989	business	2752174	79	10696	5586	washingtonpost	NA	TwitterNews
+1304	Curiosity Rover	TRUE	MarsCuriosity	Your friendly neighborhood NASA Mars rover. Exploring the Red Planet since 2012. Team headquartered at NASA's Jet Propulsion Laboratory 🚀 @NASAJPL	15473958	none	4309806	170	4035	25916	washingtonpost	NA	MarsCuriosity
+1502	Department of State	TRUE	StateDept	Welcome to the U.S. Department of State Twitter account. Follow @SecBlinken for more from the Secretary. For all Department accounts: https://t.co/kzsNMIOwF9.	9624742	government	6401160	240	78097	24095	washingtonpost	NA	StateDept
+1503	U.S. Army	TRUE	USArmy	Official Twitter page of the United States Army.  (Following, RTs and links ≠ endorsement)	8775672	government	1890316	1077	43394	9685	washingtonpost	NA	USArmy
+1504	Department of Defense 🇺🇸	TRUE	DeptofDefense	The official account of the U.S. Department of Defense. Following, RTs, links, and likes ≠ endorsement.	66369181	government	6534908	515	37059	15908	washingtonpost	NA	DeptofDefense
+1540	YouTube	TRUE	YouTube	like and subscribe.	10228272	business	78677152	1193	50681	80101	washingtonpost	NA	YouTube
+1569	TMZ	TRUE	TMZ	Breaking entertainment news as it happens.	16331010	business	6642116	926	401955	20074	washingtonpost	NA	TMZ
+1581	ESPN	TRUE	espn	Serving sports fans. Anytime. Anywhere.	2557521	business	44768371	436	135730	60481	washingtonpost	NA	espn
+1588	People	TRUE	people	The #1 source for celebrity news and inspiring stories. ✨ Listen to PEOPLE Every Day for the latest news in pop culture: https://t.co/AngKpy5oJ1	25589776	business	7815884	1664	418306	30586	washingtonpost	NA	people
+1638	The Globe and Mail	TRUE	globeandmail	Canada's national news organization. Customer care: @GlobeHelp. Share info with us anonymously: https://t.co/ROPEUCh7gm	8736882	business	2013501	1017	610260	14280	washingtonpost	NA	globeandmail
+1680	National Geographic	TRUE	NatGeo	Taking our understanding and awareness of the world further for more than 130 years	17471979	business	28727501	195	68896	64358	washingtonpost	NA	NatGeo
+1681	FBI	TRUE	FBI	Official FBI Twitter. Submit tips at https://t.co/tGqFRcJykB. Public info may be used for authorized purposes: https://t.co/x6bfDUEYeJ.	17629860	government	3563468	2115	17902	16915	washingtonpost	NA	FBI
+523	纽约时报中文网	TRUE	nytchinese	"纽约时报中文网官方推特。Official Twitter Account of The New York Times Chinese Website.
+iPhone & iPad app: https://t.co/hzbwaOOxA6
+Android app: https://t.co/NIusFpRU2S"	620632841	none	2496790	379	66452	8112	nytimes	NA	nytchinese
+849	NYT Cooking and Food	TRUE	nytcooking	This account is no longer active. For New York Times Cooking recipes, advice and inspiration, follow us on Instagram or Tiktok under AT nytcooking.	1775731	none	1427716	217	41109	10426	nytimes	NA	nytcooking
+108	Adar Poonawalla	TRUE	adarpoonawalla	CEO and Owner, @seruminstindia, Chairman, Poonawalla Fincorp, Founder, @CleanCityPune, Passionate about vaccines, horse racing and public health.	91118242778291e4	none	1315777	86	278	305	tpm	NA	adarpoonawalla
+152	Global Times	TRUE	globaltimesnews	China's national English language newspaper, under the People's Daily. Apps: https://t.co/S9E7BpFVPI	49616273	none	1881272	539	227458	5584	tpm	NA	globaltimesnews
+172	BASTILLE	TRUE	bastille	GIVE ME THE FUTURE + DREAMS OF THE PAST ∞ OUT NOW	21433995	none	1324227	155	19292	2218	tpm	NA	bastille
+223	Twitter API	TRUE	TwitterAPI	Tweets about changes and service issues. Follow @TwitterDev for more.	6253282	business	6026376	37	3742	12207	tpm	NA	TwitterAPI
+229	U.S. Navy	TRUE	USNavy	Official Twitter account of the #USNavy. (Following, RTs and links ≠ endorsement)	54885400	government	1665758	1193	35712	8279	tpm	NA	USNavy
+287	Ludacris	TRUE	Ludacris	NA	17696167	none	11412597	321	22583	22357	tpm	NA	Ludacris
+289	Dmitry Medvedev	TRUE	MedvedevRussiaE	Deputy Chair of the Security Council of the Russian Federation. The President of Russia, 2008-2012. For tweets in Russian, follow @MedvedevRussia	153810519	government	1168923	16	1540	8431	tpm	NA	MedvedevRussiaE
+337	American Red Cross	TRUE	RedCross	The official account of the American Red Cross.	6519522	none	5091780	171	13853	16364	tpm	NA	RedCross
+351	The Democrats	TRUE	TheDemocrats	We’re fighting for a better, fairer, and brighter future for every American.	14377605	none	2370436	73	39546	12752	tpm	NA	TheDemocrats
+358	Al Franken	TRUE	alfranken	Husband, Dad, Granddad, Democrat, Minnesotan, Author, Human Cannonball, Comedian Currently on Tour, Host of The Al Franken Podcast	7334402	none	1182230	39570	4398	8430	tpm	NA	alfranken
+453	Russell Simmons	TRUE	UncleRUSH	NA	25110374	none	4351878	986	68175	13971	tpm	NA	UncleRUSH
+454	LOVE	TRUE	Diddy	“SEX IN THE PORSCHE” FEAT. PARTYNEXTDOOR OUT NOW	18220175	none	15354753	1721	635	29595	tpm	NA	Diddy
+463	Joel McHale	TRUE	joelmchale	Meticulously trimming my beard currently	14506253	none	3238622	2407	8338	22507	tpm	NA	joelmchale
+464	Joe Biden	TRUE	JoeBiden	Husband to @DrBiden, proud father and grandfather. Ready to build back better for all Americans. Official account is @POTUS.	939091	government	36863495	47	8855	40764	tpm	NA	JoeBiden
+466	Seth MacFarlane	TRUE	SethMacFarlane	The Official Twitter Page of Seth MacFarlane - “The Orville: New Horizons” now streaming on Hulu and Disney+!	18948541	none	13617072	520	866	28284	tpm	NA	SethMacFarlane
+479	RainnWilson	TRUE	rainnwilson	Just another luminous spiritual being having a beautiful and difficult human experience.	19637934	none	4416643	666	21934	29675	tpm	NA	rainnwilson
+483	rob corddry	TRUE	robcorddry	I’d make a fine little helper!	17853760	none	1213657	1074	3994	8832	tpm	NA	robcorddry
+531	Justin Timberlake	TRUE	jtimberlake	I write hooks but I’m really just here for the bridge.	26565946	none	62641585	336	4377	66458	tpm	NA	jtimberlake
+539	Michael Ian Black	TRUE	michaelianblack	Also on Post: @michaelianblack	21035409	none	1839766	795	20655	16267	tpm	NA	michaelianblack
+7	Jeremy Renner	TRUE	JeremyRenner	Mayor of Kingstown s 2 out Jan 15th 2023	2715115656	none	6144993	483	2035	6155	dailycaller	NA	JeremyRenner
+81	Catturd ™	FALSE	catturd2	Chief Turd	1043185714437992400	blue	1359284	9138	88951	3908	dailycaller	NA	catturd2
+176	Jack Posobiec 🇺🇸	TRUE	JackPosobiec	Senior Editor, https://t.co/73SQwmnWs8. Veteran Navy intel officer. Click the link below to subscribe	592730371	blue	1925606	991	156896	8974	dailycaller	NA	JackPosobiec
+336	Alexandra Raisman	TRUE	Aly_Raisman	Use social media to spread kindness ❤ Take time for yourself each day 🤗 Author of FIERCE...Contact: emily.hejlik@octagon.com #FLIPTHESWITCH	372891057	none	1022908	650	11309	2540	dailycaller	NA	Aly_Raisman
+390	Libs of TikTok	FALSE	libsoftiktok	All videos belong to their respective owners. 📧 submissions@libsoftiktok.com. DM submissions. Bookings: libsoftiktokbookings@gmail.com	1326229737551913e3	blue	1830440	718	9363	3941	dailycaller	NA	libsoftiktok
+393	Team USA	TRUE	TeamUSA	Celebrating America’s Olympic and Paralympic athletes. #TeamUSA 🇺🇸	21870081	business	2057490	2866	61717	6600	dailycaller	NA	TeamUSA
+396	Karine Jean-Pierre	TRUE	PressSec	35th White House Press Secretary	1349170292564906e3	government	2346896	425	1629	7144	dailycaller	NA	PressSec
+406	Dudes Posting Their W’s	FALSE	DudespostingWs	Ironically Funny and Wholesome. DMs open for submissions 🥂	1354228711466426400	none	2102833	1	1249	2561	dailycaller	NA	DudespostingWs
+416	Andrew Neil	TRUE	afneil	Chairman Spectator Magazine UK, US, Australia. Presenter The Andrew Neil Show, Channel 4. Ex-Editor Sunday Times, BBC political presenter, Chairman Sky TV	136004952	none	1236721	438	81323	5655	dailycaller	NA	afneil
+419	Rob Schneider	TRUE	RobSchneider	My new film is “Daddy Daughter Trip”  https://t.co/gaOYZLrnbp	90552683	none	1459891	583	5285	3096	dailycaller	NA	RobSchneider
+433	MELANIA TRUMP	TRUE	MELANIATRUMP	The official profile for Melania Trump	108471631	none	2233715	52	2475	4451	dailycaller	NA	MELANIATRUMP
+461	Ron DeSantis	TRUE	RonDeSantisFL	Governor of Florida. Husband to @CaseyDeSantis. Father to Madison, Mason, and Mamie. Iraq Veteran.	487297085	none	1620719	3	4104	2556	dailycaller	NA	RonDeSantisFL
+462	Ron DeSantis	TRUE	GovRonDeSantis	46th Governor of the great state of Florida.	1058807868	none	3941611	1	6366	6814	dailycaller	NA	GovRonDeSantis
+483	Dr. Mehmet Oz	TRUE	DrOz	Heart surgeon. Emmy Award winning TV host empowering millions to take control of their health. Husband to the best wife, father of 4, & grandfather.	38531995	none	3905473	848	21177	18766	dailycaller	NA	DrOz
+490	Gina Carano 🕯	TRUE	ginacarano	✨ https://t.co/0ayJ528zRE	46671731	blue	1201098	743	5332	3615	dailycaller	NA	ginacarano
+521	Terrence K. Williams	TRUE	w_terrence	Actor• Comedian•Commentator• Founder of Cousin T Pancakes, Syrup & Coffee. USE DISCOUNT CODE ( GIFT ) for 30% off. https://t.co/FMKlaiPAtk	47293791	none	1416516	686	8188	2455	dailycaller	NA	w_terrence
+526	Dr. Vivek Murthy, U.S. Surgeon General	TRUE	Surgeon_General	19th & 21st U.S. Surgeon General. Dad, husband, doctor, author. Dedicated to building a healthier, kinder, more connected world. https://t.co/GxSi2TfSc3	455024343	none	1114747	187	13680	3134	dailycaller	NA	Surgeon_General
+546	Hulk Hogan	TRUE	HulkHogan	NA	179932936	none	2221059	214	28980	4942	dailycaller	NA	HulkHogan
+550	Dan Crenshaw	TRUE	DanCrenshawTX	Dan Crenshaw, Congressman, Lieutenant Commander (Ret), a former Navy SEAL.	930552552302792700	none	1294281	854	3907	3196	dailycaller	NA	DanCrenshawTX
+562	Vice President Mike Pence Archived	TRUE	VP45	This is an archive of a Trump Administration account, maintained by the National Archives and Records Administration.	818910970567344100	none	9773514	14	9372	12356	dailycaller	NA	VP45
+575	Larry Elder	TRUE	larryelder	The Sage from South Central. Join me, because we've got a state and a country to save.	195271137	none	1338981	322	74543	3829	dailycaller	NA	larryelder
+584	Terry Crews	TRUE	terrycrews	Husband, Father, Actor, Author, Artist, Philanthropist, Athlete // My new book, “Terry’s Crew” is available now! Photos by: Storm Santos	16305370	none	1571730	2023	27281	2908	dailycaller	NA	terrycrews
+586	TheLeoTerrell	FALSE	TheLeoTerrell	Fair Minded @foxnews  Contributor, Podcast Host, Civil Rights Attorney, Author, Fmr School Teacher. Leo 2.0 on @KABCRadio 5p M-F https://t.co/OCMYXgXaK2	1212806053907185700	blue	1600742	185	19498	1552	dailycaller	NA	TheLeoTerrell
+603	Matthew McConaughey	TRUE	McConaughey	Official twitter page of Matthew McConaughey and the Just Keep Livin' Organization	57097104	none	3078706	187	2678	5537	dailycaller	NA	McConaughey
+629	Mayor Guy Fieri	TRUE	GuyFieri	The Mayor of @flavortown	27083523	none	3554410	448	5958	9310	dailycaller	NA	GuyFieri
+630	jack	TRUE	jack	#bitcoin #nostr: npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m	12	none	6571903	4627	29020	33364	dailycaller	NA	jack
+631	Bear Grylls	TRUE	BearGrylls	TV: Running Wild / You Vs Wild @thebgadventure @becomingxteam @bgsurvival @bemilitaryfit @gonewildfest Chief @worldscouting Hon Colonel @royalmarines	41692369	none	1515382	949	19737	6465	dailycaller	NA	BearGrylls
+632	Gordon Ramsay	TRUE	GordonRamsay	Always near food....	110365072	none	7720786	33321	24901	12532	dailycaller	NA	GordonRamsay
+637	Ted Cruz	TRUE	tedcruz	Father of two, @heidiscruz's husband, fighter for liberty. Representing the great state of Texas in the U.S. Senate.	23022687	government	5912788	5387	40620	16262	dailycaller	NA	tedcruz
+664	Rudy W. Giuliani	TRUE	RudyGiuliani	Subscribe to the Common Sense podcast through the link below or on your audio podcast apps. 🇺🇸	770781940341289e3	none	1584880	663	6603	4639	dailycaller	NA	RudyGiuliani
+673	Pat McAfee	TRUE	PatMcAfeeShow	LIVE M-Fri 12-3ishEST on YouTube. @FDSportsbook’s the 🐐. Kicked off a SuperBowl. Wrestled at WrestleMania. @CollegeGameDay’s on Saturdays. Life is good.	137862496	blue	2781072	2982	97532	5275	dailycaller	NA	PatMcAfeeShow
+699	Breaking911	FALSE	Breaking911	America’s #1 Alternative News Source	375721095	none	1028381	0	573	6226	dailycaller	NA	Breaking911
+742	Jair M. Bolsonaro	TRUE	jairbolsonaro	38• Presidente da República Federativa do Brasil 🇧🇷	128372940	none	11013968	495	15458	8945	dailycaller	NA	jairbolsonaro
+761	Stephen A Smith	TRUE	stephenasmith	"The real Stephen A. Smith.                                                            
+@knowmercypod Watch NOW!
+Straight Shooter, available for pre-order"	16302242	none	5849782	14	41361	18178	dailycaller	NA	stephenasmith
+828	Keith Urban	TRUE	KeithUrban	“Brown Eyes Baby” & “Street Called Main” out now.	14790817	none	4162398	5132	8624	7025	dailycaller	NA	KeithUrban
+890	Ian Rapoport	TRUE	RapSheet	National Insider for NFL Network and https://t.co/NIVZ6FP1b6. Husband of @thebanktress. Made seven cameos in the movie Draft Day.	16403943	none	3876312	768	158890	25119	dailycaller	NA	RapSheet
+899	Lauren Boebert	TRUE	laurenboebert	Lauren Boebert for Congress Account: Congresswoman for CO-03. Professional RINO Hunter. Proud mom of 4 boys.	1201670995435647e3	none	2204350	1296	7530	4358	dailycaller	NA	laurenboebert
+908	John Stossel	TRUE	JohnStossel	To make sure you get our NEW video each week, sign up for video alerts here: https://t.co/qdAqSDZ96B	158769098	none	1029563	337	10933	3986	dailycaller	NA	JohnStossel
+922	Bernie Sanders	TRUE	BernieSanders	U.S. Senator for Vermont. Not me, us.	216776631	none	15545711	1460	21049	23754	dailycaller	NA	BernieSanders
+981	NSA/CSS	TRUE	NSAGov	National Security Agency/Central Security Service official account, home to America's codemakers and codebreakers. Likes, retweets, and follows ≠ endorsement.	2248872301	government	1030619	164	3902	6188	dailycaller	NA	NSAGov
+982	Justice Department	TRUE	TheJusticeDept	Official DOJ Twitter account. Please refer to DOJ’s privacy policy for DOJ use of third-party websites here: https://t.co/I4fby253pJ	73181712	government	2079387	183	17061	10972	dailycaller	NA	TheJusticeDept
+983	CIA	TRUE	CIA	We are the Nation's first line of defense. We accomplish what others cannot accomplish and go where others cannot go.	2359926157	government	3417633	56	5110	11375	dailycaller	NA	CIA
+991	Norm Macdonald	FALSE	normmacdonald	This is my official twitter i like bananas. theyre yellow.	35184346	none	1130804	772	19042	7988	dailycaller	NA	normmacdonald
+1049	Chip Gaines	TRUE	chipgaines	@Magnolia, @magnolianetwork, in love w/ @joannagaines, dad to #5.	1584051084	none	1010729	200	15385	922	dailycaller	NA	chipgaines
+1051	Mark Cuban	TRUE	mcuban	Dunking on the pharma industry with @costplusdrugs.com, the lowest prices on meds anywhere.  check it out !	16228398	none	8896212	1965	5853	29740	dailycaller	NA	mcuban
+1052	Nic Nemeth	TRUE	HEELZiggler	stand up comic. I wrestle to pay the bills. Oh & former WWE World Heavyweight Champion (again)	105251590	none	2729746	3178	35026	6111	dailycaller	NA	HEELZiggler
+1124	Sky News	TRUE	SkyNews	"For breaking news @SkyNewsBreak. Watch live on Sky 501, Virgin Media HD 602, Freeview 233 and YouTube.
+
+Download our app: https://t.co/B2AP8GvitH"	7587032	business	8327492	22	569276	31737	dailycaller	NA	SkyNews
+1289	Diamond and Silk®	TRUE	DiamondandSilk	"""OFFICIAL ACCOUNT""
+President Donald J Trump's Most Loyal Supporters, Diamond & Silk Chit Chat, Lindell TV, FrankSocial, TruthSocial, Authors UPRISING #Sponsor"	2908170952	blue	1964889	77	24149	3302	dailycaller	NA	DiamondandSilk
+1338	George Papadopoulos	TRUE	GeorgePapa19	Best selling author of, “DEEP STATE TARGET: How I got caught in the crosshairs of the plot to bring down President Trump” order👇	850507814023942100	none	1095238	12212	14007	1995	dailycaller	NA	GeorgePapa19
+1359	Jordan Daley	TRUE	JDaIey	CMO & Co-founder @YMP_no | Former @H2kGG | #ALLCAPS #VamosUnited #OneSpirit #TogetherDC | #ForTheGame	872695783	blue	1201626	1021945	42840	805	dailycaller	NA	JDaIey
+1438	Mitchy	TRUE	mitchelmusso	NA	23228600	none	1662787	583	10953	7680	dailycaller	NA	mitchelmusso
+2235	Chick-fil-A, Inc.	TRUE	ChickfilA	Chicken. Joy. Delivered.	16043308	business	1172379	7037	218321	3933	dailycaller	NA	ChickfilA
+2236	Sky (Adam)	TRUE	NetNobody	Happily married.	537004797	none	1780802	727	14041	1747	dailycaller	NA	NetNobody
+2241	CCTV_IDIOTS	FALSE	cctv_idiots	*Original @cctv_idiots Account* (2015) Not Affiliated With Any Accounts Of Similar Name Enquiries contact@lolviralmedia.com	2960062013	blue	1467337	56	2014	4833	dailycaller	NA	cctv_idiots
+2243	Dr. Drew	TRUE	drdrew	Board Certified Internist • Addiction Medicine Specialist • TV Host • @AskDrDrew #AdamAndDrewShow #YMH #DrDrewAfterDark & MTV #TeenMom • Let’s Agree To Disagree	14515734	blue	2664985	1332	18293	13014	dailycaller	NA	drdrew
+2268	Candace Owens	TRUE	RealCandaceO	New York Times best-selling author. Founder of @BLEXIT organization. Black people don’t have to be Democrats— still.	87824760009651e4	none	3347772	46	7444	7567	dailycaller	NA	RealCandaceO
+2367	Jay Glazer	TRUE	JayGlazer	FOX NFL Sunday and Ballers on HBO, Founder of MVP and Unbreakable Performance, mental health warrior. For speaking inquires: Julie@themontaggroup.com	55307193	none	1261614	209	21524	16358	dailycaller	NA	JayGlazer
+2550	Mike Pompeo	TRUE	mikepompeo	Fmr U.S. SecState & CIA Director | Christian, husband, father, Army vet, Kansan | @CAV_PAC Chair | Never Give An Inch 📚 available for pre-order: https://t.co/X7MOvwTp4n	1163992520252153900	none	1567243	272	3315	3342	dailycaller	NA	mikepompeo
+2570	Insider Business	TRUE	BusinessInsider	What you want to know about business. A section of @thisisinsider. Follow us on Facebook, Instagram, and YouTube. Visit our homepage for the day's top stories.	20562637	business	3976097	415	723876	36203	dailycaller	NA	BusinessInsider
+2575	Barstool Sports	TRUE	barstoolsports	Viva La Stool - Download the Barstool Sports app https://t.co/SVgOsNoSCM	22637974	business	4852769	726	101342	7282	dailycaller	NA	barstoolsports
+2698	Tomi Lahren	TRUE	TomiLahren	Host of “Tomi Lahren is Fearless” @tlisfearless on @Outkick and @foxnews @foxnewsradio commentator	468646961	none	2328138	1300	23002	5468	dailycaller	NA	TomiLahren
+2714	Bill Kristol	TRUE	BillKristol	Director, https://t.co/JPcpCzAVjV. Editor at large, https://t.co/IFsNJFzEig. Host, https://t.co/wbwBfexLRN.	2800581040	none	1026976	8049	52784	8775	dailycaller	NA	BillKristol
+2726	Gal Gadot	TRUE	GalGadot	NA	35031708	none	3688609	157	1994	4857	dailycaller	NA	GalGadot
+2733	Clay Travis	TRUE	ClayTravis	https://t.co/GDdmAGFxIU, @outkick @clayandbuck radio 12-3 pm et, author, Republicans Buy Sneakers Too, dad of three boys, lawyer	50772918	none	1104716	486	129956	4611	dailycaller	NA	ClayTravis
+2747	bob saget	FALSE	bobsaget	I like long walks on the beach...and then to be dragged through the sand by an off-road vehicle, and then hurled off a catapult.	38536306	none	2232818	829	3247	13618	dailycaller	NA	bobsaget
+2750	David Spade	TRUE	DavidSpade	This is the real, official David Spade. Any other accounts are fake.	22657153	none	2817647	58	5450	12203	dailycaller	NA	DavidSpade
+2796	Dr Jordan B Peterson	TRUE	jordanbpeterson	Best-Selling Author | Clinical Psychologist | #1 Education Podcast | Listen to the podcast here:	95092020	blue	3760187	682	29780	10606	dailycaller	NA	jordanbpeterson
+2845	Jeb Bush	TRUE	JebBush	43rd Governor of Florida, Author, Founder and Chair of @ExcelinEd. Faith. Family. Service. Education. All sports.	113047940	none	1313261	137	8280	5437	dailycaller	NA	JebBush
+2904	Michelle Obama	TRUE	MichelleObama	Girl from the South Side and former First Lady. Wife, mother, dog lover. Always hugger-in-chief. #TheLightWeCarry	409486555	none	22251030	17	2172	27746	dailycaller	NA	MichelleObama
+2963	The Babylon Bee	TRUE	TheBabylonBee	Fake news you can trust. Follow our podcast account @babylonbeepod 🎧 JOIN US at #BeeLIVE Feb. 24.	4914384040	business	2111066	74	19547	4704	dailycaller	NA	TheBabylonBee
+2983	Boris Johnson	TRUE	BorisJohnson	Former Prime Minister of the United Kingdom. Member of Parliament for Uxbridge and South Ruislip.	3131144855	none	4782372	465	6046	10754	dailycaller	NA	BorisJohnson
+2984	Dave Portnoy	FALSE	stoolpresidente	El Presidente/3 time Bee Sting survivor. I own a ton of Penn Stock. The baron of Bitcoin. Don’t trust anything I say about stocks.	43775786	none	2875718	1472	93444	7186	dailycaller	NA	stoolpresidente
+3162	Trump War Room	TRUE	TrumpWarRoom	This account punches back 10x harder.	1108472017144201200	none	1752776	332	29449	3620	dailycaller	NA	TrumpWarRoom
+3222	Sadie Robertson Huff	TRUE	sadierob	Sister, Speaker, Author, Podcaster, Wifey, mama, and BFF who brings the dance parties 🎈 Let’s discover our purpose. Hebrews 10:35	1110475561	none	1704734	680	6965	1234	dailycaller	NA	sadierob
+3261	The Spectator Index	FALSE	spectatorindex	Focused on finance, business, news, science and sports.	1626294277	blue	2325926	0	13421	13705	dailycaller	NA	spectatorindex
+3358	Big Cat	TRUE	BarstoolBigCat	Dan Katz. Chicago @barstoolsports. Email - chicagotips@barstoolsports. @PardonMyTake podcast w/ @PFTCommenter. Gambling problem, call 1-800-GAMBLER.	123276343	none	1627147	3892	243652	5243	dailycaller	NA	BarstoolBigCat
+3370	Cloyd Rivers	FALSE	CloydRivers	Male model. Lost every fight I've ever been in. Born to lose. Merica.	466645191	none	1545322	1437	22818	1055	dailycaller	NA	CloydRivers
+3408	ZUBY:	TRUE	ZubyMusic	Rapper. Author. International Speaker. Coach. Podcast - https://t.co/GS1Ay648Ir | 💪🏾 'Strong Advice' eBook https://t.co/esYVAadpS2	57441414	none	1027588	3551	139844	2825	dailycaller	NA	ZubyMusic
+3448	Team Trump (Text TRUMP to 88022)	TRUE	TeamTrump	The official Twitter account for the Trump Campaign. Together, we will MAKE AMERICA GREAT AGAIN! 🇺🇸	729676086632656900	none	2100426	120	30668	4080	dailycaller	NA	TeamTrump
+3490	Cernovich	TRUE	Cernovich	The Substack is finally here! Click below to read.	358545917	none	1107535	3514	197609	6493	dailycaller	NA	Cernovich
+3554	Josh Hawley	TRUE	HawleyMO	Constitutional lawyer, husband to Erin, Dad to Elijah, Blaise and Abigail, US Senator from Missouri	2352629311	government	1214197	943	6806	4039	dailycaller	NA	HawleyMO
+3686	New York Post	TRUE	nypost	Breaking news & features from The New York Post. Follow your favorite sections: @pagesix, @nypmetro, @nypostbiz, @nypostsports, @nypfashion, @nypostopinion	17469289	business	2831414	10794	531970	21038	dailycaller	NA	nypost
+3723	John McAfee	TRUE	officialmcafee	"Iconoclast.
+Lover of women, adventure and mystery.
+Founder of McAfee Anti-virus"	961445378	none	1131435	13530	65701	6884	dailycaller	NA	officialmcafee
+3737	Andy Ngô 🏳️‍🌈	TRUE	MrAndyNgo	Journalist & author of NYT bestseller, “Unmasked.” Editor-at-large @TPostMillennial. Please support my journalism & send news tips to: https://t.co/qNoFCtvckk	2835451658	blue	1120765	2375	32998	4941	dailycaller	NA	MrAndyNgo
+3755	Paul Joseph Watson	TRUE	PrisonPlanet	"""Watson is a brilliant polemicist."" The Spectator.....”Popular cutting edge political commentator.” The Jewish Voice https://t.co/rZCVlVSOYm"	18643437	none	1364679	889	85362	7632	dailycaller	NA	PrisonPlanet
+3810	Hodgetwins	TRUE	hodgetwins	🇺🇸Comedians & Conservatives🇺🇸 - Merch & Giveaways 👉 https://t.co/ybNwIM3aIe	18584875	none	1735547	2077	13472	2376	dailycaller	NA	hodgetwins
+3835	Kirk Herbstreit	TRUE	KirkHerbstreit	Husband, Dad to Jake Tye Zak Chase-Believer-CFB Junkie-Proud Ohio St alum-diehard Reds & Bluejackets fan. IG: KirkHerbstreit -My book OUT OF THE POCKET out now!	790136510	none	1664816	755	19352	6237	dailycaller	NA	KirkHerbstreit
+3941	Angel Rivera	TRUE	Angelluisr	Founder & CEO @VaderaCapital | @Forbes Contributor	20490840	none	1123637	359	489	513	dailycaller	NA	Angelluisr
+3999	James Woods	TRUE	RealJamesWoods	This is the ONLY verified Twitter account for James Woods. I am also @realjameswoods on Instagram. Any other social media account using my name is a fake.	78523300	none	2945616	4565	35597	9493	dailycaller	NA	RealJamesWoods
+4095	Tedros Adhanom Ghebreyesus	TRUE	DrTedros	Director-General of the World Health Organization. Retweets are not endorsements	189868631	government	1912640	1769	34899	5305	dailycaller	NA	DrTedros
+4150	Laurence Tribe	TRUE	tribelaw	“We are living through a revolt against the future. The future will prevail.” — Anand Giridharadas	4091551984	none	1374766	664	40715	8574	dailycaller	NA	tribelaw
+4242	Rep. Matt Gaetz	TRUE	RepMattGaetz	Official Twitter for Congressman Matt Gaetz. Proud conservative who is honored to serve the First District of Florida.	818948638890217500	government	2183113	720	10531	5654	dailycaller	NA	RepMattGaetz
+4289	Ulrich Janse van Vuuren	TRUE	UlrichJvV	Humanitarian | Environmentalist | 📱 Digital media 👥 Advocacy 🌍 Global development 🎓 @LondonU ⭕️ @UN Global Goals #Goalkeepers2030 🌿 For people and planet.	81305054	none	1135504	767737	25772	1630	dailycaller	NA	UlrichJvV
+4362	Aaron Lee	TRUE	AskAaronLee	Regional Manager @agorapulse. Trying to perfect the art of cappuccino. Introvert with awesome hair. 📧 hi@askaaronlee.com	25458378	none	1009595	842794	113370	8760	dailycaller	NA	AskAaronLee
+4514	Matt Gaetz	TRUE	mattgaetz	Florida man. Firebrand. America First.  Happy husband.	58579942	blue	1970407	3415	19903	5183	dailycaller	NA	mattgaetz
+4574	Entertainment Tonight	TRUE	etnow	Entertainment begins and ends with ET.	23603092	business	1905938	291021	181385	6012	dailycaller	NA	etnow
+4578	Jack Phan	TRUE	JackPhan	CEO/CMO/CTO/COO I scale startups in online media, B2B SaaS, and digital advertising. #AdobeInsider #NASASocial | #ONCEUncle Stan #TWICE for clearer skin. 🍭	43192340	none	1120797	452189	12286	2311	dailycaller	NA	JackPhan
+4697	Scott Dworkin	TRUE	funder	Co-Founder @TheDemCoalition. @DworkinReport pod & @DworkinDailyPod. Journalist. Investigator. Writer. Musician. Obama Alum. Resistance Forever.	14247236	blue	1105201	88606	311513	5009	dailycaller	NA	funder
+4711	Ana Paula Henkel	TRUE	AnaPaulaVolei	Brazilian🇧🇷.Former Pro-volleyball. 4 Olympics, Olympic Medalist. American🇺🇸. IntArchitect/Poli Sci/UCLA. Sports & Politics Columnist. Revista Oeste.	84076180	none	2040235	828	57527	1974	dailycaller	NA	AnaPaulaVolei
+4765	Nigel Farage	TRUE	Nigel_Farage	Watch Farage on @GBNEWS, Mon-Thurs at 7pm. Follow me on @GETTRofficial.	19017675	none	1751536	514	18824	6253	dailycaller	NA	Nigel_Farage
+4798	Sebastian Gorka DrG	TRUE	SebGorka	A nice old lady once called me Mr. MAGA.	2417586104	none	1258953	5691	98790	4166	dailycaller	NA	SebGorka
+4941	Denise Landis	TRUE	TheCooksCook	Founder & CEO of The Cook's Cook, LLC, a multimedia company serving an international community of professional chefs & passionate home cooks.	564000560	none	1147683	593888	6014	3932	dailycaller	NA	TheCooksCook
+4948	Daily Wire	TRUE	realDailyWire	Official Twitter account of The Daily Wire.	4081106480	business	1474291	1600	182120	4270	dailycaller	NA	realDailyWire
+5152	Felipe Moura Brasil	TRUE	FMouraBrasil	Jornalista com troféus iBest e Comunique-se. Hoje: CNN (18-23h); UOL (coluna + live 16-17h); Estadão (coluna) e Eldorado FM (8h30). Assine FMB News:👇	52849416	none	1523149	4586	41049	1869	dailycaller	NA	FMouraBrasil
+5153	Ronna McDaniel	TRUE	GOPChairwoman	@GOP Chairwoman | Wife, mother of two	2353605901	none	1244482	2643	24391	4044	dailycaller	NA	GOPChairwoman
+5187	LTG (R) Mike Flynn	FALSE	GenFlynn	Patriot…PSALM 23 & ISAIAH 6:8 Faith, Family & True Friends  God Bless America 🙏🏼🇺🇸	240454812	blue	1031165	16358	2127	3832	dailycaller	NA	GenFlynn
+5210	Sarah Huckabee Sanders	TRUE	SarahHuckabee	Christian. Wife. Mom. Former White House press secretary. Governor of Arkansas.	5509762	blue	1137615	3027	5274	3072	dailycaller	NA	SarahHuckabee
+5212	Jentezen Franklin	TRUE	Jentezen	Senior Pastor of @freechapel, New York Times Best-Selling Author, and Director of JFM Media.	71059280	none	1042712	732	8853	1383	dailycaller	NA	Jentezen
+5253	Jesse Watters	TRUE	JesseBWatters	@TheFive & @JessePrimetime on Fox News Channel #1 NYT Best Selling Author of “How I Saved The World” 📚	56561449	none	2238392	1380	13302	4523	dailycaller	NA	JesseBWatters
+5399	Maria Sarungi Tsehai	TRUE	MariaSTsehai	Media & Communications expert @EF_fellows 2016, @intleaders, #ChangeTanzania #KatibaMpya #GoodTrouble maker Team Hakuna Kushindwa,	24312877	none	1162101	7038	616526	563	dailycaller	NA	MariaSTsehai
+5453	Susan Bennett	TRUE	SiriouslySusan	Voice Actor, Singer, Keynote Speaker, and the Original voice of Siri. Representation by VOX, Inc., Los Angeles, https://t.co/NExfXtMoUL	1933042237	none	1793044	1462117	4810	4922	dailycaller	NA	SiriouslySusan
+5484	Todd Carey	TRUE	toddcarey	“Long Year” out now • Tour with @Train 2/23 • Join me “In The Room” https://t.co/OR4nOfaCub • Text me 1-323-405-9535	14619266	none	1694757	1521480	131662	1823	dailycaller	NA	toddcarey
+5509	Lara Trump	TRUE	LaraLeaTrump	NC girl in NYC #MAGA	75541946	none	1427875	508	3747	3240	dailycaller	NA	LaraLeaTrump
+5528	Ben Landis	TRUE	benlandis	NA	37599351	none	2872763	1527787	1049	4445	dailycaller	NA	benlandis
+5533	#ThePersistence	TRUE	ScottPresler	I helped defeat Hillary, Cheney, & organized the Baltimore cleanup. Not stopping for a gosh darn second.	931286316	none	1330653	32350	103790	3131	dailycaller	NA	ScottPresler
+5536	Kayleigh McEnany	TRUE	kayleighmcenany	"Co-host @OutnumberedFNC. Fmr. White House Press Secretary. Author of ""Serenity in the Storm.” Harvard Law. Georgetown SFS."	259001548	none	3251998	2473	24091	6599	dailycaller	NA	kayleighmcenany
+5571	Paula Abdul	TRUE	PaulaAbdul	Forever Your Girl 💋❣️Paula	27750488	none	1982718	18028	26859	13326	dailycaller	NA	PaulaAbdul
+5596	Cynthia Johnson	TRUE	CynthiaLIVE	CEO of @bellivyinc, keynote & author | Host of #incChat Tues. 9am PT + incSpace Wed. 9am PT on Twitter | #AdobeInsider | Advisor @mill_all cynthia@cynthia.inc	153966123	blue	1436985	545344	19429	6584	dailycaller	NA	CynthiaLIVE
+5638	Tim Pool	TRUE	Timcast	Journalist, Disaffected Liberal, Commentator, Filmmaker, Skateboarder, Musician | Former VICE, Fusion	27000730	none	1486841	870	17223	7034	dailycaller	NA	Timcast
+5673	Matt Walsh	TRUE	MattWalshBlog	Theocratic fascist, bestselling children’s author, Transphobe Of The Year (2022)	1500129642	none	1340770	615	58921	5344	dailycaller	NA	MattWalshBlog
+5677	Kellyanne Conway	TRUE	KellyannePolls	New York Times #1 Bestselling Author “Here’s the Deal”. Order here: https://t.co/IHv6kuN82n Mom. Patriot. Catholic. Happy Warrior. Counselor. Survivor.	471672239	none	3525437	1111	10352	9461	dailycaller	NA	KellyannePolls
+5691	Tom Fitton	TRUE	TomFitton	"President, Judicial Watch. Fact checker. ""Expert"" (These are my personal views only!) LATEST BEST SELLER BOOK: A Republic Under Assault: https://t.co/0SmAJ7aAGp"	18266688	blue	2046418	3800	64530	5152	dailycaller	NA	TomFitton
+5787	Murray Newlands	TRUE	MurrayNewlands	Partner @ OnePiece Labs. #NFTArtist @ #SuperRare. Husband and Dad.	21360280	none	1530266	1173555	27385	6241	dailycaller	NA	MurrayNewlands
+5824	Sheryl Underwood	TRUE	sherylunderwood	Co-host:The Talk on CBS, host: Sheryl Underwood Radio, CEO of Pack Rat Production & Foundation Inc. & 23rd International President of Zeta Phi Beta Sorority.	34047021	none	1309538	1339641	132204	2924	dailycaller	NA	sherylunderwood
+5900	Sara A. Carter	TRUE	SaraCarterDC	@FoxNews Contributor, Award-winning. Host, The Sara Carter Show. IG: ScarterDC, FB: Sara A. Carter https://t.co/lvnj7c9Rsp	25202268	blue	1483292	6560	43309	4766	dailycaller	NA	SaraCarterDC
+5906	Brian Hazard	TRUE	colortheory	Somehow I never outgrew the 80s 🎹🎵	17881816	none	2168997	1475124	457	5148	dailycaller	NA	colortheory
+5993	Narendra Modi	TRUE	narendramodi	Prime Minister of India	18839785	government	86115131	2493	35327	29501	dailycaller	NA	narendramodi
+6055	Ivanka Trump	TRUE	IvankaTrump	NA	52544275	blue	10553348	1567	18213	23683	dailycaller	NA	IvankaTrump
+6088	Digital Trends	TRUE	DigitalTrends	Tech for the way we live. | TikTok & Instagram: @DigitalTrends	14763734	none	1973817	965	205869	13148	dailycaller	NA	DigitalTrends
+6126	Leader McConnell	TRUE	LeaderMcConnell	"U.S. Senate Republican Leader Mitch McConnell
+Follow @McConnellPress & @SRCC"	1249982359	government	2179225	111	4974	8628	dailycaller	NA	LeaderMcConnell
+6174	NEWSMAX	TRUE	NEWSMAX	"Real News for Real People. 
+
+Watch NEWSMAX, an independent news network with a conservative perspective, available in 100M+ U.S. homes: https://t.co/rs8XZDalW3"	20545835	business	2035081	668	167923	6068	dailycaller	NA	NEWSMAX
+6179	Lolly Daskal	TRUE	LollyDaskal	Dedicated to bringing Heart Based Leadership to organizations & individuals  |Coach |Consultant |Speaker |Columnist| Best Selling Author: The Leadership Gap	16248319	none	1239924	1102295	429437	16067	dailycaller	NA	LollyDaskal
+6229	León Krauze	TRUE	LeonKrauze	📺 @Uninoticias 🖊 @WashingtonPost @El_Universal_Mx 📰 @NewYorker @Slate @Letras_Libres 🎙@UniReporta  Opinions mine, not @univision. lkrauze@univision.net	4265721	none	1583215	21981	156025	7304	dailycaller	NA	LeonKrauze
+6309	MarQuis Trill | Crypto, NFT & Blockchain Analyst	TRUE	6BillionPeople	Cryptocurrency + NFT + Blockchain Educator, Investor & Trader. CEO of @altcoincon @blkblockchain @myhardwallet @wealthhumans Join my community today | Click ⬇️	33923443	blue	2052812	4052532	183359	4053	dailycaller	NA	6BillionPeople
+6365	Jeanine Pirro	TRUE	JudgeJeanine	Judge Pirro is a highly respected District Attorney, Judge, author & renowned champion of the underdog. She Co-hosts the #1 Fox News Show “The Five”	29458079	none	3130053	489	19318	6806	dailycaller	NA	JudgeJeanine
+6410	Twitter Live	TRUE	TwitterLive	NA	130649891	business	9290965	54	8124	11099	dailycaller	NA	TwitterLive
+6470	Maria Bartiromo	TRUE	MariaBartiromo	Anchor, Global Markets Editor Mornings with Maria @MorningsMaria 6-9 AM et M-F on @FoxBusiness & @SundayFutures 10:00 AM et Sundays @FoxNews 2-time Emmy winner	208155240	none	1179783	1636	39423	5852	dailycaller	NA	MariaBartiromo
+6577	Donald Trump Jr.	TRUE	DonaldJTrumpJr	Future leader Ministry of Truth, Father, Outdoorsman, Meme War General, founder: MxM News, Field Ethos Journal, Winning Team Publishing Pronouns: The/she/it	39344374	blue	9578039	1775	45497	18970	dailycaller	NA	DonaldJTrumpJr
+6578	Eric Trump	TRUE	EricTrump	Executive Vice President of The @Trump Organization. Husband to @LaraLeaTrump. Large advocate of @StJude Children's Hospital @TrumpWinery #MakeAmericaGreatAgain	39349894	none	4061179	1054	7284	8325	dailycaller	NA	EricTrump
+6607	Charlie Kirk	TRUE	charliekirk11	Founder & President: @TPUSA • Host: The Charlie Kirk Show • Click the link below to subscribe 🇺🇸	292929271	none	1915026	192568	53559	5760	dailycaller	NA	charliekirk11
+6688	One America News	TRUE	OANN	Your nation. Your news. #OAN	1209936918	business	1832166	96	146798	6255	dailycaller	NA	OANN
+6691	Project Veritas	FALSE	Project_Veritas	We're back. Send us tips/become a whistleblower. Secure contact: VeritasTips@protonmail.com RTs ≠ Endorsements	850036892	blue	1182710	1082	10424	3254	dailycaller	NA	Project_Veritas
+6733	Dan Bongino	TRUE	dbongino	Public Enemy #1	232901331	blue	3939994	1444	34224	7921	dailycaller	NA	dbongino
+6761	Lindsey Graham	TRUE	LindseyGrahamSC	The official Twitter feed for United States Senator Lindsey Graham.	432895323	government	2208277	1999	14588	9226	dailycaller	NA	LindseyGrahamSC
+6830	Dan Scavino Jr.🇺🇸🦅	TRUE	DanScavino	Former White House Deputy Chief of Staff—Assistant to the President & Director of Social Media —— 1/20/17–1/20/21.	620571475	none	1670137	977	12584	5362	dailycaller	NA	DanScavino
+6913	Kaitlan Collins	TRUE	kaitlancollins	Co-anchor, @CNNThisMorning	180107694	none	1207184	1049	21609	7704	dailycaller	NA	kaitlancollins
+6974	Tulsi Gabbard 🌺	TRUE	TulsiGabbard	2020 Presidential candidate. Former Congresswoman. Soldier. Surfer. Veteran. Yoga. Inquiries: https://t.co/PI1sHqObcB (Views do not reflect position of DoD)	26637348	none	2131787	2588	11412	6421	dailycaller	NA	TulsiGabbard
+7016	Atlanta Journal-Constitution	TRUE	ajc	"Our journalists can keep you informed with real, fact-based news because of subscribers. Learn more: https://t.co/VnIn1RLW28 
+
+For News tips and FAQs: https://t.co/syAWi1x4IM"	4170491	business	1087481	50708	343656	5208	dailycaller	NA	ajc
+7039	Judicial Watch ⚖️	TRUE	JudicialWatch	A conservative non-partisan educational foundation promoting transparency, accountability, & integrity in government. Follow us on FB & Instagram: judicialwatch	18247062	blue	1947416	1748	92295	5841	dailycaller	NA	JudicialWatch
+7041	Benjamin Netanyahu - בנימין נתניהו	TRUE	netanyahu	ראש הממשלה ויו״ר הליכוד https://t.co/jjO4V91WG1	17061263	government	2206057	25	11211	7289	dailycaller	NA	netanyahu
+7059	Kimberly Guilfoyle	TRUE	kimguilfoyle	Mother, Sister, Patriot, Proud American MAGA 🇺🇸	25101996	none	2044289	3294	10510	5002	dailycaller	NA	kimguilfoyle
+7093	House Republicans	TRUE	HouseGOP	We are the Republican Conference in the United States House of Representatives 🇺🇸	15207668	government	1528693	835	46608	8182	dailycaller	NA	HouseGOP
+7118	Greg Abbott	TRUE	GregAbbott_TX	Texas Governor Greg Abbott's Personal Twitter Feed	90651198	none	1004716	2805	15186	3784	dailycaller	NA	GregAbbott_TX
+7143	Senate Republicans	TRUE	SenateGOP	Breaking news + behind-the-scenes updates from United States Senate Republicans and their staff.	14344823	none	1526225	19221	37961	9549	dailycaller	NA	SenateGOP
+7155	Amy Klobuchar	TRUE	amyklobuchar	U.S. Senator from Minnesota.	33537967	none	2041627	126128	16198	8576	dailycaller	NA	amyklobuchar
+7171	Senator Ted Cruz	TRUE	SenTedCruz	Representing the State of Texas in the United States Senate.	1074480192	government	3243575	5473	20591	11797	dailycaller	NA	SenTedCruz
+7199	Marco Rubio	TRUE	marcorubio	Christian,Husband,Father,AMERICAN,Senator for Florida, Instagram:@marcorubio Truth:@marcorubio #GatorNation #FinsUp	15745368	none	4517848	2544	16569	17237	dailycaller	NA	marcorubio
+7293	Rep. Jim Jordan	TRUE	Jim_Jordan	Proudly serving Ohio's beautiful Fourth District. Chairman @JudiciaryGOP. Fighting to #DoWhatWeSaid	18166778	government	3741936	3741	10194	9333	dailycaller	NA	Jim_Jordan
+7452	Mark Meadows	TRUE	MarkMeadows	Senior Partner: @CPInst | Board: @America1stLegal | Former WHCOS for @POTUS45 and Former Congressman for NC-11	963480595	none	1076114	1011	5673	4051	dailycaller	NA	MarkMeadows
+7485	Devin Nunes	TRUE	DevinNunes	RTs do not equal endorsement.  This is my personal Twitter account.  If you have questions about my official activities please visit my website.	54412900	none	1253827	705	3070	5040	dailycaller	NA	DevinNunes
+7489	Trey Gowdy	TRUE	TGowdySC	Husband, father, former prosecutor, South Carolinian for life.	237348797	none	1365655	322	2291	4165	dailycaller	NA	TGowdySC
+7501	Dana Loesch	TRUE	DLoesch	Host of the nationally syndicated @DanaLoeschRadio 12-3pET M-F. Author, 2A advocate, lovable curmudgeon. Twitter isn’t a real place.	7702542	none	1283826	3903	150234	7347	dailycaller	NA	DLoesch
+7520	Fox News Politics	TRUE	foxnewspolitics	Follow us for the latest political news and updates!	16032925	business	1842610	249	52221	7808	dailycaller	NA	foxnewspolitics
+7527	Rand Paul	TRUE	RandPaul	U.S. Senator for Kentucky | I fight for the Constitution, individual liberty and the freedoms that make this country great.	216881337	none	4590915	590	16779	15234	dailycaller	NA	RandPaul
+7547	Chuck Schumer	TRUE	SenSchumer	Official Account of Senator Chuck Schumer, New York’s Senator and the Senate Majority Leader.	17494010	government	3454147	23387	23753	14992	dailycaller	NA	SenSchumer
+7582	Kevin McCarthy	TRUE	SpeakerMcCarthy	Speaker of the House and Representative of California's 20th District in the House of Representatives.	19739126	government	2192782	1453	21442	8464	dailycaller	NA	SpeakerMcCarthy
+7619	Sean Hannity	TRUE	seanhannity	TV Host Fox News Channel 9 PM EST. Nationally Syndicated Radio Host 3-6 PM EST. https://t.co/0WmPPuxbkF Retweets, Follows NOT endorsements! Due to hackings, no DM’s!	41634520	blue	6300451	13	23155	20576	dailycaller	NA	seanhannity
+7647	Mark R. Levin	TRUE	marklevinshow	"THIS IS THE OFFICIAL MARK LEVIN SHOW TWITTER PAGE. 
+DOWNLOAD MY PODCAST FOR FREE https://t.co/LbO9BeMtMZ   Join me at https://t.co/ARrBQZKtMb"	38495835	none	3413765	5	30680	11075	dailycaller	NA	marklevinshow
+1	WWE NXT	TRUE	WWENXT	Watch #WWENXT, Tuesdays at 8/7c on USA Network! #WeAreNXT	110895343	business	1652957	314	74756	3663	foxnews	NA	WWENXT
+9	NIH	TRUE	NIH	"Official Twitter account of the National Institutes of Health.
+NIH...Turning Discovery Into Health®.  
+Privacy Policy: https://t.co/wOGwZ3huRk
+Engagement ≠ endorsement"	15134240	government	1643992	323	16010	12059	foxnews	NA	NIH
+10	CDC	TRUE	CDCgov	CDC's official Twitter source for daily credible health & safety updates from Centers for Disease Control & Prevention. Privacy policy: https://t.co/9LbZmE3Wzg	146569971	none	5403961	257	34641	19718	foxnews	NA	CDCgov
+42	President Trump 45 Archived	TRUE	POTUS45	This is an archive of a Trump Administration account, maintained by the National Archives and Records Administration.	822215679726100500	none	32855450	37	11008	30143	foxnews	NA	POTUS45
+61	Mike Pence	TRUE	Mike_Pence	Husband, father, 48th Vice President of the United States 🇺🇸	22203756	none	5826591	61	15667	11604	foxnews	NA	Mike_Pence
+71	U.S. Marines	TRUE	USMC	"The official Twitter account of the United States Marine Corps. 
+
+The appearance of links does not constitute endorsement."	10126672	government	1611550	289	18144	7586	foxnews	NA	USMC
+72	U.S. Air Force	TRUE	usairforce	Official U.S. Air Force Twitter (Following, RTs & links ≠ endorsement) #AimHigh	19611483	government	1508039	680	47398	7724	foxnews	NA	usairforce
+75	FOX	TRUE	FOXTV	Watching TV and tweeting like it’s my job, because it is.	16537989	business	1454591	247	48904	6486	foxnews	NA	FOXTV
+77	Hillary Clinton	TRUE	HillaryClinton	2016 Democratic Nominee, SecState, Senator, hair icon. Mom, Wife, Grandma x3, lawyer, advocate, fan of walks in the woods & standing up for our democracy.	1339835893	none	31590758	986	13882	42272	foxnews	NA	HillaryClinton
+14	Disclose.tv	FALSE	disclosetv	Observing world events unfold in the grand theater of our time.	15392486	none	1154336	1143	2024	5934	theblaze	NA	disclosetv
+43	Kirstie Alley	TRUE	kirstiealley	"Mother, actress, Lover of CAPS, lemurs and off color language, host of ""KIRSTIE ALLEY On The Verge"""	36528126	none	1580610	815	82064	10825	theblaze	NA	kirstiealley
+128	Kevin Sorbo	TRUE	ksorbs	Actor, director, producer, author.	33608041	none	1578141	392	19194	3079	theblaze	NA	ksorbs
+176	Big Boi	TRUE	BigBoi	https://t.co/qfCRr1VShn	29330030	none	1315139	2886	54449	5803	theblaze	NA	BigBoi
+190	RYBACK	TRUE	Ryback	Feed Me More Nutrition Premium Supplements Link in Bio. Ryback TV on YouTube and Appearances & Signings Contact TheBigGuy@FeedMeMore.com	26136956	none	1391635	1541	31167	2830	theblaze	NA	Ryback
+192	Dwayne Johnson	TRUE	TheRock	Founder	250831586	none	17032996	394	26885	29679	theblaze	NA	TheRock
+193	John Cena	TRUE	JohnCena	A forum of thoughts and perspectives designed to ignite conversations and actions leading to growth, and occasional self promotion. #NeverGiveUp #RiseAboveHate	141664648	none	14090110	534711	7379	31830	theblaze	NA	JohnCena
+210	Jase Robertson	TRUE	JaseDuckman	"God, Family, Ducks ... in that order.
+
+Check out the new episode of @BlazeTV's Unashamed with Phil & Jase Robertson podcast! ⬇️"	531524384	none	1835260	154	2775	1933	theblaze	NA	JaseDuckman
+236	Mario Lopez	TRUE	mariolopezviva	Gia & Dominic & Santino’s dad...	20641995	none	1341037	368	31988	4280	theblaze	NA	mariolopezviva
+250	ABC News Politics	TRUE	ABCPolitics	Reports from @ABC News' political team.	16815644	business	1091519	468	198027	8726	theblaze	NA	ABCPolitics
+320	Mollie	TRUE	MZHemingway	"Editor-in-chief, @FDRLST. Senior Journalism Fellow, @Hillsdale. Fox News Contributor. Online Safety Expert. ""Be lovers of freedom, and anxious for the fray!"""	18005085	none	1022177	1424	124110	4808	theblaze	NA	MZHemingway
+348	Instagram	TRUE	instagram	Discover what's next on Instagram 🔎✨	180505807	business	33796195	251	15610	31694	theblaze	NA	instagram
+372	Thomas Sowell Quotes	FALSE	ThomasSowell	I'm not Thomas Sowell, but I own all of his books and tweet quotes from them. All tweets are direct quotes - @tsowellquotes. Get his latest book below.	57338175	blue	1133953	39	3104	4389	theblaze	NA	ThomasSowell
+404	Richard Branson	TRUE	richardbranson	Tie-loathing adventurer, philanthropist & troublemaker, who believes in turning ideas into reality. Astronaut 001, otherwise known as Dr Yes at @virgin!	8161232	none	12612777	982	26754	44213	theblaze	NA	richardbranson
+405	Tim Cook	TRUE	tim_cook	Apple CEO  Auburn 🏀 🏈 Duke 🏀 National Parks 🏞️ “Life's most persistent and urgent question is, 'What are you doing for others?'” - MLK. he/him	1636590253	none	14001770	70	1466	24417	theblaze	NA	tim_cook
+407	Paulo Coelho	TRUE	paulocoelho	I delete tweets	5520952	none	15314708	282	36298	39346	theblaze	NA	paulocoelho
+430	Senate Democrats	TRUE	SenateDems	We are the Senate Democratic Majority. It is past time for a Senate that works for everyone.	73238146	none	1284996	2261	34479	8895	theblaze	NA	SenateDems
+436	Paul Ryan	TRUE	SpeakerRyan	Office of the 54th Speaker of the House, Paul Ryan.	18916432	none	3422220	240	14711	11194	theblaze	NA	SpeakerRyan
+474	Kim Kardashian	TRUE	KimKardashian	@SKIMS @SKKN @SKKYPartners	25365536	none	74958083	121	36186	72120	theblaze	NA	KimKardashian
+495	Adam Schefter	TRUE	AdamSchefter	"ESPN Senior NFL Insider. 
+Interview & Podcast Requests: ESPNPR@espn.com
+Host of the Adam Schefter Podcast
+https://t.co/oz43ix5jZU"	51263592	blue	10178693	3678	63918	53492	theblaze	NA	AdamSchefter
+515	First Take	TRUE	FirstTake	The official Twitter Page for @FirstTake starring @stephenasmith and @mollyqerim. 10 am-Noon ET on ESPN.	26588937	business	1777038	825	32099	6601	theblaze	NA	FirstTake
+561	The Late Late Show with James Corden	TRUE	latelateshow	The twitter dot com home of the #LateLateShow with @JKCorden AKA Papa Mochi. @ShawnMendes stole our stapler. Instagram & TikTok: @latelateshow	2835962353	business	1557868	1028	33085	1794	theblaze	NA	latelateshow
+563	Saturday Night Live - SNL	TRUE	nbcsnl	The official Twitter of Saturday Night Live. Watch on NBC and Peacock. Streaming next day on Peacock.	28221296	business	3357228	698	23017	8803	theblaze	NA	nbcsnl
+564	James Corden	TRUE	JKCorden	Sometimes it’s James, sometimes it’s the @latelateshow digital team. We dont read DMs. x	215952307	none	10803337	2520	13866	8216	theblaze	NA	JKCorden
+566	The Late Show	TRUE	colbertlateshow	The Late Show with @StephenAtHome is the #1 show in late night. Watch #Colbert on @CBS & @ParamountPlus. 🎧 Podcast: https://t.co/Xy7VSzZoiT…	2835886194	business	1060656	1831	35919	4129	theblaze	NA	colbertlateshow
+0	Kathie Lee Gifford	TRUE	KathieLGifford	Imperfect follower of Jesus and really imperfect mother to two amazing human beings.	80676273	none	1363965	2369	28929	1273	washtimes	NA	KathieLGifford
+110	Pete Buttigieg	TRUE	PeteButtigieg	Personal account. For official updates, follow @SecretaryPete. Husband, father, veteran, writer, South Bend’s former Mayor Pete. (he/him)	226222147	none	3695080	2810	13093	11036	washtimes	NA	PeteButtigieg
+125	Financial Times	TRUE	FT	Big stories and breaking news headlines as they are published on https://t.co/5BsmLs9y1Z. For a curated feed of our journalism, follow @financialtimes	18949452	business	5563054	770	303369	45784	washtimes	NA	FT
+153	HHS.gov	TRUE	HHSGov	News and information from the U.S. Department of Health & Human Services (HHS). Privacy policy: https://t.co/2fvEGkrCJN.	44783853	none	1418606	357	29124	9769	washtimes	NA	HHSGov
+223	Franklin Graham	TRUE	Franklin_Graham	Official Twitter account for the President of Samaritan's Purse and the Billy Graham Evangelistic Association. Opinions stated are my own.	44945327	blue	2778256	123	20767	3098	washtimes	NA	Franklin_Graham
+236	Paulo Figueiredo Filho	FALSE	realpfigueiredo	Empresário e Jornalista. Relações Internacionais na London School of Economics, US Government e Negociação em Harvard, Economia no MIT.	790707482515628e3	blue	1326314	960	14380	1177	washtimes	NA	realpfigueiredo
+237	Eduardo Bolsonaro🇧🇷	TRUE	BolsonaroSP	-Candidato a deputado federal por São Paulo com nº 2222 (PL-SP) / Policial Federal / Advogado / 3º filho de Jair Bolsonaro🇧🇷	74756085	none	2417824	804	35720	3277	washtimes	NA	BolsonaroSP
+288	Spotify	TRUE	Spotify	Listening is everything. Podcasts 👉 @SpotifyPodcasts Live audio 👉 @SpotifyLive Support 👉 @SpotifyCares Charts 👉 @SpotifyCharts	17230018	business	8114706	17471	40086	17298	washtimes	NA	Spotify
+461	Twitter Support	TRUE	TwitterSupport	Here to help. 💙	17874544	business	7231629	23	84550	15528	washtimes	NA	TwitterSupport
+487	Secretary Pompeo	TRUE	SecPompeo	This account has been archived. You can follow former U.S. Secretary of State Mike Pompeo at @mikepompeo. For U.S. State Department updates, follow @StateDept.	988573326376427500	none	2834215	47	4150	7257	washtimes	NA	SecPompeo
+507	House Democrats	TRUE	HouseDemocrats	"We are the Democratic Caucus of the United States House of Representatives 🇺🇸 
+Chair: @RepPeteAguilar | Vice Chair: @RepTedLieu"	43963249	government	1319103	650	19808	7909	washtimes	NA	HouseDemocrats
+526	National Hurricane Center	TRUE	NHC_Atlantic	This is the primary official Twitter account for the National Hurricane Center, focusing on the Atlantic basin. For more details: https://t.co/mRyGMdRYT3	299798272	none	1128005	77	12510	12576	washtimes	NA	NHC_Atlantic
+617	Bloomberg Quicktake	TRUE	Quicktake	Global news and original shows. Streaming free, 24/7.	252751061	business	1282017	1551	253816	9426	washtimes	NA	Quicktake
+626	Washington Commanders	TRUE	Commanders	#HTTC	36375662	business	1411362	314	75076	7610	washtimes	NA	Commanders
+696	Periscope	TRUE	PeriscopeCo	#BlackLivesMatter	2445809510	business	1312678	0	1046	3183	washtimes	NA	PeriscopeCo
+752	Brian Brushwood	TRUE	shwood	~New release~ World’s Greatest Con https://t.co/1cZKyJlgAB	14645160	none	1524082	736052	97411	7043	washtimes	NA	shwood
+785	Mark Wahlberg	TRUE	markwahlberg	Actor/producer Mark Wahlberg's official Twitter page.	124335068	none	3999602	40	1629	5685	washtimes	NA	markwahlberg
+863	Twitter Faith	TRUE	TwitterFaith	A higher power, people, God, the universe, something, or nothing at all. With us, your #BeliefBelongs.	414869890	business	1112000	0	969	1191	washtimes	NA	TwitterFaith
+960	Archive: Ambassador Nikki Haley	FALSE	AmbNikkiHaley	This account has been archived. You can now follow former USUN Ambassador Nikki Haley at @NikkiHaley. For U.S. Mission to the @UN updates, follow @USUN.	37666984	none	1417612	324	5801	4022	washtimes	NA	AmbNikkiHaley
+1000	TNW	TRUE	thenextweb	The heart of tech ❤️	10876852	none	1654404	350	227920	30263	washtimes	NA	thenextweb
+1085	Tim Tebow	TRUE	TimTebow	Text me ➡️ (904) 441-5450 Co-Founder @campusunlocks	166270127	none	4552094	105	3902	11179	washtimes	NA	TimTebow
+1086	Robert Griffin III	TRUE	RGIII	Trust God-Thrower of Footballs-Speaker of Sports-Racer of Flying Hawks -Husband @GGriffinIII❤️ #GirlDad 👧🏽👧🏽👧🏽👶🏽❤️-Heisman- NFL ROY- Pro Bowl QB	498961017	none	2202297	1215	16683	4625	washtimes	NA	RGIII
+1297	FORTUNE	TRUE	FortuneMagazine	Yes, we are just now launching on TikTok. We’re 92 years old, leave us alone.👇https://t.co/VhR1YQtO9m	25053299	business	2362036	597	280980	24041	washtimes	NA	FortuneMagazine
+1395	Library of Congress	TRUE	librarycongress	World’s largest library. Explore collections, services & plan a visit. Follow @LibnOfCongress to meet Carla Hayden, 14th Librarian of Congress.	7152572	government	1257243	13	23726	14440	washtimes	NA	librarycongress
+1721	g1	TRUE	g1	Facebook (@g1), Instagram (@portalg1), YouTube (https://t.co/8rIq1zVVaz), TikTok (https://t.co/ac0JCBEOxw), Kwai (https://t.co/qU66vRKvWk) e Telegram (https://t.co/zuVC6MAvCr)	8802752	business	14673987	61	753286	19356	washtimes	NA	g1
+1784	Click.Click.Click	TRUE	clickclickclick	Culture by @Mashable. Obsessed with digital trends, connected lives, web weirdness, and the way we live now. https://t.co/7VO42WDVL5	112236047	none	1068361	101	31872	19277	washtimes	NA	clickclickclick
+1834	Peter King	TRUE	peter_king	NBC Sports	32135704	none	1791906	970	44691	21060	washtimes	NA	peter_king
+1836	Alex Ovechkin	TRUE	ovi8	Official Twitter page of Alex Ovechkin. Proud Captain of the Washington Capitals.	19122675	none	2550021	82	700	6844	washtimes	NA	ovi8
+1870	Hootsuite 🦉	TRUE	hootsuite	Social media tools, tips, news, and a shoulder to cry on for social pros since 2008. Sign up for free: https://t.co/mHUD1tkVis Support: @Hootsuite_Help	17093617	business	7366683	1407796	79128	42641	washtimes	NA	hootsuite
+21	Buitengebieden	FALSE	buitengebieden	Welcome to the positive side of Twitter! I’m Sander from the Netherlands. All copyrights belong to their respective owners! DM for credits/removal/submission!	1.1300216853510799e+18	none	2048636	81	658	9678	rasmussen_poll	NA	buitengebieden
+90	NFL	TRUE	NFL	It's time for the #NFLPlayoffs.	19426551	business	32528694	2791	251184	51962	rasmussen_poll	NA	NFL
+97	Rep. Marjorie Taylor Greene🇺🇸	TRUE	RepMTG	Christian, Mother, American, Business Owner, and Congresswoman representing Georgia’s 14th District	1344356576786866200	government	1870491	319	3339	4027	rasmussen_poll	NA	RepMTG
+108	Netflix	TRUE	netflix	🐶 GONKER 🐶	16573941	business	21409942	2231	47629	20851	rasmussen_poll	NA	netflix
+165	NASA's Perseverance Mars Rover	TRUE	NASAPersevere	NASA Mars rover. Launch: July 30, 2020. Landing: Feb. 18, 2021. Hobbies: Photography, collecting rocks, off-roading. 🚀 Team HQ @NASAJPL	1.2327832376231199e+18	none	3068445	57	1005	7704	rasmussen_poll	NA	NASAPersevere
+358	Jeep	TRUE	Jeep	The official Twitter handle for the Jeep® brand. For Customer Care, please reach out @JeepCares. https://t.co/Y5iimH0r0t https://t.co/Ikz7z2576K	98955572	business	1127773	14894	15716	3488	rasmussen_poll	NA	Jeep
+325	Korie Robertson	TRUE	bosshogswife	Proud wife of Willie. Mom to six! Love my big family. Thankful. God is good.	292131326	none	1255366	464	7792	1416	nro	NA	bosshogswife
+326	Willie Robertson	TRUE	williebosshog	"Founder of Buck Commander, CEO of Duck Commander, ""Mallard"" on Masked Singer, and Avid Outdoorsman!"	254189974	none	2033905	157	2285	2184	nro	NA	williebosshog
+623	Marc Andreessen	TRUE	pmarca	Used to be a very interesting person.	5943622	blue	1192538	20189	3789	15792	nro	NA	pmarca
+725	Neil Patrick Harris	TRUE	ActuallyNPH	Husband, father, random sayer of stuff. ALSO click the link below if you want to level up in Awesometown (or subscribe to exclusive content from yours truly).	90420314	none	25219814	167	3259	49299	nro	NA	ActuallyNPH
+943	Tamera Mowry-Housley	TRUE	TameraMowryTwo	Wife, mommy, actress, producer, author and talk show host. Love my life and the Lord xoxo	67197351	none	1703984	480	19804	4366	nro	NA	TameraMowryTwo
+1330	Robin Roberts	TRUE	RobinRoberts	Good Morning America Anchor	267921808	none	1128270	1722	25728	4477	nro	NA	RobinRoberts
