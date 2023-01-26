@@ -8,9 +8,7 @@ drop table elites;
 create table elites (
     id bigint unique,
     username varchar,
-    ideo real,
-    followers_count integer,
-    rank integer
+    ideo real
 );
 
 create table users(
@@ -88,9 +86,4 @@ ON users (username);
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO twee_user;
 
 -- initial data for elites table
-COPY elites(username, ideo, id, followers_count, rank)
-FROM './elites.tsv'
-DELIMITER E'\t'
-CSV HEADER;
-
-
+-- psql $PG_CONN -c "\copy elites from 'server/db/elites.tsv' CSV HEADER DELIMITER E'\t'"
