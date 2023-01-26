@@ -3,7 +3,7 @@ const FETCH_ENDPOINT = CONFIG.serverEndpoint + "/fresh_tweets";
 const LOG_ENDPOINT = CONFIG.serverEndpoint + "/log_tweets";
 
 async function refresh_tweet_pool(username, install_code, ideo) {
-  console.log("Refreshing tweet pool..");
+  console.log("Refreshing tweet pool... " + FETCH_ENDPOINT);
   const response = await fetch(FETCH_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
@@ -46,9 +46,11 @@ chrome.runtime.onMessage.addListener((message) => {
     uploadLog(message.username, message.install_code, message.data).then(
       (status) => {
         tab_promise.then((tab) => {
-          chrome.tabs.sendMessage(tab[0].id, {
-            message: { name: "logEvent", status: status },
-          });
+          if (tab[0]) {
+            chrome.tabs.sendMessage(tab[0].id, {
+              message: { name: "logEvent", status: status },
+            });
+          }
         });
       }
     );
