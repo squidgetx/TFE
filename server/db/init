@@ -11,7 +11,7 @@ create table elites (
     id bigint unique,
     username varchar,
     ideo real,
-    account_type integer
+    elite_type ELITE_TYPE
 );
 
 create table users(
