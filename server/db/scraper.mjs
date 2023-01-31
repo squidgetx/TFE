@@ -18,10 +18,13 @@ import { default as config } from "../lib/config.js";
 const BEARER_TOKEN = config.twitterBearerToken;
 
 const WRITE_DB = true;
+const PERF_LOG = true;
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
 
+  // TODO: if someone posts more than 100 tweets per cron interval then we will have a problem...
+  // is it possible to get rate limited here? or will the library handle it lol
   const response = await client.tweets.usersIdTweets(id, {
     start_time: time, // "2022-12-01T00:00:00.000Z",
     max_results: 100,
@@ -310,28 +313,28 @@ async function update_db(data) {
         pgp.helpers.insert(tweets, TWEET_COLS, "tweets") +
         " ON CONFLICT ON CONSTRAINT tweets_id_key DO UPDATE SET" +
         tweet_cs.assignColumns({ from: "EXCLUDED", skip: "id" });
-      ops.push(t.none(tweet_querystring));
+      ops.push(t.result(tweet_querystring));
     }
 
     if (data.users.length > 0) {
       const user_querystring =
         pgp.helpers.insert(data.users, USER_COLS, "authors") +
         " ON CONFLICT ON CONSTRAINT authors_id_key DO NOTHING";
-      ops.push(t.none(user_querystring));
+      ops.push(t.result(user_querystring));
     }
 
     if (data.media.length > 0) {
       const media_querystring =
         pgp.helpers.insert(data.media, MEDIA_COLS, "media") +
         " ON CONFLICT ON CONSTRAINT media_id_key DO NOTHING";
-      ops.push(t.none(media_querystring));
+      ops.push(t.result(media_querystring));
     }
 
     if (data.links.length > 0) {
       const link_querystring =
         pgp.helpers.insert(data.links, LINK_COLS, "links") +
         " ON CONFLICT ON CONSTRAINT links_turl_key DO NOTHING";
-      ops.push(t.none(link_querystring));
+      ops.push(t.result(link_querystring));
     }
 
     return t.batch(ops);
@@ -342,34 +345,61 @@ async function update_db(data) {
  * that we want to get the tweets for
  */
 async function fetchElites() {
-  // Get the top 50 center left and center right accounts
   const query = `
-    select elites.id, max(created_at) as date 
+    select elites.id, elites.username, max(created_at) as date 
     from elites left join tweets 
     on elites.id = tweets.author_id 
-    where rank < 50 
-    group by elites.id;
+    group by elites.id, elites.username;
   `;
   const results = await DB.any(query);
   return results;
 }
 
+// 3:24
+
+/* Fetch ALL tweets that were authored by the given id after the given date
+ * and write them to to the database.
+ */
+async function fetch_and_write_for_id(id, username, date) {
+  const st = Date.now();
+  const response = await fetch_for_id(id, date);
+  if (response.data == undefined) {
+    console.log(`  ${username}: No tweets found`)
+    return
+  }
+
+  const st1 = Date.now();
+  if (PERF_LOG)
+    console.log(`  Time to fetch: ${(st1 - st) / 1000}s`)
+  const data = await parse_response(response)
+
+  const st2 = Date.now();
+  if (PERF_LOG)
+    console.log(`  Time to parse: ${(st2 - st1) / 1000}s`)
+  if (WRITE_DB) {
+    const result = await update_db(data)
+    const records_written = result.map(a => a.rowCount)
+    console.log(`  Records written: ${JSON.stringify(records_written)}`)
+  }
+  if (PERF_LOG)
+    console.log(`  Time to write DB: ${(Date.now() - st2) / 1000}s`)
+}
+
 async function fetchTweetsForElites() {
+  const st = Date.now()
   const elites = await fetchElites();
+  console.log(`Time to fetch elites: ${(Date.now() - st) / 1000}s`)
+  const promises = []
   for (let e of elites) {
-    console.log("fetching for ", e);
     // If no tweets found in DB default to starting from last week
     const date = e.date || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    fetch_and_write_for_id(e.id, date.toISOString());
+    console.log(`${(new Date()).toISOString()}: Fetching for ${e.username}`)
+    console.log(`  most recent tweet: ${date.toISOString()}`);
+
+    // Synchronous execution to avoid overloading the DB or twitter api...
+    await fetch_and_write_for_id(e.id, e.username, date.toISOString())
   }
+  await Promise.all(promises)
 }
 
-async function fetch_and_write_for_id(id, date) {
-  const response = await fetch_for_id(id, date);
-  const data = await parse_response(response);
-  if (WRITE_DB) {
-    const result = await update_db(data);
-  }
-}
-
-fetchTweetsForElites().then(() => console.log("fetched"));
+fetchTweetsForElites().then(() => console.log(`Job complete`))
