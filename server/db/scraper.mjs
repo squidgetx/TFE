@@ -22,11 +22,14 @@ const PERF_LOG = true;
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
+  const end_time = new Date(time)
+  end_time.setDate(end_time.getDate() + 1)
 
   // TODO: if someone posts more than 100 tweets per cron interval then we will have a problem...
   // is it possible to get rate limited here? or will the library handle it lol
   const response = await client.tweets.usersIdTweets(id, {
     start_time: time, // "2022-12-01T00:00:00.000Z",
+    end_time: end_time.toISOString(), // "2022-12-01T00:00:00.000Z",
     max_results: 100,
     "tweet.fields": [
       "attachments",
@@ -152,7 +155,7 @@ async function unwrapLink(url) {
   const unwrapped_link = await get_link_preview_exp(url, 0, 8, url);
   try {
     let purl = new URL(unwrapped_link.title);
-    if (purl.scheme.includes("http") && unwrapped_link.title != url) {
+    if (purl.protocol.includes("http") && unwrapped_link.title != url) {
       return await unwrapLink(unwrapped_link.title);
     } else {
       return unwrapped_link;
@@ -176,7 +179,7 @@ async function process_links(tweet) {
     link_meta.hostname = parse(link_meta["url"]).hostname;
     link_meta.media_type = link_meta.mediaType;
     link_meta.media_url = link_meta.url;
-    link_meta.media_image = link_meta.images[0];
+    link_meta.media_image = link_meta.images ? link_meta.images[0] : [];
     link_meta.turl = tweet.link_preview_url;
   }
   return link_meta;
@@ -385,21 +388,30 @@ async function fetch_and_write_for_id(id, username, date) {
     console.log(`  Time to write DB: ${(Date.now() - st2) / 1000}s`)
 }
 
-async function fetchTweetsForElites() {
+async function fetchTweetsForElites(date_override) {
   const st = Date.now()
   const elites = await fetchElites();
   console.log(`Time to fetch elites: ${(Date.now() - st) / 1000}s`)
   const promises = []
   for (let e of elites) {
     // If no tweets found in DB default to starting from last week
-    const date = e.date || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const date = e.date || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     console.log(`${(new Date()).toISOString()}: Fetching for ${e.username}`)
-    console.log(`  most recent tweet: ${date.toISOString()}`);
-
-    // Synchronous execution to avoid overloading the DB or twitter api...
-    await fetch_and_write_for_id(e.id, e.username, date.toISOString())
+    if (date_override) {
+      await fetch_and_write_for_id(e.id, e.username, date_override.toISOString())
+    } else {
+      console.log(`  most recent tweet: ${date.toISOString()}`);
+      await fetch_and_write_for_id(e.id, e.username, date.toISOString())
+    }
   }
   await Promise.all(promises)
 }
 
-fetchTweetsForElites().then(() => console.log(`Job complete`))
+
+let date = new Date("02/01/2023");
+
+for(let i = 0; i < 180; i++) {
+   fetchTweetsForElites(date).then(() => console.log(`Job complete ${date.toISOString()}`))
+   date.setDate(date.getDate() - 1);
+}
+
