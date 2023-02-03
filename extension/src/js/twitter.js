@@ -31,7 +31,7 @@ const dlog = function (str) {
 const filterTweets = function (tweets, exp_config) {
   const treatment_group = exp_config.treatment_group;
   for (const tweet of tweets) {
-    if (tweet == null) {
+    if (tweet == null || tweet.data.isInjected) {
       continue;
     }
     let labels = new Set();
@@ -153,16 +153,15 @@ const transformTweet = function (obj, rep) {
       injectedMedia.innerHTML = `
         <a class='injected-link' href='${rep.link_url}' target='_blank'>
           <div class='media'>
-            <div class='header-img'><img src=${
-              rep.link_image
-            } width=100% style='object-fit: cover'/></div>
+            <div class='header-img'><img src=${rep.link_image
+        } width=100% style='object-fit: cover'/></div>
             <div class='link-body'>
               <span class='link-domain'>${rep.link_hostname}</span>
               <span class='link-headline'>${link_title}</span>
               <span class='link-lede'>${shorten_str(
-                rep.link_description,
-                137
-              )}</span>
+          rep.link_description,
+          137
+        )}</span>
             </div>
           </div>
         </a>`;
@@ -236,15 +235,12 @@ const transformTweet = function (obj, rep) {
     <a href="/${rep.username}"><div class='avatarContainer'>
       <img class='avatar' src=${rep.profile_image_url} height=100% />
     </div></a>`;
-  obj.nodes.replyCount.innerHTML = `<span class='metric'>${
-    rep.reply_count || ""
-  }</span>`;
-  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${
-    rep.retweet_count || ""
-  }</span>`;
-  obj.nodes.likeCount.innerHTML = `<span class='metric'>${
-    rep.like_count || ""
-  }</span>`;
+  obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.reply_count || ""
+    }</span>`;
+  obj.nodes.retweetCount.innerHTML = `<span class='metric'>${rep.retweet_count || ""
+    }</span>`;
+  obj.nodes.likeCount.innerHTML = `<span class='metric'>${rep.like_count || ""
+    }</span>`;
   obj.nodes.like.classList.add("likeCount");
   obj.nodes.reply.classList.add("replyCount");
   obj.nodes.retweet.classList.add("retweetCount");
