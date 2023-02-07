@@ -10,7 +10,6 @@ var options = {
     background: path.join(__dirname, "src", "js", "background.js"),
     content: path.join(__dirname, "src", "js", "content.js"),
     popup: path.join(__dirname, "src", "js", "popup.js"),
-    recontact: path.join(__dirname, "src", "js", "recontact.js"),
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -26,10 +25,8 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         { from: "src/manifest.json", to: "manifest.json" },
-        { from: "src/recontact.html", to: "recontact.html" },
         { from: "src/popup.html", to: "popup.html" },
         { from: "src/icon128.png", to: "icon128.png" },
-        { from: "src/alarm128.png", to: "alarm128.png" },
         { from: "src/css/content.css", to: "content.css" },
       ],
     }),
