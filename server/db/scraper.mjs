@@ -18,7 +18,8 @@ import { default as config } from "../lib/config.js";
 const BEARER_TOKEN = config.twitterBearerToken;
 
 const WRITE_DB = true;
-const PERF_LOG = true;
+const PERF_LOG = false;
+const PARSE_LINKS = true
 
 async function fetch_for_id(id, time) {
   const client = new Client(BEARER_TOKEN);
@@ -66,6 +67,7 @@ async function fetch_for_id(id, time) {
       "verified",
     ],
   });
+
   return response;
 }
 
@@ -166,6 +168,7 @@ async function unwrapLink(url) {
 }
 
 /* Given a tweet object, generate the elements needed for a link preview and return it as a media object */
+// todo: we can do this later 
 async function process_links(tweet) {
   // When there's more than one link, Twitter renders the card for the last link that has a renderable preview
   // There's actually a bug where the composer will show the wrong link preview in the case where the
@@ -210,9 +213,12 @@ async function parse_response(response) {
   );
   const media = (response.includes.media || []).map((m) => parse_media(m));
   const all_tweets = tweets.concat(referenced_tweets);
-  const links = (
-    await Promise.all(all_tweets.map((t) => process_links(t)))
-  ).filter((l) => l !== null);
+  let links = []
+  if (PARSE_LINKS) {
+    links = (
+      await Promise.all(all_tweets.map((t) => process_links(t)))
+    ).filter((l) => l !== null);
+  }
   return {
     tweets: all_tweets,
     users: users,
@@ -365,7 +371,13 @@ async function fetchElites() {
  */
 async function fetch_and_write_for_id(id, username, date) {
   const st = Date.now();
-  const response = await fetch_for_id(id, date);
+  let response;
+  try {
+    response = await fetch_for_id(id, date);
+  } catch (e) {
+    console.log(`  Request failed, trying again: ${e}`)
+    response = await fetch_for_id(id, date);
+  }
   if (response.data == undefined) {
     console.log(`  ${username}: No tweets found`)
     return
@@ -392,26 +404,22 @@ async function fetchTweetsForElites(date_override) {
   const st = Date.now()
   const elites = await fetchElites();
   console.log(`Time to fetch elites: ${(Date.now() - st) / 1000}s`)
-  const promises = []
   for (let e of elites) {
     // If no tweets found in DB default to starting from last week
     const date = e.date || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    console.log(`${(new Date()).toISOString()}: Fetching for ${e.username}`)
     if (date_override) {
+      console.log(`${(new Date()).toISOString()}: Fetching for ${e.username} ${date_override}`)
       await fetch_and_write_for_id(e.id, e.username, date_override.toISOString())
     } else {
       console.log(`  most recent tweet: ${date.toISOString()}`);
       await fetch_and_write_for_id(e.id, e.username, date.toISOString())
     }
+    await new Promise(r => setTimeout(r, 500));
   }
-  await Promise.all(promises)
 }
 
-
-let date = new Date("02/01/2023");
-
-for(let i = 0; i < 180; i++) {
-   fetchTweetsForElites(date).then(() => console.log(`Job complete ${date.toISOString()}`))
-   date.setDate(date.getDate() - 1);
+async function fetchAllTweets() {
+  await fetchTweetsForElites(null)
 }
 
+fetchAllTweets().then(() => { })
