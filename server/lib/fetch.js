@@ -43,13 +43,14 @@ module.exports = async function (username, mock_ideo) {
 
   // todo: handle retweets
   // todo: make sure the null filter is actually working
-  // todo: time box
   results = await db.any(
     `
    with relevant_tweets as (
       select * from tweets where author_id in (
         select id from elites where sign(ideo) = $1
       ) and referenced_tweet_type is null
+      order by created_at desc
+      limit 256
     )
     select 
       relevant_tweets.id as id,
@@ -79,7 +80,7 @@ module.exports = async function (username, mock_ideo) {
     left join links on relevant_tweets.link_preview_url = links.turl
     left join media on relevant_tweets.media_id_1 = media.id
     left join authors on relevant_tweets.author_id = authors.id
-    order by created_at desc
+    order by random()
     limit 64;
     `,
     -ideo_sign
