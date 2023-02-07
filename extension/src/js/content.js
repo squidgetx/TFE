@@ -47,12 +47,7 @@ const setupFeedObserver = function (exp_config, logger) {
   // So, we want to trigger filtering logic whenever its modified
   console.log(`Timeline Extension Loaded, ${JSON.stringify(exp_config)}`);
   const container = document.documentElement || document.body;
-  let observer;
-  if (window.location.hostname.includes("twitter")) {
-    observer = twitter.getObserver(exp_config, logger);
-  } else {
-    observer = facebook.getObserver(treatment_group, logger);
-  }
+  const observer = twitter.getObserver(exp_config, logger);
   observer.observe(container, {
     attributes: false,
     childList: true,
