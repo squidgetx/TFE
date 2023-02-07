@@ -1,5 +1,4 @@
 import * as twitter from "./twitter";
-import * as facebook from "./facebook";
 import { getLogger } from "./log";
 
 chrome.storage.sync.get(
