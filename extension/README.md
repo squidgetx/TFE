@@ -8,16 +8,24 @@
 
 2. Chrome > Extensions > Load Unpacked > Select `build` folder
 
-This repo is set up with `crx-hotreload`, which means that as soon as files in the `build` directory are updated (with webpack), the Chrome page will reload itself.
+## Overview
 
-## Injection Architecture
+This extension monitors the user's Twitter feed and injects/removes content based on their (random) assignment to an experimental treatment condition.
 
-When injecting tweets, the extension queries a very simple backend powered by S3. The extension queries for 64 tweets at a time to avoid lagging the page with too many round-trip network requests.
+`accounts.js` contains a list of accounts whose Tweets should be removed from users' timeline
 
-The query asks for an S3 folder named with the `registrationCode` found in client localStorage. Within this folder the query asks for the latest file which should have the name `YYYY-MM-DD-registrationCode.json` equivalent to today's date.
+`background.js` handles all server communication (fetching tweets to inject, sending behavioral data to log)
 
-If this file is not found, we write a log warning/error.
+`completecode.js` is a simple module that generates psuedo-unique registration codes for users to submit during the installation process
 
-A cron job to populate the S3 bucket can be found in the XXX repository.
+`content.js` is the main entrypoint/wrapper for the feed modification code
 
-Fuck it let's go server/DB architecture wayyy easier. I guess just use aws infra.
+`log.js` manages logging user data
+
+`popup.js` manages the extension pop up and registration workflow
+
+`twitter_parser.js` parses tweet HTML from the timeline into structured objects that can be manipulated/logged
+
+`twitter_svgs.js` is a utility class that holds SVG icons used on Twitter
+
+`twitter.js` handles all Twitter-specific parsing code, including injection rendering
