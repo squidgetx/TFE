@@ -1,0 +1,11 @@
+# Server
+
+Simple nodejs express server used to process tweets
+
+`db/scraper.mjs` is the script that uses the twitter API to scrape important tweets and stores them in the db
+
+`lib/fetch.js` contains code for when the client asks for new tweets to inject
+
+`lib/log.js` handles logging to an AWS kinesis stream
+
+`lib/auth.js` handles authentication to ensure that no one can access another respondents' data (or to log any data on behalf of the respondent) by sending a cleverly formed request to the server

@@ -1,0 +1,95 @@
+drop table users;
+drop table tweets;
+drop table authors;
+drop table media;
+drop table links;
+drop table elites;
+
+CREATE TYPE elite_type AS ENUM ('media', 'journalist', 'program');
+
+create table elites (
+    id bigint unique,
+    username varchar,
+    ideo real,
+    elite_type ELITE_TYPE
+);
+
+create table users(
+    username varchar,
+    install_code varchar unique,
+    treatment_group integer,
+    ideo real
+);
+
+create table tweets(
+    id varchar unique,
+    author_id bigint,
+    ttext varchar,
+    media_id_1 varchar, 
+    media_id_2 varchar, 
+    link_preview_url varchar,
+    created_at timestamp,
+    conversation_id varchar,
+    in_reply_to_user_id bigint,
+    retweet_count integer,
+    reply_count integer,
+    like_count integer,
+    quote_count integer,
+    referenced_tweet_type varchar, -- reply, quote, retweet
+    referenced_tweet_id varchar,
+    scrape_time timestamp,
+    ds date
+);
+
+create table authors(
+    id bigint unique,
+    tname varchar,
+    username varchar,
+    verified boolean,
+    profile_image_url varchar
+);
+
+create table media(
+    id varchar unique,
+    preview_img_url varchar,
+    media_url varchar,
+    media_type varchar, -- image, video, link
+    height integer,
+    width integer
+);
+
+create table links(
+    turl varchar unique,
+    hostname varchar,
+    title varchar,
+    description varchar,
+    media_url varchar,
+    media_image varchar,
+    media_type varchar
+);
+
+CREATE INDEX ideo_index
+ON elites (ideo);
+
+CREATE INDEX tweets_link_index
+ON tweets (link_preview_url);
+
+CREATE INDEX tweets_media_index_1
+ON tweets (media_id_1);
+
+CREATE INDEX tweets_referenced_index
+ON tweets (referenced_tweet_id);
+
+CREATE INDEX tweets_ds
+ON tweets (ds);
+
+CREATE INDEX tweets_author_index
+ON tweets (author_id);
+
+CREATE INDEX usernames
+ON users (username);
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO twee_user;
+
+-- initial data for elites table
+-- psql $PG_CONN -c "\copy elites from 'server/db/elites.tsv' CSV HEADER DELIMITER E'\t'"
