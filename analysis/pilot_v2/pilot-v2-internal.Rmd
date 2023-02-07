@@ -1,0 +1,584 @@
+---
+title: "Twitter feed experiment pilot study V2 mechanical analysis"
+output: 
+    html_document:
+        toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+library(here)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(cobalt)
+library(ggpubr)
+library(sylvan.utils)
+library(stringr)
+library(ggallin)
+library(knitr)
+```
+
+# Overview
+
+In this document I describe a pilot field experiment. I recruit participants from Prolific and
+ask them to install a Chrome extension that randomly assigns treatment/control and 
+removes tweets from Fox News official accounts (treatment group 1) or tweets that contain links to 
+foxnews.com and related domains (treatment group 2).
+
+The main goal of the pilot is to understand if this experimental design is worth scaling up 
+to a large scale. This document focuses mostly on the mechanics of the experiment design:
+recruitment, compliance, and cost. 
+
+
+```{r, }
+# Load data
+load(here("analysis/pilot_v2/survey_data.Rda"))
+load(here("analysis/pilot_v2/tweet_data.Rda"))
+load(here("analysis/pilot_v2/prescreen.Rda"))
+```
+
+## Recruitment Funnel
+```{r }
+survey_df %>%
+    summarize(
+        installs = sum(installed, na.rm = TRUE),
+        postsurvey = sum(postsurvey, na.rm = TRUE),
+        twitter_users = sum(total_tweets > 0, na.rm = TRUE),
+        fox_users = sum(total_fox_tweets > 0, na.rm = TRUE),
+    )
+```
+
+Some findings jump out immediately: first, the *postsurvey attrition rate* is good. 
+This is good, and somewhat expected since Prolific users are professional survey takers.
+
+However, the twitter usage rate is low (56%) and the fox usage rate is even lower (17% of installers and 30% of twitter users).
+
+All of these respondents self reported:
+
+- using Twitter once per week or more 
+- recalling Fox News content on Twitter in the last week
+- use Google Chrome to browse Twitter
+
+So, people are lying and/or misremembering. In any case, one initial conclusion is that while the prescreen
+does yield better results than no pre-screen, it's not actually *that* good. 
+
+## Twitter usage and compliance
+```{r }
+survey_df %>%
+    summarize(
+        metric = "sum",
+        all_tweets = sum(total_tweets, na.rm = TRUE),
+        fox = sum(total_fox_tweets, na.rm = TRUE),
+        fox_author = sum(fox_tweets_accounts, na.rm = TRUE),
+        fox_account = sum(fox_tweets_links, na.rm = TRUE)
+    ) %>%
+    rbind(survey_df %>% summarize(
+        metric = "mean",
+        all_tweets = mean(total_tweets, na.rm = TRUE),
+        fox = mean(total_fox_tweets, na.rm = TRUE),
+        fox_author = mean(fox_tweets_accounts, na.rm = TRUE),
+        fox_account = mean(fox_tweets_links, na.rm = TRUE)
+    ))
+```
+
+The good news is that the people who use twitter really use Twitter a lot. We are able to collect a lot of good data from them!
+
+The bad news is that even the people who see Fox News content really barely see any of it!
+
+```{r}
+survey_df %>%
+    filter(total_fox_tweets > 0) %>%
+    summarize(
+        n = n(),
+        all_tweets = sum(total_tweets),
+        fox_tweets = sum(total_fox_tweets),
+        proportion = mean(total_fox_tweets) / mean(total_tweets)
+    )
+```
+
+So we have a problem that's more serious than just recruitment. 
+Even the Fox twitter users that we succesfully recruited just don't really see that much Fox content.
+I don't think that there will be meaningful treatment effects by removing 0.3% of the tweets on people's 
+Twitter feed. 
+
+```{r}
+survey_df %>%
+    filter(total_fox_tweets > 0) %>%
+    ggplot(aes(x = total_fox_tweets / total_tweets)) +
+    geom_histogram() +
+    labs(title = "Proportion of Fox News Tweets", y = "count (users)") +
+    theme_minimal()
+```
+
+Of course there is variation. Some people see a lot of Fox News (we have one outlier whose Twitter feed is 20% Fox content!). 
+
+So the problem becomes **How can we recruit not just a lot of Fox users, but oversample the hardcore Fox users?**
+
+
+### By partisanship
+```{r }
+survey_df %>%
+    group_by(pid3) %>%
+    summarize(
+        n = n(),
+        mean_tweets_shown = mean(total_tweets, na.rm = TRUE),
+        mean_fox_tweets = mean(total_fox_tweets, na.rm = TRUE),
+    ) %>%
+    drop_na()
+```
+
+Independents and Republicans view more Fox content than democrats, although the difference is not as stark
+as expected. See later section for regression analysis of pid3 and other factors:
+
+## Checking instruments for twitter usage
+
+### Self-reported internet usage
+```{r fig.width = 12 }
+ggarrange(
+    survey_df %>% ggplot(aes(x = as.factor(media_internet), y = log(total_tweets))) +
+        geom_boxplot() +
+        geom_point(position = "jitter") +
+        theme_minimal() +
+        labs(
+            x = "Reported Internet Usage Frequency Per Week",
+            y = "Tweets Seen (log)",
+            title = "Twitter Activity by Reported Internet Usage"
+        ),
+    survey_df %>%
+        filter(total_tweets > 0) %>%
+        ggplot(aes(x = twitter_proportion, y = log(total_tweets))) +
+        geom_point() +
+        geom_smooth(method = "lm") +
+        theme_minimal() +
+        labs(
+            x = "Reported Internet Usage Proportion (to Other Media)",
+            y = "Tweets Seen (log)",
+            title = "Twitter Activity by Reported Internet Usage"
+        )
+)
+```
+
+### Asking people to uninstall the mobile app
+Did agreeing to uninstall the Twitter app actually impact observed twitter usage?
+```{r echo=TRUE}
+survey_df$uninstall %>% table()
+```
+Unfortunately there is not a good control group here. But we can compare the groups of people who agreed to uninstall, did not agree to uninstall, and the group who did not report using the app in the first place (No Phone Usage). 
+
+```{r fig.width=5, fig.height=4}
+survey_df %>%
+    mutate(
+        uninstall = case_when(
+            uninstall == TRUE ~ "Reported Uninstall",
+            uninstall == FALSE ~ "Did Not Uninstall",
+            is.na(uninstall) ~ "No Phone Usage"
+        ),
+    ) %>%
+    ggplot(aes(x = uninstall, y = log(total_tweets + 1))) +
+    geom_boxplot() +
+    geom_point(position = "jitter") +
+    theme_minimal()
+```
+
+Weirdly, the no-app usage group is the least likely to have actually used Twitter during the study period. From this we can conclude 
+that even asking is probably a good idea!
+
+
+### Regression analysis
+
+```{r results='asis'}
+complier_df <- survey_df %>%
+    filter(total_tweets > 0) %>%
+    mutate(
+        saw_fox = total_fox_tweets > 0,
+        proportion_fox_tweets = total_fox_tweets / total_tweets,
+        log_total_tweets = log(total_tweets),
+        uninstall = case_when(
+            uninstall == TRUE ~ "uninstall",
+            uninstall == FALSE ~ "did not uninstall",
+            TRUE ~ "does not use phone"
+        ) %>% as.factor()
+    )
+models <- list(
+    lm(
+        data = complier_df,
+        saw_fox ~ pid3 + ideo + age + gender + educ + uninstall
+    ),
+    lm(
+        data = complier_df,
+        total_fox_tweets ~ pid3 + ideo + age + gender + educ + uninstall
+    ),
+    lm(
+        data = complier_df,
+        proportion_fox_tweets ~ pid3 + ideo + age + gender + educ + uninstall
+    ),
+    lm(
+        data = complier_df,
+        log_total_tweets ~ pid3 + ideo + age + gender + educ + uninstall
+    )
+)
+stargazer(
+    models,
+    type = "html",
+    title = "Behavior among Twitter users",
+    style = "default",
+    se = lapply(models, get_robust_se),
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    dep.var.labels = c("Saw Fox", "N. Fox Tweets", "Proportion Fox Tweets", "Total Tweets (log)")
+)
+```
+
+This regression is pretty funny. I like how identifying as a republican is actually negatively correlated to 
+some measures of Fox exposure holding ideology fixed. I wonder how many independents are actually super conservative?
+
+The conclusion of this analysis is that there is very little predictive power available to hone in on Fox users,
+demographically speaking. It seems that pid3/ideo helps a little bit, but not by nearly as much as one might expect.
+Women and non-binary folks seem to consume far less Fox content as well, which is hardly surprising either, but I'm 
+not sure if oversampling men is really the way to go (well, maybe it is if we are interested in effects on certain kinds of extremism!)
+
+## Content analysis of tweets seen 
+
+```{r, fig.width=10}
+# content plots
+df <- df %>% mutate(
+    media = case_when(
+        blacklist_author ~ "Fox",
+        str_detect(author, "MSNBC") ~ "MSNBC",
+        str_detect(author, "CNN") ~ "CNN",
+        str_detect(author, "[bB]reitbart") ~ "Breitbart",
+        str_detect(author, "thegatewaypundit") ~ "Gateway Pundit",
+        str_detect(author, "nytimes") ~ "New York Times",
+        str_detect(author, "(?i)newyorker") ~ "New Yorker",
+        str_detect(author, "Slate") ~ "Slate",
+        str_detect(author, "(?i)thedailyshow") ~ "TheDailyShow",
+        str_detect(author, "(?i)guardian") ~ "The Guardian",
+        str_detect(author, "(?i)maddow") ~ "Rachel Maddow",
+        str_detect(author, "(?i)buzzfeed") ~ "Buzzfeed",
+        str_detect(author, "(?i)pbs") ~ "PBS",
+        str_detect(author, "(?i)bbc") ~ "BBC",
+        str_detect(author, "(?i)TheEconomist|EconUS") ~ "The Economist",
+        str_detect(author, "(?i)politico") ~ "Politico",
+        str_detect(author, "washingtonpost") ~ "Washington Post",
+        str_detect(author, "usatoday") ~ "USA Today",
+        str_detect(author, "latimes") ~ "LA Times",
+        str_detect(author, "espn") ~ "ESPN",
+        str_detect(author, "nbc") ~ "NBC",
+        str_detect(author, "cbs") ~ "CBS",
+        str_detect(author, "forbes") ~ "Forbes",
+        str_detect(author, "wsj") ~ "Wall St Journal",
+        str_detect(author, "huffpost") ~ "Huffington Post"
+    ),
+    media_links = case_when(
+        blacklist_text ~ "Fox",
+        str_detect(text, "(?i)MSNBC") ~ "MSNBC",
+        str_detect(text, "(?i)CNN") ~ "CNN",
+        str_detect(text, "[bB]reitbart") ~ "Breitbart",
+        str_detect(text, "(?i)thegatewaypundit") ~ "Gateway Pundit",
+        str_detect(text, "(?i)nytimes") ~ "New York Times",
+        str_detect(text, "(?i)newyorker") ~ "New Yorker",
+        str_detect(text, "(?i)Slate") ~ "Slate",
+        str_detect(text, "(?i)thedailyshow") ~ "TheDailyShow",
+        str_detect(text, "(?i)guardian") ~ "The Guardian",
+        str_detect(text, "(?i)maddow") ~ "Rachel Maddow",
+        str_detect(text, "(?i)buzzfeed") ~ "Buzzfeed",
+        str_detect(text, "(?i)pbs") ~ "PBS",
+        str_detect(text, "(?i)bbc") ~ "BBC",
+        str_detect(text, "(?i)TheEconomist|EconUS") ~ "The Economist",
+        str_detect(text, "(?i)politico") ~ "Politico",
+        str_detect(text, "(?i)washingtonpost") ~ "Washington Post",
+        str_detect(text, "(?i)usatoday") ~ "USA Today",
+        str_detect(text, "(?i)latimes") ~ "LA Times",
+        str_detect(text, "(?i)espn") ~ "ESPN",
+        str_detect(text, "(?i)nbc") ~ "NBC",
+        str_detect(text, "(?i)cbs") ~ "CBS",
+        str_detect(text, "(?i)forbes") ~ "Forbes",
+        str_detect(text, "(?i)wsj") ~ "Wall St Journal",
+        str_detect(text, "(?i)huffpost") ~ "Huffington Post"
+    ),
+    keyword = case_when(
+        str_detect(text, "(?i)inflation|economy") ~ "Inflation/Economy",
+        str_detect(text, "(?i)free speech|censor|cancel") ~ "Free Speech",
+        str_detect(text, "(?i)china") ~ "China",
+        str_detect(text, "(?i)opioid|fentanyl|heroin") ~ "Opioid Crisis",
+        str_detect(text, "(?i)health care|healthcare|obamacare|affordable care act| ACA |health insurance") ~ "Health Care",
+        str_detect(text, "(?i)crime rate|public safety|police") ~ "Crime",
+        str_detect(text, "(?i)gun") ~ "Gun Control",
+        str_detect(text, "(?i)covid|corona|vaccine|mask|pandemic") ~ "Covid-19",
+        str_detect(text, "(?i)ukraine|russia|putin") ~ "Russia",
+        str_detect(text, "(?i)immigration|border|detain|sanctuary|migrant") ~ "Immigration",
+        str_detect(text, "(?i)climate|carbon|emission|environment|greenhouse|solar|paris") ~ "Climate",
+        str_detect(text, "[bB]iden") ~ "Biden",
+        str_detect(text, "[tT]rump") ~ "Trump",
+        str_detect(text, "(?i)dems|democrat|liberal|lib|conservative|gop|republican|obama|clinton") ~ "Other Political Topic",
+    ),
+    is_media = !is.na(media),
+    is_keyword = !is.na(keyword),
+    is_media_link = !is.na(media_links)
+)
+
+news_plot <- df %>%
+    filter(is_media) %>%
+    ggplot(aes(x = reorder(media, media, function(x) length(x)))) +
+    geom_bar() +
+    theme_minimal() +
+    theme(axis.title.y = element_blank()) +
+    coord_flip() +
+    labs(title = "Tweets Seen By Media Source", x = "Count")
+
+topic_plot <- df %>%
+    filter(!is.na(keyword)) %>%
+    ggplot(aes(x = reorder(keyword, keyword, function(x) length(x)))) +
+    geom_bar() +
+    theme_minimal() +
+    theme(axis.title.y = element_blank()) +
+    coord_flip() +
+    labs(title = "Tweets Seen By Political Topic", x = "Count")
+
+ggarrange(news_plot, topic_plot)
+```
+
+```{r}
+df %>% summarize(
+    n = n(),
+    media = sum(is_media),
+    media_links = sum(is_media_link),
+    political_keyword = sum(is_keyword)
+)
+```
+
+These people see a lot of political content on Twiter. It's just that most of it comes from other sources, not Fox News or even official media outlets broadly speaking.
+
+# Next Steps Discussion
+
+I think the general shape of the intervention is good. The pilot has showed that for the most part, people are willing to 
+install the chrome extension that manipulates their Twitter feeds. We can recruit people who use Twitter and are interested in politics
+on Prolific without too much difficulty. The main problem left to solve is compliance, defined as the proportion of respondents
+who the intervention is meaningful for. 
+
+The intervention we've been testing so far is removing Fox News content. This is a problem for compliance since we are limited
+only to people who see Fox News on Twitter. It appears that finding these people on survey platforms is honestly pretty hard. We might
+be able to gain a little bit of power/efficiency by oversampling independents and republicans, or those with conservative ideology on Prolific,
+but I'm not confident that this would substantively improve things.
+
+However, there are 3 ideas I have that could offer a way forward.
+
+## Alternative Treatment: Additive Intervention
+
+The idea here is to change the intervention from removing Fox News to also inserting content into the Twitter feed.
+
+Originally, I did not consider this option because 
+(1) the inserted content will be easy to detect as being "fake"/researcher manipulated. 
+(2) I was interested in pure removal effects, simply because a lot of existing research looks at additive effects.
+
+However, an additive intervention would make the whole recruitment problem go away for free. Our sample would
+simply be twitter users that are interested in media/politics, of which there are many on Prolific. There would be some
+cost in terms of time/effort it would take to design the additive content but in the grand scheme of things I think this 
+would be a very reasonable path forward for this project. 
+
+Counterargument for (1): many social media platforms test "sponsored content", "quick promotions", or other 
+non-organic content in social media feed. So there is some external validity in testing this kind of intervention.
+Second, we don't actually know that people will think it's fake. There's definitely some possibility that a well designed/implemented
+intervention could feel native to Twitter. 
+
+In fact, we might be able to expand this to Facebook as well, honestly.
+
+As for (2): while the research question would shift, I think there are still plenty of interesting 
+questions to ask about an additive intervention. We would still make a contribution over the Bail and Levy 
+paper because we have a much stronger guarantee of compliance/still have the advantage of sidestepping ranking.
+
+With extra effort, we could even preserve the "social context" research question from the original paper.
+It might be tricky, but we could scrape the follow graph of the subject and insert any cross-attitudinal content
+posted by someone they follow. 
+
+
+## Using Ads to recruit Twitter
+
+I tried very briefly to recruit on Twitter using ads. Theoretically, this should work well because 
+people clicking ads on Twitter are probably on Twitter a lot. Twitter also provides several filters
+which are useful which include limiting the audience to particular devices, eg desktop Chrome. 
+
+My initial tests showed that it costs about $2 per click, and we should expect about a 4% presurvey complete rate per click.
+This makes presurveys really expensive at about $50 per presurvey, so I gave it up. However, it may be worth revisiting because
+one thing I did not test, that could be really valuable, is that we could target exactly 
+people who follow Fox News/conservative pages. This would make each presurvey obtained from twitter ads
+just way more valuable than from Prolific/MTurk.
+
+## Alternative Treatment: Remove content from more types of accounts
+
+A third path forward is to expand the treatment to other types of accounts. Previously, we discussed
+adding other extreme right wing media like Breitbart, OneAmerica, etc. to the treatment pool. But the 
+data suggests that the bulk of political content on Twitter is actually not from media sources at all. 
+
+Theoretically, this is the most undeveloped/novel idea, but it's also something I'm really itnerested in:
+the existence of "hyperpartisan Twitter activists" essentially which feel quite understudied.
+
+It would require some way of quickly/automatically categorizing an account as such. But that's what
+Barbera's network homophily work is for. And perhaps we would need such a resource for the other alternative treatment, anyway.
+
+# Alternative Treatment: remove content based on text content, and focus on issue prioritization outcomes
+
+This idea is further afield of the others, but would basically be an experiment to see if removing discussino of 
+certain issues leads to change in issue prioritization. But maybe it is too obviously trivial (would this really be an interesting result?)
+
+
+
+
+
+# Appendix
+
+## Install count over time
+```{r}
+df %>%
+    filter(event == "install") %>%
+    group_by(date) %>%
+    summarize(count = n()) %>%
+    ggplot(aes(x = date, y = count)) +
+    geom_point() +
+    geom_smooth() +
+    theme_minimal() +
+    labs(title = "Installs by day")
+```
+
+## Distribution of twitter activity by respondent
+```{r fig.width = 12 }
+ggarrange(
+    survey_df %>%
+        filter(total_tweets > 0) %>%
+        ggplot(aes(x = total_tweets)) +
+        geom_vline(xintercept = mean(survey_df$total_tweets, na.rm = TRUE), linetype = "dashed") +
+        geom_histogram() +
+        theme_minimal() +
+        labs(title = "Tweets seen by respondents", x = "Tweets seen", y = "Num. Respondents"),
+    survey_df %>%
+        filter(total_tweets > 0) %>%
+        ggplot(aes(x = total_fox_tweets)) +
+        geom_vline(xintercept = mean(survey_df$total_fox_tweets, na.rm = TRUE), linetype = "dashed") +
+        geom_histogram() +
+        theme_minimal() +
+        labs(title = "Fox News Tweets seen by respondents", x = "Tweets seen", y = "Num. Respondents")
+)
+```
+## Sample Characteristics
+```{r, fig.width=10}
+ggarrange(
+    survey_df %>%
+        ggplot(aes(x = as.factor(ideo))) +
+        geom_bar() +
+        theme_minimal() +
+        labs(x = "Ideology"),
+    survey_df %>%
+        ggplot(aes(x = pid3)) +
+        geom_histogram(stat = "count") +
+        theme_minimal() +
+        labs(x = "Political Party Affiliation"),
+    survey_df %>%
+        ggplot(aes(x = as.factor(educ))) +
+        geom_bar() +
+        theme_minimal() +
+        labs(x = "Education (Years)"),
+    survey_df %>%
+        ggplot(aes(x = gender)) +
+        geom_histogram(stat = "count") +
+        theme_minimal() +
+        labs(x = "Gender"),
+    survey_df %>%
+        ggplot(aes(x = age)) +
+        geom_density() +
+        theme_minimal() +
+        labs(x = "Age")
+)
+```
+
+## Demographic Correlations
+```{r}
+library(corrplot)
+model <- cor(survey_df %>% mutate(
+    conservative_issues = conservative_priorities_index,
+    internet_usage = twitter_proportion,
+    pid3 = factor(pid3, levels = c("Democrat", "Independent", "Republican")) %>% as.numeric(),
+) %>% select(
+    "ideo", "pid3", "conservative_issues", "ideological_index", "twitter_proportion", "total_tweets", "total_fox_tweets",
+), use = "complete.obs")
+corrplot(model,
+    method = "color",
+    type = "upper",
+    tl.srt = 45,
+    tl.col = "black"
+)
+```
+
+
+## Text analysis of Fox tweets
+```{r}
+# Text processing
+library(tm)
+df %>%
+    filter(is_fox) %>%
+    select(author, text) %>%
+    write.csv(file = "fox_tweets.csv")
+text <- VCorpus(VectorSource(df %>% filter(is_fox) %>% .$text))
+text <- tm_map(text, content_transformer(tolower))
+toSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+text <- tm_map(text, toSpace, "(f|ht)tp(s?)://(.*)[.][a-z]+")
+text <- tm_map(text, toSpace, "[^[:alnum:]]")
+text <- tm_map(text, removePunctuation)
+text <- tm_map(text, removeNumbers)
+text <- tm_map(text, stripWhitespace)
+text <- tm_map(text, removeWords, c(
+    stopwords("english"),
+    "tweet", "retweeted", "foxnews", "fox", "com", "liked", "foxnow",
+    "official", "confirmed", "sent", "sends", "get", "will", "show", "two",
+    "jackposobiec", "like", "tomilahren", "foxbusiness", "n n", "follow"
+))
+text <- tm_map(text, removeWords, ~ length(x) > 20)
+
+replace <- content_transformer(function(x, pattern, dest) gsub(pattern, dest, x))
+text <- tm_map(text, replace, "martha s vineyard", "marthas_vineyard")
+text <- tm_map(text, replace, "illegal_immigrants", "illegal_immigrants")
+text <- tm_map(text, replace, "peter j hasson", "peter_j_hasson")
+text <- tm_map(text, replace, "ron desantis", "ron_desantis")
+text <- tm_map(text, replace, "rand paul", "rand_paul")
+text <- tm_map(text, replace, "biden administration", "biden_administration")
+text <- tm_map(text, replace, "henry olsen", "henry_olsen")
+text <- tm_map(text, replace, "tomi lahren", "tomi_lahren")
+dtm <- TermDocumentMatrix(text)
+findMostFreqTerms(dtm, INDEX = rep(1, each = (df %>% filter(is_fox) %>% nrow())), n = 50)
+```
+
+## Treatment effect on content distribution 
+```{r results='asis'}
+models <- list(
+    lm(proportion_liberal ~ treated + ideo + age + gender + educ, data = survey_df),
+    lm(proportion_political ~ treated + ideo + ideo + age + gender + educ, data = survey_df),
+    lm(log(total_tweets + 1) ~ treated + ideo + age + gender + educ, data = survey_df)
+)
+cace_models <- list(
+    lm(proportion_liberal ~ treated + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0)),
+    lm(proportion_political ~ treated + ideo + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0)),
+    lm(log(total_tweets + 1) ~ treated + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0))
+)
+stargazer(
+    models,
+    type = "html",
+    title = "Treatment Effects on Twitter Content",
+    style = "default",
+    se = lapply(models, get_robust_se),
+    covariate.labels = c(
+        "Treatment",
+        "Ideology",
+        "Age",
+        "Gender (Male)",
+        "Gender (Non-binary)",
+        "Education (Years)"
+    ),
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    dep.var.labels = c("Proportion Left-leaning Tweets", "Proportion Political", "log Total Tweets"),
+    out = paste0("results_twitter", ".tex")
+)
+```

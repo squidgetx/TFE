@@ -1,0 +1,401 @@
+---
+title: "twitter experiment power analysis"
+output: 
+    html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(JuliaCall)
+julia <- julia_setup()
+library(here)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(sylvan.utils)
+library(stringr)
+```
+
+# Issue Position Index
+
+Set hypothesized effect to 0.1SD, which is the smallest significant size of effect reported in:
+
+* Broockman and Kalla, 2022
+* Bail 2018 reports ITT estimates of around 0.15SD
+
+```{julia}
+include("test2.jl")
+```
+
+```{r}
+df <- julia_eval("include(\"test2.jl\")")
+ggplot(data = df, aes(x = N, y = power)) +
+    geom_point()
+```
+
+This simulation suggests we would need a total N of around 3000 to get power for alpha = 0.05 and beta = 0.8.
+
+However, we can probably do better by using covariates controls.
+
+Bail uses the following controls:
+```{r}
+bail_controls <- c(
+    "birth_year",
+    "family_income",
+    "education",
+    "gender",
+    "ideo_homogeneity_offline",
+    "northeast",
+    "north_central",
+    "south",
+    "percent_co_party",
+    "strong_partisan",
+    "political_wave_1",
+    "freq_twitter_wave_1",
+    "party_id_wave_1"
+)
+load(here("power_analysis/Bail et al PNAS 2018.Rdata"))
+# loads as twitter_data
+```
+```{r}
+# bail's main outcome measure is an index of issue attitudes
+# we need to replicate the index
+# invert questions that prime liberal values
+twitter_data$government_should_regulate_businesses_wave_1 <- 8 - twitter_data$government_should_regulate_businesses_wave_1
+twitter_data$racial_discrimination_hurts_black_people_wave_1 <- 8 - twitter_data$racial_discrimination_hurts_black_people_wave_1
+twitter_data$immigrants_strengthen_country_wave_1 <- 8 - twitter_data$immigrants_strengthen_country_wave_1
+twitter_data$corporations_make_too_much_profit_wave_1 <- 8 - twitter_data$corporations_make_too_much_profit_wave_1
+twitter_data$homosexuality_should_be_accepted_wave_1 <- 8 - twitter_data$homosexuality_should_be_accepted_wave_1
+twitter_data$government_should_regulate_businesses_wave_5 <- 8 - twitter_data$government_should_regulate_businesses_wave_5
+twitter_data$racial_discrimination_hurts_black_people_wave_5 <- 8 - twitter_data$racial_discrimination_hurts_black_people_wave_5
+twitter_data$immigrants_strengthen_country_wave_5 <- 8 - twitter_data$immigrants_strengthen_country_wave_5
+twitter_data$corporations_make_too_much_profit_wave_5 <- 8 - twitter_data$corporations_make_too_much_profit_wave_5
+twitter_data$homosexuality_should_be_accepted_wave_5 <- 8 - twitter_data$homosexuality_should_be_accepted_wave_5
+twitter_data$substantive_ideology_scale_wave_1 <- rowMeans(twitter_data[, c("government_should_regulate_businesses_wave_1", "racial_discrimination_hurts_black_people_wave_1", "immigrants_strengthen_country_wave_1", "corporations_make_too_much_profit_wave_1", "homosexuality_should_be_accepted_wave_1", "government_wasteful_inefficient_wave_1", "poor_people_have_it_easy_wave_1", "government_cannot_afford_to_help_needy_wave_1", "best_way_peace_military_strength_wave_1", "stricter_environmental_laws_damaging_wave_1")], na.rm = TRUE)
+twitter_data$substantive_ideology_scale_wave_5 <- rowMeans(twitter_data[, c(
+    "government_should_regulate_businesses_wave_5", "racial_discrimination_hurts_black_people_wave_5", "immigrants_strengthen_country_wave_5",
+    "corporations_make_too_much_profit_wave_5",
+    "homosexuality_should_be_accepted_wave_5",
+    "government_wasteful_inefficient_wave_5",
+    "poor_people_have_it_easy_wave_5",
+    "government_cannot_afford_to_help_needy_wave_5",
+    "best_way_peace_military_strength_wave_5",
+    "stricter_environmental_laws_damaging_wave_5"
+)], na.rm = TRUE)
+
+# now look at the correlations between this and controls
+
+# impute missing covariates to make the power analysis easier
+library(mice)
+impute_vars <- c("substantive_ideology_scale_wave_1", "substantive_ideology_scale_wave_5", "gender", "party_id_wave_1")
+imputed_data <- mice(
+    twitter_data %>% select(impute_vars),
+    m = 5,
+    seed = 352
+)
+imputed_df <- complete(imputed_data)
+
+imputed_df$ideology_norm <- (imputed_df$substantive_ideology_scale_wave_1 - mean(imputed_df$substantive_ideology_scale_wave_1)) / sd(imputed_df$substantive_ideology_scale_wave_1)
+imputed_df$ideology_norm_post <- (imputed_df$substantive_ideology_scale_wave_5 - mean(imputed_df$substantive_ideology_scale_wave_5)) / sd(imputed_df$substantive_ideology_scale_wave_5)
+
+model <- lm(data = imputed_df, ideology_norm ~ gender + party_id_wave_1)
+summary(model)
+
+model2 <- lm(data = imputed_df, ideology_norm_post ~ ideology_norm)
+summary(model2)
+```
+
+```{r}
+# power simulation using control variables
+possible.ns <- seq(from = 100, to = 2400, by = 100) # The sample sizes we'll be considering
+
+powers.controls <- rep(NA, length(possible.ns))
+powers.blocked <- rep(NA, length(possible.ns))
+powers.simple <- rep(NA, length(possible.ns))
+
+alpha <- 0.05
+sims <- 400
+for (j in 1:length(possible.ns)) {
+    N <- possible.ns[j] # Pick the jth value for N
+    significant.experiments.controls <- rep(NA, sims) # Empty object to count significant experiments
+    significant.experiments.blocked <- rep(NA, sims) # Empty object to count significant experiments
+    significant.experiments.simple <- rep(NA, sims) # Empty object to count significant experiments
+
+    #### Inner loop to conduct experiments "sims" times over for each N ####
+    population <- sample_n(imputed_df, N, replace = TRUE)
+    sd <- sqrt(deviance(model) / df.residual(model))
+    Y0_predict <- predict(model, population)
+    for (i in 1:sims) {
+        Y0 <- Y0_predict + rnorm(N, 0, sd = sd)
+        tau <- 0.1
+        Y1 <- Y0 + tau # treatment potential outcome
+
+        # Discretize - what is the actual outcome here? Ideology index?
+
+        ## Do a random assignment ensuring equal sized groups
+        population$Z.simple <- sample(c(0, 1), nrow(population), replace = TRUE)
+        population$Z.sim <- sample(rep(c(0, 1), N / 2))
+        population$Y0 <- Y0
+        population$Y1 <- Y1
+
+        # Reveal outcomes according to assignment
+        population$Y.sim <- Y1 * population$Z.sim + Y0 * (1 - population$Z.sim)
+
+        fit.sim.controls <- lm(data = population, Y.sim ~ Z.sim + gender + party_id_wave_1)
+        p.value <- summary(fit.sim.controls)$coefficients[2, 4]
+        significant.experiments.controls[i] <- (p.value <= alpha)
+
+        # Do a random assignment ensuring stratification on the two
+        # variables
+        res <- by(population, list(
+            gender = population$gender,
+            pid = population$party_id_wave_1
+        ), function(df) {
+            if (nrow(df) %% 2 == 0) {
+                df$Z.sim.block <- sample(rep(c(0, 1), nrow(df) / 2))
+            } else {
+                df$Z.sim.block <- c(sample(rep(c(0, 1), nrow(df) / 2)), sample(c(0, 1), 1))
+            }
+            df
+        })
+        pop.blocked <- data.frame(do.call(rbind, res))
+        pop.blocked <- within(pop.blocked, Y.sim.block <- Y1 * Z.sim.block +
+            Y0 * (1 - Z.sim.block))
+
+        fit.sim.blocked <- lm(
+            data = pop.blocked,
+            Y.sim.block ~ Z.sim.block + gender + party_id_wave_1
+        )
+        p.value <- summary(fit.sim.blocked)$coefficients[2, 4]
+        significant.experiments.blocked[i] <- (p.value <= alpha)
+
+        population$Y.simple <- Y1 * population$Z.simple + Y0 * (1 - population$Z.simple)
+        fit.sim <- lm(data = population, Y.simple ~ Z.simple + gender + party_id_wave_1)
+        p.value <- summary(fit.sim)$coefficients[2, 4]
+        significant.experiments.simple[i] <- (p.value <= alpha)
+    }
+    powers.controls[j] <- mean(significant.experiments.controls)
+    powers.blocked[j] <- mean(significant.experiments.blocked)
+    powers.simple[j] <- mean(significant.experiments.simple)
+}
+df <-
+    data.frame(powers = powers.controls, ns = possible.ns, analysis = "Block") %>%
+    rbind(
+        data.frame(powers = powers.blocked, ns = possible.ns, analysis = "Stratified Block")
+    ) %>%
+    rbind(
+        data.frame(powers = powers.simple, ns = possible.ns, analysis = "sSimple")
+    )
+
+ggplot(data = df, aes(x = ns, y = powers, color = analysis)) +
+    geom_point() +
+    geom_smooth() +
+    geom_hline(yintercept = 0.8, linetype = "dashed")
+```
+
+Using the bail replication data, we can expect N=1200 to get us a lot closer to $\beta=0.8$, 
+
+It appears that simple random sampling with controlling in the regression is all you really need - 
+simple random sample vs block vs stratified doesn't realllly seem to help with power that much. 
+
+But, maybe it's because bail's data is well balanced - if you have a poorly balanced sample maybe the stratification process is more useful
+
+```{r}
+possible.ns <- seq(from = 100, to = 2400, by = 100)
+possible.ts <- seq(from = 0.1, to = 0.2, by = 0.01)
+
+df <- data.frame(d = c(), power = c(), N = c())
+alpha <- 0.05
+sims <- 200
+for (j in 1:length(possible.ns)) {
+    N <- possible.ns[j] # Pick the jth value for N
+    powers <- c()
+    for (t in possible.ts) {
+        significant.experiments <- rep(NA, sims) # Empty object to count significant experiments
+
+        #### Inner loop to conduct experiments "sims" times over for each N ####
+        population <- sample_n(imputed_df, N, replace = TRUE)
+        sd <- sqrt(deviance(model) / df.residual(model))
+        Y0_predict <- predict(model, population)
+        for (i in 1:sims) {
+            population$Y0 <- Y0_predict + rnorm(N, 0, sd = sd)
+            population$Y1 <- population$Y0 + t # treatment potential outcome
+            population$Z <- sample(rep(c(0, 1), N / 2))
+
+            # Reveal outcomes according to assignment
+            population <- within(population, Y <- Y1 * Z + Y0 * (1 - Z))
+            fit <- lm(data = population, Y ~ Z + gender + party_id_wave_1)
+            p <- summary(fit)$coefficients[2, 4]
+            significant.experiments[i] <- (p <= alpha)
+        }
+        powers <- c(powers, mean(significant.experiments))
+    }
+    df <- df %>% rbind(
+        data.frame(d = possible.ts, power = powers, N = N)
+    )
+}
+
+ggplot(data = df, aes(x = N, y = power, color = as.factor(d))) +
+    geom_smooth(se = FALSE) +
+    geom_hline(yintercept = 0.8, linetype = "dashed") +
+    theme_minimal()
+```
+
+# Affective Polarization
+```{r}
+anes_df <- read.csv("~/code/anes_timeseries_2020_csv_20220210/anes_timeseries_2020_csv_20220210.csv")
+# recode negative values as missing variables
+anes_df <- anes_df %>%
+    mutate(
+        therm_liberals = V202161,
+        therm_conservatives = V202164,
+        gender = V201600,
+        pid3 = V201018,
+        educ = V201510,
+        twitter_usage = V202544
+    ) %>%
+    mutate(
+        across(c(therm_liberals, therm_conservatives, gender, pid3, educ, twitter_usage), function(x) {
+            replace(x, which(x < 0), NA)
+        }),
+        affective_polarization = abs(therm_liberals - therm_conservatives),
+        educ = case_when(
+            educ == 1 ~ 8,
+            educ == 2 ~ 12,
+            educ == 3 ~ 14,
+            educ == 4 ~ 14,
+            educ == 5 ~ 15,
+            educ == 6 ~ 16,
+            educ == 7 ~ 18,
+            educ == 8 ~ 22,
+            TRUE ~ NA_real_
+        ),
+    )
+
+impute_vars <- c("therm_liberals", "therm_conservatives", "gender", "pid3", "educ", "twitter_usage")
+imputed_data <- mice(
+    anes_df %>% select(impute_vars),
+    m = 5,
+    seed = 352
+)
+anes_df <- complete(imputed_data)
+
+anes_df <- anes_df %>%
+    filter(twitter_usage <= 4) %>%
+    mutate(
+        ap = abs(therm_liberals - therm_conservatives),
+        ap_norm = (ap - mean(ap)) / sd(ap)
+    )
+```
+```{r, results='asis'}
+anes_df$gender %>%
+    hist() %>%
+    print()
+anes_df$pid3 %>%
+    hist() %>%
+    print()
+anes_df$educ %>%
+    hist() %>%
+    print()
+```
+```{r}
+model <- lm(data = anes_df, ap_norm ~ gender + as.factor(pid3) + educ)
+summary(model)
+```
+
+```{r}
+possible.ns <- seq(from = 500, to = 2400, by = 100)
+possible.ts <- seq(from = 0.1, to = 0.2, by = 0.02)
+
+df <- data.frame(d = c(), power = c(), N = c())
+alpha <- 0.05
+sims <- 200
+for (j in 1:length(possible.ns)) {
+    N <- possible.ns[j] # Pick the jth value for N
+    powers <- c()
+    for (t in possible.ts) {
+        significant.experiments <- rep(NA, sims) # Empty object to count significant experiments
+
+        #### Inner loop to conduct experiments "sims" times over for each N ####
+        population <- sample_n(anes_df, N, replace = TRUE)
+        sd <- sqrt(deviance(model) / df.residual(model))
+        Y0_predict <- predict(model, population)
+        for (i in 1:sims) {
+            population$Y0 <- Y0_predict + rnorm(N, 0, sd = sd)
+            population$Y1 <- population$Y0 + t # treatment potential outcome
+            population$Z <- sample(rep(c(0, 1), N / 2))
+
+            # Reveal outcomes according to assignment
+            population <- within(population, Y <- Y1 * Z + Y0 * (1 - Z))
+            fit <- lm(data = population, Y ~ Z + gender + as.factor(pid3) + educ)
+            p <- summary(fit)$coefficients[2, 4]
+            significant.experiments[i] <- (p <= alpha)
+        }
+        powers <- c(powers, mean(significant.experiments))
+    }
+    df <- df %>% rbind(
+        data.frame(d = possible.ts, power = powers, N = N)
+    )
+}
+
+ggplot(data = df, aes(x = N, y = power, color = as.factor(d))) +
+    geom_smooth(se = FALSE) +
+    geom_hline(yintercept = 0.8, linetype = "dashed") +
+    theme_minimal()
+```
+
+## With pre-treatment measure
+
+```{r}
+anes_df$ap_norm_post <- anes_df$ap_norm + rnorm(nrow(anes_df), sd = 0.5)
+
+model <- lm(data = anes_df, ap_norm_post ~ gender + as.factor(pid3) + educ + ap_norm)
+```
+```{r}
+possible.ns <- seq(from = 100, to = 1000, by = 100)
+possible.ts <- seq(from = 0.1, to = 0.2, by = 0.02)
+
+df <- data.frame(d = c(), power = c(), N = c())
+alpha <- 0.05
+sims <- 200
+for (j in 1:length(possible.ns)) {
+    N <- possible.ns[j] # Pick the jth value for N
+    powers <- c()
+    for (t in possible.ts) {
+        significant.experiments <- rep(NA, sims) # Empty object to count significant experiments
+
+        #### Inner loop to conduct experiments "sims" times over for each N ####
+        population <- sample_n(anes_df, N, replace = TRUE)
+        sd <- sqrt(deviance(model) / df.residual(model))
+        Y0_predict <- predict(model, population)
+        for (i in 1:sims) {
+            population$Y0 <- Y0_predict + rnorm(N, 0, sd = sd)
+            population$Y1 <- population$Y0 + t # treatment potential outcome
+            population$Z <- sample(rep(c(0, 1), N / 2))
+
+            # Reveal outcomes according to assignment
+            population <- within(population, Y <- Y1 * Z + Y0 * (1 - Z))
+            fit <- lm(data = population, Y ~ Z + gender + as.factor(pid3) + educ + ap_norm)
+            p <- summary(fit)$coefficients[2, 4]
+            significant.experiments[i] <- (p <= alpha)
+        }
+        powers <- c(powers, mean(significant.experiments))
+    }
+    df <- df %>% rbind(
+        data.frame(d = possible.ts, power = powers, N = N)
+    )
+}
+
+ggplot(data = df, aes(x = N, y = power, color = as.factor(d))) +
+    geom_smooth(se = FALSE) +
+    geom_hline(yintercept = 0.8, linetype = "dashed") +
+    theme_minimal()
+```
+
+you get so much power from pre-treatment measurement lmao even with a ton of noise
+
+## With stratified sampling 
+
+i guess i have to figure out how i would actually do it
+some kind of dimension reduct or PCA

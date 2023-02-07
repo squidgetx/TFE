@@ -1,0 +1,18 @@
+# Twitter Feed Experiment Code
+
+This repo contains all code related to the twitter feed experiment CSMAP project. This project is a randomized experiment where participants install a chrome extension that injects tweets from different political elites into their Twitter feed.
+
+
+Primary point of contact: Sylvan Zheng (saz310@nyu.edu)
+
+## Repo organization
+
+1. `analysis` contains data analysis code for analyzing experiment results
+
+2. `choosing-elites` contains code and data for identifying political media and journalist accounts on Twitter.
+
+3. `extension` contains all code relating to the Chrome extension. 
+
+4. `server` contains all code relating to the webserver that provides backend functionality to the extension. Its most important roles are logging data that it receives from the client as well as sending fresh tweets for the client to display.
+
+

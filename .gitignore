@@ -2,17 +2,22 @@ extension/node_modules
 extension/build
 extension/secrets.*.js
 
-scripts/data
-scripts/*.tsv
+analysis/scripts/data
+analysis/scripts/data_pilot_v2
+analysis/scripts/*.tsv
 secrets.sh
 
 server/db/pgdata/*
 server/db/logfile
 server/node_modules
+server/db/data_qualtrics
 
 choosing-elites/deprecated
 choosing-elites/following
 choosing-elites/followers
+
+analysis/data
+data
 
 
 .venv

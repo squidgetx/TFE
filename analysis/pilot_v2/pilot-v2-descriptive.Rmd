@@ -1,0 +1,369 @@
+---
+title: "Describing Users' Twitter Feeds"
+output: 
+    html_document:
+        toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+library(here)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(cobalt)
+library(ggpubr)
+library(sylvan.utils)
+library(stringr)
+library(ggallin)
+library(knitr)
+```
+
+# Overview
+
+I recruit participants from Prolific and
+ask them to install a Chrome extension that monitors what tweets they see on Twitter.
+
+Participants are pre-screened to self reported twitter users and Fox news content viewers
+
+## Research Questions
+
+1. What elite content do users see?
+
+2. Do users see political, non-elite content?
+
+```{r, }
+# Load data
+load(here("analysis/pilot_v2/survey_data.Rda"))
+load(here("analysis/pilot_v2/tweet_data.Rda"))
+load(here("analysis/pilot_v2/prescreen.Rda"))
+```
+
+# Elite Content
+```{r }
+elites <- read.csv(here("analysis/data/Wojcieszak_2022/actors-ideo-scores.csv"))
+df <- df %>%
+    left_join(elites, by = c("author" = "actor")) %>%
+    mutate(
+        is_elite_w = !is.na(actor_id)
+    )
+df %>%
+    group_by(workerID) %>%
+    summarize(elite_count = sum(is_elite_w)) %>%
+    ggplot(aes(x = elite_count)) +
+    geom_density()
+
+df %>%
+    group_by(workerID) %>%
+    summarize(elite_prop = sum(is_elite_w) / length(is_elite_w)) %>%
+    ggplot(aes(x = elite_prop)) +
+    geom_density()
+```
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(elite_prop = sum(is_elite_w) / length(is_elite_w)) %>%
+    .$elite_prop %>%
+    summary()
+```
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(saw_elite = sum(is_elite_w) > 0) %>%
+    .$saw_elite %>%
+    summary()
+```
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(n_elites = sum(is_elite_w)) %>%
+    filter(n_elites > 0) %>%
+    ggplot(aes(x = n_elites)) +
+    geom_histogram() +
+    scale_x_log10() +
+    labs(title = "Number of tweets from political elites seen by experimental sample")
+```
+
+Descriptive stats:
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(n_elites = sum(is_elite_w)) %>%
+    filter(n_elites > 0) %>%
+    .$n_elites %>%
+    summary()
+```
+
+Most people don't see that much content from elites (mean 3%)
+
+About 37% of the sample saw any elite content at all.
+
+But more people see elite content than Fox! And the treatment is stronger: mean elite-seer sees 46 elite tweets per week!
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(saw_fox = sum(is_fox, na.rm = TRUE) > 0) %>%
+    .$saw_fox %>%
+    summary()
+
+df %>%
+    group_by(workerID) %>%
+    summarize(saw_fox = sum(is_fox, na.rm = TRUE) > 0) %>%
+    .$saw_fox %>%
+    summary()
+```
+
+17% saw fox content
+
+# Nonelites?
+
+How much political content is there from nonelites?
+Here we use a verrry rudimentary conception of political (keyword based)
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(saw_political = sum(political, na.rm = TRUE) > 0) %>%
+    .$saw_political %>%
+    summary()
+```
+
+Closer to 50% of the sample saw political content according to this loose keyword based approach.
+
+```{r}
+df %>%
+    group_by(workerID) %>%
+    summarize(political_prop = sum(political, na.rm = TRUE) / length(political)) %>%
+    ggplot(aes(x = political_prop)) +
+    geom_density()
+```
+Still a power law, but much less steep than the elite picture
+
+```{r}
+df %>%
+    filter(political) %>%
+    .$is_elite_w %>%
+    summary()
+```
+
+So, the vast majority of political content is NOT from elites!
+
+Who is it from?
+
+```{r}
+df %>%
+    filter(political, !is_elite_w) %>%
+    group_by(author) %>%
+    summarize(n = n()) %>%
+    arrange(desc(n))
+```
+
+```{r}
+nonelites <- read.csv(here("analysis/nonelite_tweets_augmented.csv"))
+```
+```{r}
+nonelites$verified %>% table()
+```
+
+Some of these "nonelites" are verified
+
+```{r}
+nonelites %>%
+    filter(verified == "True") %>%
+    .$username
+```
+
+```{r}
+df <- df %>%
+    left_join(nonelites, by = c("author" = "username")) %>%
+    mutate(is_elite_or_verified = is_elite_w | verified == "True")
+
+df %>%
+    filter(political) %>%
+    .$is_elite_or_verified %>%
+    summary()
+df %>%
+    group_by(workerID) %>%
+    summarize(elite_count = sum(is_elite_or_verified, na.rm = TRUE)) %>%
+    ggplot(aes(x = elite_count)) +
+    geom_density()
+
+df %>%
+    group_by(workerID) %>%
+    summarize(elite_prop = sum(is_elite_or_verified, na.rm = TRUE) / length(is_elite_w)) %>%
+    ggplot(aes(x = elite_prop)) +
+    geom_density()
+
+workerIDs_sorted <- df %>%
+    group_by(workerID) %>%
+    summarize(n = sum(political, na.rm = TRUE)) %>%
+    arrange(n) %>%
+    .$workerID
+
+df <- df %>%
+    mutate(elite = case_when(
+        is_elite_w ~ "Elite (Wojcieszak 2022)",
+        verified == "True" ~ "Verified",
+        TRUE ~ "Non-elite"
+    ))
+df %>%
+    filter(political) %>%
+    mutate(workerID = factor(workerID, levels = workerIDs_sorted)) %>%
+    ggplot(aes(x = workerID, fill = elite)) +
+    geom_bar() +
+    theme_minimal() +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+    labs(title = "Political Tweets By Elite/Nonelite", x = "", y = "Num Tweets", fill = "Is elite?")
+```
+```{r}
+survey_df_ <- survey_df %>% inner_join(
+    df %>% filter(political) %>% group_by(workerID) %>% summarize(
+        n_elite_tweets = sum(elite == "Elite (Wojcieszak 2022)", na.rm = TRUE),
+        n_nonelite_tweets = sum(elite != "Elite (Wojcieszak 2022)", na.rm = TRUE),
+        n_political = n(),
+        elite_prop = n_elite_tweets / n_political,
+    ) %>% select(workerID, n_elite_tweets, n_nonelite_tweets, n_political, elite_prop),
+    by = c("PROLIFIC_PID" = "workerID")
+)
+summary(lm(affective_index ~ n_political + elite_prop, data = survey_df_))
+```
+
+
+# How is ideology of elite accounts followed related to polarization?
+
+```{r}
+library(tidyverse)
+library(here)
+load(here("analysis/pilot_v2/survey_data.Rda"))
+load(here("analysis/pilot_v2/tweet_data.Rda"))
+load(here("analysis/pilot_v2/prescreen.Rda"))
+
+elites <- read.csv(here("analysis/data/elites_woj_rathje-copy.csv")) %>% mutate(author = str_to_lower(username))
+df <- df %>%
+    mutate(author = str_to_lower(author)) %>%
+    left_join(elites, by = c("author" = "author"))
+
+max_ideo <- df %>%
+    group_by(workerID) %>%
+    summarize(max_ideo = max(abs(ideo), na.rm = TRUE), mean_ideo = mean(ideo, na.rm = TRUE), na.rm = TRUE) %>%
+    mutate(max_ideo = ifelse(max_ideo == -Inf, NA, max_ideo))
+
+joined_df <- survey_df %>%
+    mutate(workerID = PROLIFIC_PID) %>%
+    left_join(max_ideo, by = "workerID")
+
+joined_df %>% ggplot(aes(x = max_ideo, y = affective_index)) +
+    geom_point()
+
+joined_df %>% ggplot(aes(x = mean_ideo, y = ideological_index)) +
+    geom_point()
+
+summary(lm(affective_index ~ mean_ideo, data = joined_df))
+
+summary(lm(thermo ~ max_ideo, data = joined_df))
+
+df %>%
+    filter(!is.na(ideo)) %>%
+    left_join(survey_df, by = c("workerID" = "PROLIFIC_PID")) %>%
+    ggplot(aes(x = affective_index, y = abs(ideo.x))) +
+    geom_point(position = "jitter")
+
+df %>%
+    filter(!is.na(ideo)) %>%
+    left_join(survey_df, by = c("workerID" = "PROLIFIC_PID")) %>%
+    ggplot(aes(x = thermo, y = abs(ideo.x))) +
+    geom_point(position = "jitter")
+
+df %>%
+    filter(!is.na(ideo)) %>%
+    left_join(survey_df, by = c("workerID" = "PROLIFIC_PID")) %>%
+    ggplot(aes(x = ideological_index, y = abs(ideo.x))) +
+    geom_point(position = "jitter")
+```
+
+```{r}
+count_elites <- df %>%
+    group_by(workerID) %>%
+    summarize(n_elites = sum(is_elite_w, na.rm = TRUE))
+survey_df %>%
+    left_join(count_elites, by = c("PROLIFIC_PID" = "workerID")) %>%
+    ggplot(aes(x = n_elites > 0, y = distance)) +
+    geom_point(position = "jitter")
+```
+
+```{r}
+count_elites <- df %>%
+    group_by(workerID) %>%
+    summarize(n_elites = sum(is_elite_w, na.rm = TRUE))
+survey_df %>%
+    left_join(count_elites, by = c("PROLIFIC_PID" = "workerID")) %>%
+    ggplot(aes(x = n_elites > 0, y = affective_index)) +
+    geom_point()
+
+library(fuzzyjoin)
+library(stringi)
+elites$actor_str <- paste0("@", tolower(as.character(elites$username)))
+contains_df <- df %>%
+    mutate(text_lower = tolower(text)) %>%
+    fuzzy_left_join(elites, by = c("text_lower" = "actor_str"), match_fun = stri_detect_fixed)
+contains_df <- contains_df %>% mutate(contains_elite = !is.na(author.y))
+table(contains_df$contains_elite)
+is_elite_df <- df %>%
+    mutate(author_lower = tolower(author)) %>%
+    left_join(elites %>% mutate(actor_str = tolower(actor_str)), by = c("author" = "actor_str")) %>%
+    mutate(is_elite = !is.na(author.y))
+table(is_elite_df$is_elite)
+
+
+df <- is_elite_df %>%
+    left_join(
+        contains_df %>%
+            select(X1, id.x, contains_elite),
+        by = "X1"
+    ) %>%
+    mutate(elite = case_when(
+        is_elite ~ "author",
+        contains_elite ~ "mention",
+        TRUE ~ "N/A"
+    ))
+
+workerIDs_sorted <- df %>%
+    group_by(workerID) %>%
+    summarize(n = sum(elite != "N/A")) %>%
+    arrange(n) %>%
+    .$workerID
+
+df %>%
+    group_by(workerID, elite) %>%
+    summarize(n = n()) %>%
+    mutate(workerID = factor(workerID, levels = workerIDs_sorted)) %>%
+    filter(elite != "N/A") %>%
+    filter(n > 1) %>%
+    arrange(n, workerID) %>%
+    ggplot(aes(x = workerID, y = n, fill = elite)) +
+    geom_bar(position = "stack", stat = "identity") +
+    theme(
+        axis.ticks.x = element_blank(),
+        axis.text.x = element_blank()
+    )
+
+ggsave("mentions.png", width = 8, height = 4)
+
+
+count_elites_mentioned <- contains_df %>%
+    group_by(workerID) %>%
+    summarize(n_elites = sum(contains_elite, na.rm = TRUE))
+
+survey_df %>%
+    left_join(count_elites_mentioned, by = c("PROLIFIC_PID" = "workerID")) %>%
+    ggplot(aes(x = n_elites > 0, y = distance)) +
+    geom_point()
+
+table(count_elites_mentioned$n_elites > 0)
+```

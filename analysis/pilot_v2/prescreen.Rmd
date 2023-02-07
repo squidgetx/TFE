@@ -1,0 +1,230 @@
+---
+title: "Prolific prescreen analysis"
+output: 
+    html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(sylvan.utils)
+library(stringr)
+```
+
+
+```{r}
+demo_df <- read_csv(here("analysis/data/prolific_prescreen_demographic_09-08.csv"))
+df <- read_csv(here("analysis/data/prescreen_09-09.csv")) %>%
+    filter(!row_number() %in% c(1, 2)) %>%
+    mutate(
+        Date = as.Date(RecordedDate),
+        Audience = case_when(
+            Date == as.Date("2022-08-18") ~ "TWITTER_USERS",
+            Date == as.Date("2022-08-19") ~ "TWITTER_DESKTOP_USERS",
+            STUDY_ID == "631902225bcea00492a58e1b" ~ "TWITTER_POLITICAL_USERS",
+            STUDY_ID == "631a479f6330d21654eeb7a8" ~ "TWITTER_USERS"
+        ),
+        publishers = ifelse(is.na(publishers), "", publishers),
+        `Content-type` = ifelse(is.na(`Content-type`), "", `Content-type`),
+        use_twitter = !is.na(devices),
+        use_facebook = !str_detect(`website-usage_1`, "Less often"),
+        use_chrome = str_detect(devices, "Chrome"),
+        use_other_desktop = str_detect(devices, "Laptop/Desktop") & !use_chrome,
+        use_phone = str_detect(devices, "Twitter App"),
+        consent = str_detect(remove_consent, "Yes"),
+        only_chrome = use_chrome & !use_phone,
+        chrome_phone_and_consent = use_twitter & use_chrome & (!use_phone | consent),
+        saw_fox = str_detect(publishers, "Fox"),
+        saw_breitbart = str_detect(publishers, "Breitbart"),
+        saw_news = str_detect(`Content-type`, "News"),
+        qualified_strict = use_twitter & saw_fox & only_chrome,
+        qualified_consent = use_twitter & saw_fox & chrome_phone_and_consent,
+        qualified_consent_only = use_twitter & saw_fox & use_chrome & use_phone & consent,
+        qualified_consent_news = use_twitter & (saw_fox | saw_news) & chrome_phone_and_consent,
+        qualified_strict_news_only = use_twitter & saw_news & !saw_fox & only_chrome,
+        qualified_consent_news_only = use_twitter & saw_news & !saw_fox & use_chrome & only_chrome,
+        qualified_loose = use_twitter & saw_fox & use_chrome
+    ) %>%
+    filter(!is.na(STUDY_ID)) %>%
+    left_join(demo_df, by = c("PROLIFIC_PID" = "Participant id")) %>%
+    rename(pid = "U.s. political affiliation")
+```
+
+# Basic stats about qualification
+Number of responses: ``r nrow(df)``
+```{r}
+df %>%
+    summarize(
+        n = n(),
+        strict = sum(as.integer(qualified_strict)),
+        consent_only = sum(as.integer(qualified_consent_only)),
+        total = sum(as.integer(qualified_strict | qualified_consent_only)),
+        total_rate = total / n(),
+        strict_news = sum(as.integer(qualified_strict_news_only)),
+        consent_news = sum(as.integer(qualified_consent_news_only))
+    )
+```
+
+
+1. All `qualified_strict` participants are qualified for the `Vanilla` presurvey. These participants are the "best" in that they only use Chrome and remember seeing Fox News.
+2. All `qualified_consent_only` participants should be split into the `Remove App Bonus` and `Remove App Required` groups. These participants report seeing Fox but use their phone as well as Chrome.
+3. Some `qualified_strict_news_only` participants should also qualify for the `Vanilla` presurvey. This group expressed interest in news and politics but did not recall seeing Fox News. 
+We want to test a small portion of them to see how accurate the self report is (maybe they actually did see Fox news but just don't remember).
+4. We probably don't bother with anyone who said they also use their phones, just because it's more hassle and confusing.
+
+## Presurvey Allocation!
+```{r}
+if (FALSE) {
+    # Only calculate assignments one time lol
+    df <- df %>% mutate(
+        random_50 = sample(0:1, n(), replace = TRUE),
+        random_33 = sample(0:2, n(), replace = TRUE),
+        presurvey_assignment = case_when(
+            qualified_strict ~ "VANILLA",
+            qualified_consent_only ~ ifelse(random_50 == 1, "REMOVE_REQUIRED", "REMOVE_BONUS"),
+            qualified_strict_news_only ~ ifelse(random_33 == 1, "VANILLA_NEWS", NA_character_),
+            TRUE ~ NA_character_
+        )
+    )
+
+    df_ <- df %>% filter(!is.na(presurvey_assignment))
+    # Save in a dataframe for later access if needed
+    save(df_, file = "data/prescreen.Rda")
+
+    # export the prolific PIDs so we can paste it into the qualification page in Prolific
+    df_ %>%
+        filter(presurvey_assignment %in% c("VANILLA", "VANILLA_NEWS")) %>%
+        select(PROLIFIC_PID) %>%
+        .$PROLIFIC_PID %>%
+        write(file = "data/vanilla_pids.txt")
+
+    df_ %>%
+        filter(presurvey_assignment %in% c("REMOVE_REQUIRED")) %>%
+        select(PROLIFIC_PID) %>%
+        .$PROLIFIC_PID %>%
+        write(file = "data/remove_required_pids.txt")
+
+    df_ %>%
+        filter(presurvey_assignment %in% c("REMOVE_BONUS")) %>%
+        select(PROLIFIC_PID) %>%
+        .$PROLIFIC_PID %>%
+        write(file = "data/remove_bonus_pids.txt")
+} else {
+    load("data/prescreen.Rda")
+}
+
+df_$presurvey_assignment %>% table()
+```
+
+# Appendix
+Qualifiers: 
+```{r}
+df %>%
+    group_by(Audience) %>%
+    summarize(
+        n = n(),
+        strict = sum(as.integer(qualified_strict)),
+        consent = sum(as.integer(qualified_consent)),
+        consent_rate = sum(as.integer(qualified_consent)) / n(),
+        consent_news = sum(as.integer(qualified_consent_news)),
+        loose = sum(as.integer(qualified_loose)),
+    )
+```
+Qualifiers: 
+
+```{r}
+df %>%
+    group_by(pid) %>%
+    summarize(
+        n = n(),
+        strict_rate = sum(as.integer(qualified_strict)) / n(),
+        consent_rate = sum(as.integer(qualified_consent)) / n(),
+        consent_news_rate = sum(as.integer(qualified_consent_news)) / n(),
+        loose_rate = sum(as.integer(qualified_loose)) / n(),
+    )
+```
+Breakdown:
+```{r}
+df %>%
+    group_by(Audience) %>%
+    summarize(
+        Twitter = sum(as.integer(use_twitter)),
+        Twitter_rate = sum(as.integer(use_twitter)) / n(),
+        Facebook = sum(as.integer(use_facebook)),
+        Fox = sum(as.integer(saw_fox), na.rm = T),
+        Fox_rate = sum(as.integer(saw_fox)) / n(),
+        Breitbart_no_fox = sum(as.integer(saw_breitbart & !saw_fox), na.rm = T),
+        News = sum(as.integer(saw_news), na.rm = T),
+    )
+```
+```{r}
+df %>%
+    group_by(pid) %>%
+    summarize(
+        Twitter_rate = sum(as.integer(use_twitter)) / n(),
+        Fox_rate = sum(as.integer(saw_fox), na.rm = T) / n(),
+        News_rate = sum(as.integer(saw_news), na.rm = T) / n(),
+    )
+```
+```{r}
+df %>%
+    group_by(Audience) %>%
+    summarize(
+        Use.Chrome = sum(as.integer(use_chrome), na.rm = T),
+        Use.Chrome.Rate = sum(as.integer(use_chrome), na.rm = T) / n(),
+        Other.Desktop = sum(as.integer(use_other_desktop), na.rm = T),
+        Chrome.Only = sum(as.integer(only_chrome), na.rm = T),
+        Chrome.Only.Rate = sum(as.integer(only_chrome), na.rm = T) / n(),
+        Use.Phone = sum(as.integer(use_phone), na.rm = T),
+        Consent = sum(as.integer(consent), na.rm = T),
+    )
+```
+
+# Observations
+
+- The prolific filter actually works for recruting twitter users at least by self report (80%)
+- Using the desktop filter seems to help with getting people who use chrome, but doesn't actually help with recruiting all the qualified candidates
+- Way fewer people recall seeing fox than expected (about 18% or so)
+- Overall it seems like the qualification rate is about 6% and that's already including people who use both phone and desktop and are willing to remove the app 
+- Good news is that most people are willing to consent, and that few peopl seem to not use chrome
+- No one reports seeing breitbart instead of Fox
+
+# Paths forward
+- Option 1: Just move forward with the 6% recruitment rate. It's worse than expected. With a potential audience of 18K we are juuuust short of being well powered enough for the full study (~1000 participants)
+- Option 2: Expand the treatment to Facebook. This would up the potential audience to 28k which would probablty provide a pretty good margin.
+- Option 3: Test people who report interest in politics. It's possible that the self report is conservative and that some of them would actually see Fox / be affected by the extension.
+
+For the pilot/2nd yr paper, a combo of 1 and 3 could definitely work and then we can explore option 2 later on. Maybe a 100/50 split between 1 and 3? 
+So in order to get 100 recruits, we need to prescreen 1,666 people. 
+
+# 09-08
+
+Final plan : we are deploying
+The 200 n count data suggests pretty different numbers by political affiiliation. So I think we should attempt to 
+roughly quota sample so that we can get more repubs, independents, and others as opposed to democrats.
+
+So, we estimate about 4% compliance for dems and 10% compliance for other groups
+Then, if our goal is to recruit 200 total, we recruit:
+
+fuck it, we'll just aim for:
+- 1k repubs/indep/other
+- 1k democrats (so expensive, lol)
+
+what else are we testing?
+I think we just have to go with telling people to remove the app from their phone. No other way about it.
+Small group of people to test for news/politics. So we can get N number of strict qualifiers, 
+then we also open the pre-survey to Y number of non-Fox news/politics qualifiers, just to double check if they are actually fox viewers
+How many is useful? do we have a prior on what number would be useful?
+It's like 3x the number of people report news/politics, so if 1/3 of them also see Fox it's prooobably worth? 
+
+Actually it depends on the budgeting, since it's real expensive to give ppl presurvey
+Okay, so if presurvey is $5, and news/politics matches are 1/3 then we pay avg 15 per participant instead of maybe avg 5 or 6
+But we get twice as many participants overall, so the total cost is (15 + 5) / 2 = 10 per participant, which seems nice
+
+Also, this decision can be made after the presurvey which is nice.
+
+Okay, so so far we have 400 kinda random prescreen results. Let's get 1k of each now.

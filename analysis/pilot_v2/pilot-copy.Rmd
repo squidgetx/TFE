@@ -1,0 +1,1232 @@
+---
+title: "Twitter feed experiment pilot study V2"
+output: 
+    html_document:
+        toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(haven)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(cobalt)
+library(ggpubr)
+library(sylvan.utils)
+library(stringr)
+library(ggallin)
+library(knitr)
+```
+
+```{r, include=FALSE}
+# Load data
+load("survey_data.Rda")
+load("tweet_data.Rda")
+```
+
+# Sample Summary
+```{r}
+# i want to know how many tweets each respondent has seen
+agg_df <- df %>%
+    group_by(workerID, fox_user, treatment_group, event, is_fox) %>%
+    count() %>%
+    filter(!is.na(treatment_group))
+n_installs <- df %>%
+    filter(event == "install") %>%
+    select(workerID) %>%
+    distinct() %>%
+    count()
+n_users_active <- df %>%
+    filter(event == "show") %>%
+    select(workerID) %>%
+    distinct() %>%
+    count()
+rate <- n_users_active / n_installs
+```
+
+`r n_installs` unique users installed the extension (completed presurvey). 
+
+`r n_users_active` have used twitter since installation. 
+
+The average active user per install rate is `r rate`.
+
+
+## Study progress 
+Installs by treatment group
+```{r}
+agg_df %>%
+    group_by(treatment_group) %>%
+    summarize(
+        installs = sum(as.numeric(event == "install") * n),
+        twitter_users = n_distinct(workerID[event == "show"]),
+        fox_users = n_distinct(workerID[is_fox]),
+    )
+```
+```{r}
+df %>%
+    filter(event == "install") %>%
+    group_by(date) %>%
+    summarize(count = n()) %>%
+    ggplot(aes(x = date, y = count)) +
+    geom_bar(stat = "identity") +
+    labs(title = "Installs by day")
+```
+
+```{r}
+# Write the IDs of each install per day so we can launch the appropriate pre-survey
+df %>%
+    filter(event == "install") %>%
+    group_by(date) %>%
+    summarize(ids = paste0(workerID, collapse = ","), n = n()) %>%
+    select(date, n, ids) %>%
+    write.csv("ids_per_day.tsv", sep = "\t")
+```
+
+How many people uninstalled the twitter app?
+```{r}
+survey_df$uninstall %>% table()
+survey_df %>%
+    filter(uninstall == 1) %>%
+    mutate(bonus = "2.00") %>%
+    select(PROLIFIC_PID, bonus) %>%
+    write.csv(file = "bonuses.csv", row.names = FALSE, col.names = NA, quote = FALSE)
+```
+
+
+
+## Endline Survey
+
+```{r}
+survey_df$postsurvey %>% table()
+```
+
+```{r}
+summary(as.factor(survey_df$pid3))
+ggarrange(
+    survey_df %>%
+        ggplot(aes(x = as.factor(ideo))) +
+        geom_bar() +
+        theme_minimal() +
+        labs(x = "Ideology"),
+    survey_df %>%
+        ggplot(aes(x = pid3)) +
+        geom_histogram(stat = "count") +
+        theme_minimal() +
+        labs(x = "Political Party Affiliation"),
+    survey_df %>%
+        ggplot(aes(x = as.factor(educ))) +
+        geom_bar() +
+        theme_minimal() +
+        labs(x = "Education (Years)"),
+    survey_df %>%
+        ggplot(aes(x = gender)) +
+        geom_histogram(stat = "count") +
+        theme_minimal() +
+        labs(x = "Gender"),
+    survey_df %>%
+        ggplot(aes(x = age)) +
+        geom_density() +
+        theme_minimal() +
+        labs(x = "Age")
+)
+ggsave("figures/sample_characteristics.png", width = 8, height = 6)
+
+library(corrplot)
+model <- cor(survey_df %>% mutate(
+    conservative_issues = conservative_priorities_index,
+    internet_usage = twitter_proportion,
+    pid3 = factor(pid3, levels = c("Democrat", "Independent", "Republican")) %>% as.numeric(),
+) %>% select(
+    "ideo", "pid3", "conservative_issues", "ideological_index", "twitter_proportion", "total_tweets", "total_fox_tweets",
+), use = "complete.obs")
+corrplot(model,
+    method = "color",
+    type = "upper",
+    tl.srt = 45,
+    tl.col = "black"
+)
+```
+
+## Twitter usage 
+
+Tweets seen by group
+```{r}
+agg_df %>%
+    group_by(treatment_group) %>%
+    summarize(
+        tweets_shown = sum(as.numeric(event == "show") * n),
+        fox_users_tweets_shown = sum(as.numeric(fox_user) * n),
+        fox_users_tweets_hidden = sum(as.numeric(is_fox) * n, na.rm = TRUE)
+    )
+```
+
+Distribution of twitter activity 
+```{r}
+tweets_seen_plot <- survey_df %>%
+    filter(total_tweets > 0) %>%
+    ggplot(aes(x = total_tweets)) +
+    geom_vline(xintercept = mean(survey_df$total_tweets, na.rm = TRUE), linetype = "dashed") +
+    geom_histogram() +
+    theme_minimal() +
+    labs(title = "Tweets seen by respondents", x = "Tweets seen", y = "Num. Respondents")
+fox_tweets_seen_plot <- survey_df %>%
+    filter(total_tweets > 0) %>%
+    ggplot(aes(x = total_fox_tweets)) +
+    geom_vline(xintercept = mean(survey_df$total_fox_tweets, na.rm = TRUE), linetype = "dashed") +
+    geom_histogram() +
+    theme_minimal() +
+    labs(title = "Fox News Tweets seen by respondents", x = "Tweets seen", y = "Num. Respondents")
+
+ggarrange(tweets_seen_plot, fox_tweets_seen_plot)
+ggsave(paste0("figures/tweets.png"), width = 10, height = 5)
+```
+
+## Checking instruments for twitter usage
+Did agreeing to uninstall the Twitter app actually impact observed twitter usage?
+```{r}
+survey_df %>%
+    mutate(
+        uninstall = case_when(
+            uninstall == TRUE ~ "Reported Uninstall",
+            uninstall == FALSE ~ "Did Not Uninstall",
+            is.na(uninstall) ~ "No Phone Usage"
+        ),
+    ) %>%
+    ggplot(aes(x = uninstall, y = log(total_tweets + 1))) +
+    geom_boxplot() +
+    geom_point(position = "jitter") +
+    theme_minimal()
+```
+conclusion: we don't really know, but not really
+
+Are people that report not using the internet much not using Twitter much?
+```{r}
+survey_df %>% ggplot(aes(x = as.factor(media_internet), y = log(total_tweets))) +
+    geom_boxplot() +
+    geom_point(position = "jitter") +
+    theme_minimal() +
+    labs(
+        x = "Reported Internet Usage Frequency Per Week",
+        y = "Tweets Seen (log)",
+        title = "Twitter Activity by Reported Internet Usage"
+    )
+```
+```{r}
+survey_df %>%
+    filter(total_tweets > 0) %>%
+    ggplot(aes(x = twitter_proportion, y = log(total_tweets))) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    theme_minimal() +
+    labs(
+        x = "Reported Internet Usage Proportion (to Other Media)",
+        y = "Tweets Seen (log)",
+        title = "Twitter Activity by Reported Internet Usage"
+    )
+```
+
+
+## Balance check
+### Love Plots
+```{r}
+
+fmla <- treated ~ ideo + age + gender + educ + total_tweets + total_fox_tweets
+t1 <- love.plot(fmla,
+    data = survey_df %>% filter(treatment_group %in% c(0, 1)),
+    stats = c("mean.diffs"),
+    thresholds = c(m = 0.1, v = 2),
+    abs = FALSE,
+    binary = "std",
+    var.order = "unadjusted",
+    drop.distance = TRUE
+) + theme(legend.position = "none") + labs(title = "")
+t2 <- love.plot(fmla,
+    data = survey_df %>% filter(treatment_group %in% c(0, 2)),
+    stats = c("mean.diffs"),
+    thresholds = c(m = 0.1, v = 2),
+    abs = FALSE,
+    binary = "std",
+    var.order = "unadjusted",
+    drop.distance = TRUE
+) + theme(legend.position = "none") + labs(title = "")
+t3 <- love.plot(social ~ ideo + age + gender + educ + total_tweets + total_fox_tweets,
+    data = survey_df %>% filter(treatment_group %in% c(1, 2)),
+    stats = c("mean.diffs"),
+    thresholds = c(m = 0.1, v = 2),
+    abs = FALSE,
+    binary = "std",
+    var.order = "unadjusted",
+    drop.distance = TRUE
+) + theme(legend.position = "none") + labs(title = "")
+ggarrange(
+    t1, t2, t3,
+    labels = c("Links vs Control", "Accounts vs Control", "Links vs Accounts")
+)
+```
+
+### Covariate balance table
+```{r}
+means <- survey_df %>%
+    group_by(treatment_group) %>%
+    summarize(
+        mean_ideo = mean(ideo),
+        mean_educ = mean(educ),
+        mean_age = mean(age),
+        mean_gender = mean(as.numeric(gender) - 1),
+        mean_total_tweets = mean(total_tweets),
+        num_saw_tweets = sum(total_tweets > 0),
+        num_saw_fox = sum(total_fox_tweets > 0),
+        mean_total_fox_tweets = mean(total_fox_tweets),
+        ideo_sd = sd(ideo),
+        educ_sd = sd(educ),
+        age_sd = sd(age),
+        gender_sd = sd(as.numeric(gender) - 1),
+        tt_sd = sd(total_tweets),
+        fox_tt_sd = sd(total_fox_tweets),
+        n = n(),
+        ideo_se = ideo_sd / sqrt(n),
+        educ_se = educ_sd / sqrt(n),
+        age_se = age_sd / sqrt(n),
+        gender_se = gender_sd / sqrt(n),
+        tt_se = tt_sd / sqrt(n),
+        fox_tt_se = fox_tt_sd / sqrt(n),
+    ) %>%
+    mutate_all(round, 2) %>%
+    mutate(
+        Treatment = recode(treatment_group, "1" = "Accounts", "2" = "Link", "0" = "Control"),
+        Ideology = paste0(mean_ideo, " (", ideo_se, ")"),
+        Education = paste0(mean_educ, " (", educ_se, ")"),
+        Age = paste0(mean_age, " (", age_se, ")"),
+        Female = paste0(mean_gender, " (", gender_se, ")"),
+        Tweets_Seen = paste0(mean_total_tweets, " (", tt_se, ")"),
+        Fox_Tweets_Seen = paste0(mean_total_fox_tweets, " (", fox_tt_se, ")"),
+        Twitter_Users = round(num_saw_tweets, 0),
+        Saw_Fox = round(num_saw_fox, 0),
+        Count = round(n, digits = 0)
+    )
+library(xtable)
+print(xtable(means %>% select(Treatment, Count, Ideology, Education, Age, Female), type = "latex"), file = "covariate_means.tex")
+print(xtable(means %>% select(Treatment, Twitter_Users, Saw_Fox, Tweets_Seen, Fox_Tweets_Seen), type = "latex"), file = "covariate_means_2.tex")
+```
+
+```{r results='asis'}
+models <- list(
+    lm(treated ~ ideo + educ + age + gender + total_tweets + total_fox_tweets, data = survey_df %>% filter(treatment_group %in% c(0, 1))),
+    lm(treated ~ ideo + educ + age + gender + total_tweets + total_fox_tweets, data = survey_df %>% filter(treatment_group %in% c(0, 2))),
+    lm(social ~ ideo + educ + age + gender + total_tweets + total_fox_tweets, data = survey_df %>% filter(treatment_group %in% c(1, 2)))
+)
+stargazer(
+    models,
+    type = "html",
+    out = "covariate_balance.tex"
+)
+```
+
+## What content did users see?
+
+```{r}
+# content plots
+df <- df %>% mutate(
+    media = case_when(
+        blacklist_author ~ "Fox",
+        str_detect(author, "MSNBC") ~ "MSNBC",
+        str_detect(author, "CNN") ~ "CNN",
+        str_detect(author, "[bB]reitbart") ~ "Breitbart",
+        str_detect(author, "thegatewaypundit") ~ "Gateway Pundit",
+        str_detect(author, "nytimes") ~ "New York Times",
+        str_detect(author, "(?i)newyorker") ~ "New Yorker",
+        str_detect(author, "Slate") ~ "Slate",
+        str_detect(author, "(?i)thedailyshow") ~ "TheDailyShow",
+        str_detect(author, "(?i)guardian") ~ "The Guardian",
+        str_detect(author, "(?i)maddow") ~ "Rachel Maddow",
+        str_detect(author, "(?i)buzzfeed") ~ "Buzzfeed",
+        str_detect(author, "(?i)pbs") ~ "PBS",
+        str_detect(author, "(?i)bbc") ~ "BBC",
+        str_detect(author, "(?i)TheEconomist|EconUS") ~ "The Economist",
+        str_detect(author, "(?i)politico") ~ "Politico",
+        str_detect(author, "washingtonpost") ~ "Washington Post",
+        str_detect(author, "usatoday") ~ "USA Today",
+        str_detect(author, "latimes") ~ "LA Times",
+        str_detect(author, "espn") ~ "ESPN",
+        str_detect(author, "nbc") ~ "NBC",
+        str_detect(author, "cbs") ~ "CBS",
+        str_detect(author, "forbes") ~ "Forbes",
+        str_detect(author, "wsj") ~ "Wall St Journal",
+        str_detect(author, "huffpost") ~ "Huffington Post"
+    ),
+    media_links = case_when(
+        blacklist_text ~ "Fox",
+        str_detect(text, "(?i)MSNBC") ~ "MSNBC",
+        str_detect(text, "(?i)CNN") ~ "CNN",
+        str_detect(text, "[bB]reitbart") ~ "Breitbart",
+        str_detect(text, "(?i)thegatewaypundit") ~ "Gateway Pundit",
+        str_detect(text, "(?i)nytimes") ~ "New York Times",
+        str_detect(text, "(?i)newyorker") ~ "New Yorker",
+        str_detect(text, "(?i)Slate") ~ "Slate",
+        str_detect(text, "(?i)thedailyshow") ~ "TheDailyShow",
+        str_detect(text, "(?i)guardian") ~ "The Guardian",
+        str_detect(text, "(?i)maddow") ~ "Rachel Maddow",
+        str_detect(text, "(?i)buzzfeed") ~ "Buzzfeed",
+        str_detect(text, "(?i)pbs") ~ "PBS",
+        str_detect(text, "(?i)bbc") ~ "BBC",
+        str_detect(text, "(?i)TheEconomist|EconUS") ~ "The Economist",
+        str_detect(text, "(?i)politico") ~ "Politico",
+        str_detect(text, "(?i)washingtonpost") ~ "Washington Post",
+        str_detect(text, "(?i)usatoday") ~ "USA Today",
+        str_detect(text, "(?i)latimes") ~ "LA Times",
+        str_detect(text, "(?i)espn") ~ "ESPN",
+        str_detect(text, "(?i)nbc") ~ "NBC",
+        str_detect(text, "(?i)cbs") ~ "CBS",
+        str_detect(text, "(?i)forbes") ~ "Forbes",
+        str_detect(text, "(?i)wsj") ~ "Wall St Journal",
+        str_detect(text, "(?i)huffpost") ~ "Huffington Post"
+    ),
+    keyword = case_when(
+        str_detect(text, "(?i)inflation|economy") ~ "Inflation/Economy",
+        str_detect(text, "(?i)free speech|censor|cancel") ~ "Free Speech",
+        str_detect(text, "(?i)china") ~ "China",
+        str_detect(text, "(?i)opioid|fentanyl|heroin") ~ "Opioid Crisis",
+        str_detect(text, "(?i)health care|healthcare|obamacare|affordable care act| ACA |health insurance") ~ "Health Care",
+        str_detect(text, "(?i)crime rate|public safety|police") ~ "Crime",
+        str_detect(text, "(?i)gun") ~ "Gun Control",
+        str_detect(text, "(?i)covid|corona|vaccine|mask|pandemic") ~ "Covid-19",
+        str_detect(text, "(?i)ukraine|russia|putin") ~ "Russia",
+        str_detect(text, "(?i)immigration|border|detain|sanctuary|migrant") ~ "Immigration",
+        str_detect(text, "(?i)climate|carbon|emission|environment|greenhouse|solar|paris") ~ "Climate",
+        str_detect(text, "[bB]iden") ~ "Biden",
+        str_detect(text, "[tT]rump") ~ "Trump",
+        str_detect(text, "(?i)dems|democrat|liberal|lib|conservative|gop|republican|obama|clinton") ~ "Other Political Topic",
+    ),
+    is_media = !is.na(media),
+    is_keyword = !is.na(keyword) | political,
+    is_media_link = !is.na(media_links)
+)
+sum(df$is_media)
+sum(df$is_keyword, na.rm = TRUE)
+sum(df$is_media_link)
+
+news_plot <- df %>%
+    filter(is_media) %>%
+    ggplot(aes(x = reorder(media, media, function(x) length(x)))) +
+    geom_bar() +
+    theme_minimal() +
+    theme(axis.title.y = element_blank()) +
+    coord_flip() +
+    labs(title = "Tweets Seen By Media Source", x = "Count")
+
+topic_plot <- df %>%
+    filter(!is.na(keyword)) %>%
+    ggplot(aes(x = reorder(keyword, keyword, function(x) length(x)))) +
+    geom_bar() +
+    theme_minimal() +
+    theme(axis.title.y = element_blank()) +
+    coord_flip() +
+    labs(title = "Tweets Seen By Political Topic", x = "Count")
+
+ggarrange(news_plot, topic_plot)
+
+ggsave(paste0("figures/tweet_break.png"), width = 10, height = 5)
+```
+
+## What content was hidden?
+
+```{r}
+df %>%
+    filter(is_fox) %>%
+    mutate(fox_type = case_when(
+        blacklist_author ~ "Official Fox Account",
+        blacklist_text ~ "Link to Fox Content"
+    )) %>%
+    group_by(fox_type) %>%
+    summarize(n = n())
+```
+```{r}
+# Text processing
+library(tm)
+df %>%
+    filter(is_fox) %>%
+    select(author, text) %>%
+    write.csv(file = "fox_tweets.csv")
+text <- VCorpus(VectorSource(df %>% filter(is_fox) %>% .$text))
+text <- tm_map(text, content_transformer(tolower))
+toSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+text <- tm_map(text, toSpace, "(f|ht)tp(s?)://(.*)[.][a-z]+")
+text <- tm_map(text, toSpace, "[^[:alnum:]]")
+text <- tm_map(text, removePunctuation)
+text <- tm_map(text, removeNumbers)
+text <- tm_map(text, stripWhitespace)
+text <- tm_map(text, removeWords, c(
+    stopwords("english"),
+    "tweet", "retweeted", "foxnews", "fox", "com", "liked", "foxnow",
+    "official", "confirmed", "sent", "sends", "get", "will", "show", "two",
+    "jackposobiec", "like", "tomilahren", "foxbusiness", "n n", "follow"
+))
+text <- tm_map(text, removeWords, ~ length(x) > 20)
+
+replace <- content_transformer(function(x, pattern, dest) gsub(pattern, dest, x))
+text <- tm_map(text, replace, "martha s vineyard", "marthas_vineyard")
+text <- tm_map(text, replace, "illegal_immigrants", "illegal_immigrants")
+text <- tm_map(text, replace, "peter j hasson", "peter_j_hasson")
+text <- tm_map(text, replace, "ron desantis", "ron_desantis")
+text <- tm_map(text, replace, "rand paul", "rand_paul")
+text <- tm_map(text, replace, "biden administration", "biden_administration")
+text <- tm_map(text, replace, "henry olsen", "henry_olsen")
+text <- tm_map(text, replace, "tomi lahren", "tomi_lahren")
+dtm <- TermDocumentMatrix(text)
+sort(rowSums(as.matrix(dtm)), decreasing = TRUE)
+findMostFreqTerms(dtm, INDEX = rep(1, each = (df %>% filter(is_fox) %>% nrow())), n = 50)
+```
+
+# Results
+```{r}
+# Plot
+
+
+plot_effects <- function(models, outcome_var, title, subtitle, filename, covariate_labels) {
+    effects <- models %>% map_dbl(~ .x$coefficients[outcome_var])
+    se <- lapply(models, get_robust_se) %>% map_dbl(~ .x[outcome_var])
+    effect_df <- data.frame(estimate = effects, se = se, var = c("Affective Polarization", "Ideology", "Conservative Priorities", "Trust in Media")) %>%
+        mutate(
+            lo = estimate - 1.96 * se,
+            hi = estimate + 1.96 * se
+        )
+    plt <- ggplot(effect_df, aes(xmin = lo, xmax = hi, x = estimate, y = var)) +
+        geom_point(size = 3) +
+        geom_errorbarh(height = 0.2, size = 1) +
+        theme_minimal() +
+        theme(
+            panel.grid.minor = element_blank(),
+            panel.grid.major.y = element_blank(),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
+            plot.title.position = "plot",
+            text = element_text(size = 17)
+        ) +
+        labs(
+            title = title,
+            subtitle = subtitle
+        )
+    ggsave(paste0("figures/", filename, ".png"), width = 8, height = 5)
+    sg <- stargazer(
+        models,
+        type = "html",
+        title = title,
+        style = "default",
+        se = lapply(models, get_robust_se),
+        covariate.labels = covariate_labels,
+        header = FALSE,
+        object.names = FALSE,
+        model.names = FALSE,
+        dep.var.labels = c("Affective Polarization", "Ideology", "Conservative Priorities", "Trust in Media"),
+        font.size = "tiny",
+        out = paste0(filename, ".tex")
+    )
+    list(plot = plt, table = sg)
+}
+```
+
+## Main Effects
+### ITT Effects
+```{r results='asis'}
+
+general_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+
+links <- survey_df %>% filter(treatment_group %in% c(0, 1))
+link_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = links),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = links),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = links),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = links)
+)
+
+accounts <- survey_df %>% filter(treatment_group %in% c(0, 2))
+account_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = accounts),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = accounts),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = accounts),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = accounts)
+)
+
+covariate_labels <- c(
+    "Treatment",
+    "Affective Polarization Index",
+    "Ideology Index",
+    "Conservative Priorities Index",
+    "Media Trust Index",
+    "Ideology",
+    "Age",
+    "Gender: Male",
+    "Gender: Non-Binary",
+    "Education (Years)"
+)
+
+covariate_labels_nnb <- c(
+    "Treatment",
+    "Affective Polarization Index",
+    "Ideology Index",
+    "Conservative Priorities Index",
+    "Media Trust Index",
+    "Ideology",
+    "Age",
+    "Gender: Male",
+    "Gender: Non-Binary",
+    "Education (Years)"
+)
+get_effects <- function(models, vars, name) {
+    estimate <- models %>% map_dbl(~ .x$coefficients[2])
+    se <- lapply(models, get_robust_se) %>% map_dbl(~ .x[2])
+    lo <- estimate - 1.96 * se
+    hi <- estimate + 1.96 * se
+    data.frame(
+        estimate = estimate,
+        outcomes = vars,
+        se = se,
+        lo = lo,
+        hi = hi,
+        name = name
+    )
+}
+vars <- c("Affective Polarization", "Ideology", "Conservative Priorities", "Trust in Media")
+effect_df <- get_effects(general_models, vars, "All") %>%
+    rbind(get_effects(link_models, vars, "Links")) %>%
+    rbind(get_effects(account_models, vars, "Accounts")) %>%
+    mutate(
+        name = factor(name, levels = c("Accounts", "Links", "All")),
+        outcomes = factor(outcomes, levels = vars)
+    )
+
+ggplot(effect_df, aes(xmin = lo, xmax = hi, x = estimate, y = fct_rev(outcomes), group = name, color = name)) +
+    geom_point(size = 3, position = position_dodge(width = 0.5)) +
+    geom_errorbarh(height = 0.2, size = 1, position = position_dodge(width = 0.5)) +
+    theme_minimal() +
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title.position = "plot",
+        text = element_text(size = 17),
+        legend.position = "none"
+    ) +
+    labs(
+        title = "Effects by treatment type (ITT)",
+        subtitle = "Main attitudinal outcome indices",
+        color = "Treatment type"
+    ) +
+    guides(color = guide_legend(reverse = TRUE))
+ggsave("figures/results_main_itt.png", width = 8, height = 5)
+
+stargazer(
+    general_models,
+    type = "html",
+    title = "Treatment Effects (ITT)",
+    style = "default",
+    se = lapply(general_models, get_robust_se),
+    covariate.labels = covariate_labels,
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    float.env = "sidewaystable",
+    dep.var.labels = vars,
+    out = paste0("results_main_itt", ".tex")
+)
+```
+```{r results='asis'}
+
+treated_df <- survey_df %>% filter(treatment_group %in% c(1, 2))
+general_models <- list(
+    lm(affective_index.post ~ social + affective_index + ideo + age + gender + educ, data = treated_df),
+    lm(ideological_index.post ~ social + ideological_index + ideo + age + gender + educ, data = treated_df),
+    lm(conservative_priorities_index.post ~ social + conservative_priorities_index + ideo + age + gender + educ, data = treated_df),
+    lm(trust_index.post ~ social + trust_index + ideo + age + gender + educ, data = treated_df)
+)
+cace_df <- treated_df %>% filter(total_fox_tweets > 0)
+cace_models <- list(
+    lm(affective_index.post ~ social + affective_index + ideo + age + gender + educ, data = cace_df),
+    lm(ideological_index.post ~ social + ideological_index + ideo + age + gender + educ, data = cace_df),
+    lm(conservative_priorities_index.post ~ social + conservative_priorities_index + ideo + age + gender + educ, data = cace_df),
+    lm(trust_index.post ~ social + trust_index + ideo + age + gender + educ, data = cace_df)
+)
+vars <- c("Affective Polarization", "Ideology", "Conservative Priorities", "Trust in Media")
+effect_df <- get_effects(general_models, vars, "ITT") %>% rbind(get_effects(cace_models, vars, "CACE"))
+
+ggplot(effect_df, aes(xmin = lo, xmax = hi, x = estimate, y = fct_rev(outcomes), group = name, color = name)) +
+    geom_point(size = 3, position = position_dodge(width = 0.5)) +
+    geom_errorbarh(height = 0.2, size = 1, position = position_dodge(width = 0.5)) +
+    theme_minimal() +
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title.position = "plot",
+        text = element_text(size = 17),
+    ) +
+    labs(
+        title = "Difference of treatment effects: links vs accounts",
+        subtitle = "Main attitudinal outcome indices",
+        color = "Treatment type"
+    ) +
+    guides(color = guide_legend(reverse = TRUE))
+ggsave("figures/results_social.png", width = 8, height = 5)
+stargazer(
+    general_models,
+    type = "html",
+    title = "Treatment Effects (Links vs Accounts: ITT)",
+    style = "default",
+    se = lapply(general_models, get_robust_se),
+    covariate.labels = covariate_labels,
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    dep.var.labels = vars,
+    float.env = "sidewaystable",
+    out = paste0("results_social_itt", ".tex")
+)
+
+stargazer(
+    cace_models,
+    type = "html",
+    title = "Treatment Effects (Links vs Accounts: CACE)",
+    style = "default",
+    se = lapply(cace_models, get_robust_se),
+    covariate.labels = covariate_labels_nnb,
+    header = FALSE,
+    object.names = FALSE,
+    float.env = "sidewaystable",
+    model.names = FALSE,
+    dep.var.labels = vars,
+    out = paste0("results_social_cace", ".tex")
+)
+```
+
+### Complier Effects
+
+I don't think classic CACE estimation is required/appropriate for this experiment.
+
+First, our respondent pool is limited only to those who installed the extension.
+
+We can think of treatment-receivers as those who actually used Twitter and had Fox tweets hidden from them
+We can think of nontreatment-receivers as those who used Twitter regularly and would have had tweets hidden from them if they had been assigned to treatment
+eg, they saw some Fox tweets
+
+We can identify these subgroups precisely using the logging data. blacklist_text == true if the content contained a fox link. 
+unfortunately, we have to manually figure out if the account name is in the list of blacklisted authors
+
+We can also identify a different kind of ITT effect on active twitter users broadly, if we want to.
+
+We can also estimate a different kind of CACE effect by the amount of tweets hidden :)
+
+```{r}
+
+complier_df <- survey_df %>% filter(total_fox_tweets > 0)
+general_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = complier_df),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = complier_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = complier_df),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = complier_df)
+)
+
+links <- complier_df %>% filter(treatment_group %in% c(0, 1))
+link_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = links),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = links),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = links),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = links)
+)
+
+accounts <- complier_df %>% filter(treatment_group %in% c(0, 2))
+account_models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = accounts),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = accounts),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = accounts),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = accounts)
+)
+
+effect_df <- get_effects(general_models, vars, "All") %>%
+    rbind(get_effects(link_models, vars, "Links")) %>%
+    rbind(get_effects(account_models, vars, "Accounts")) %>%
+    mutate(
+        name = factor(name, levels = c("Accounts", "Links", "All")),
+        outcomes = factor(outcomes, levels = vars)
+    )
+
+ggplot(effect_df, aes(xmin = lo, xmax = hi, x = estimate, y = fct_rev(outcomes), group = name, color = name)) +
+    geom_point(size = 3, position = position_dodge(width = 0.5)) +
+    geom_errorbarh(height = 0.2, size = 1, position = position_dodge(width = 0.5)) +
+    theme_minimal() +
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        plot.title.position = "plot",
+        text = element_text(size = 16)
+    ) +
+    labs(
+        title = "Effects by treatment type (Compliers-Only)",
+        subtitle = "Main attitudinal outcome indices",
+        color = "Treatment type"
+    ) +
+    guides(color = guide_legend(reverse = TRUE))
+ggsave("figures/results_main_cace.png", width = 8, height = 5)
+stargazer(
+    general_models,
+    type = "html",
+    title = "Treatment Effects (CACE)",
+    style = "default",
+    se = lapply(general_models, get_robust_se),
+    covariate.labels = covariate_labels_nnb,
+    float.env = "sidewaystable",
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    dep.var.labels = vars,
+    out = paste0("results_main_cace", ".tex")
+)
+```
+
+todo: per tweet effects
+
+also, probably more descriptive analysis?
+
+## Are effects stronger for people who use twitter more?
+```{r results='asis'}
+
+models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+plts <- lapply(
+    models,
+    function(x) {
+        data.frame(
+            coef = predict(x, survey_df),
+            tft = log(survey_df$total_tweets + 1)
+        ) %>%
+            filter(tft != 0) %>%
+            ggplot(aes(x = tft, y = coef)) +
+            geom_point() +
+            geom_smooth(method = "lm") +
+            theme_minimal() +
+            theme(
+                panel.grid.minor = element_blank(),
+                panel.grid.major.y = element_blank(),
+                plot.title.position = "plot",
+                plot.margin = margin(1, 0.5, 0.5, 0.5, "cm")
+            ) +
+            labs(
+                x = "Twitter Usage (Log)",
+                y = "Effect Size (Std Dev)",
+            )
+    }
+)
+ggarrange(plotlist = plts, labels = vars) + theme(
+    plot.margin = margin(0.25, 0.25, 0.25, 0.25, "cm")
+)
+ggsave("figures/interaction_twitter_usage.png", width = 8, height = 8)
+```
+
+```{r results='asis'}
+models <- list(
+    lm(affective_index.post ~ treated * twitter_proportion + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated * twitter_proportion + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated * twitter_proportion + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated * twitter_proportion + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+
+
+results <- plot_effects(
+    models,
+    "treatedTRUE:twitter_proportion",
+    "Media Usage Interaction Effects",
+    "",
+    "results_media_interaction",
+    c(
+        "Treated",
+        "Relative Internet Usage",
+        "Affective Polarization Index",
+        "Ideology Index",
+        "Conservative Priorities Index",
+        "Media Trust Index",
+        "Ideology",
+        "Age",
+        "Gender (Male)",
+        "Gender (Nonbinary)",
+        "Education (Years)",
+        "Treated * Relative Internet Usage"
+    )
+)
+results$plot
+```
+
+## Effects by Partisanship
+```{r}
+models <- list(
+    lm(affective_index.post ~ treated + affective_index + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated + ideological_index + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated + trust_index + age + gender + educ, data = survey_df)
+)
+
+plts <- lapply(
+    models,
+    function(x) {
+        data.frame(
+            coef = predict(x, survey_df),
+            tft = factor(survey_df$pid3)
+        ) %>%
+            filter(!is.na(tft)) %>%
+            ggplot(aes(x = tft, y = coef)) +
+            geom_boxplot() +
+            theme_minimal() +
+            theme(
+                panel.grid.minor = element_blank(),
+                panel.grid.major.y = element_blank(),
+                plot.title.position = "plot",
+                plot.margin = margin(1, 0.5, 0.5, 0.5, "cm"),
+            ) +
+            labs(
+                x = "Partisanship",
+                y = "Effect Size (Std Dev)",
+            )
+    }
+)
+ggarrange(plotlist = plts, labels = vars) + theme(
+    plot.margin = margin(0.25, 0.25, 0.25, 0.25, "cm")
+)
+ggsave("figures/interaction_effects_partisanship_.png", width = 8, height = 8)
+models <- list(
+    lm(affective_index.post ~ treated * pid3 + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated * pid3 + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated * pid3 + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated * pid3 + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+
+
+results <- plot_effects(
+    models,
+    "treatedTRUE:pid3",
+    "Partisanship Interaction Effects",
+    "",
+    "results_partisanship_interaction",
+    c(
+        "Treated",
+        "Partisanship: Independent",
+        "Partisanship: Republican",
+        "Affective Polarization Index",
+        "Ideology Index",
+        "Conservative Priorities Index",
+        "Media Trust Index",
+        "Ideology",
+        "Age",
+        "Gender (Male)",
+        "Gender (Nonbinary)",
+        "Education (Years)",
+        "Treated * Partisanship: Independent",
+        "Treated * Partisanship: Republican"
+    )
+)
+```
+
+## What kind of content is replaced?
+```{r results='asis'}
+models <- list(
+    lm(proportion_liberal ~ treated + ideo + age + gender + educ, data = survey_df),
+    lm(proportion_political ~ treated + ideo + ideo + age + gender + educ, data = survey_df),
+    lm(log(total_tweets + 1) ~ treated + ideo + age + gender + educ, data = survey_df)
+)
+cace_models <- list(
+    lm(proportion_liberal ~ treated + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0)),
+    lm(proportion_political ~ treated + ideo + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0)),
+    lm(log(total_tweets + 1) ~ treated + ideo + age + gender + educ, data = survey_df %>% filter(total_fox_tweets > 0))
+)
+stargazer(
+    models,
+    type = "html",
+    title = "Treatment Effects on Twitter Content",
+    style = "default",
+    se = lapply(models, get_robust_se),
+    covariate.labels = c(
+        "Treatment",
+        "Ideology",
+        "Age",
+        "Gender (Male)",
+        "Gender (Non-binary)",
+        "Education (Years)"
+    ),
+    header = FALSE,
+    object.names = FALSE,
+    model.names = FALSE,
+    dep.var.labels = c("Proportion Left-leaning Tweets", "Proportion Political", "log Total Tweets"),
+    out = paste0("results_twitter", ".tex")
+)
+```
+## Effects by left leaningness
+```{r}
+models <- list(
+    lm(affective_index.post ~ treated + affective_index + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ treated + ideological_index + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ treated + trust_index + age + gender + educ, data = survey_df)
+)
+plts <- lapply(
+    models,
+    function(x) {
+        data.frame(
+            coef = predict(x, survey_df),
+            tft = survey_df$proportion_liberal
+        ) %>%
+            filter(!is.na(tft)) %>%
+            ggplot(aes(x = tft, y = coef)) +
+            geom_point() +
+            geom_smooth(method = "lm") +
+            theme_minimal() +
+            theme(
+                panel.grid.minor = element_blank(),
+                panel.grid.major.y = element_blank(),
+                plot.title.position = "plot",
+                plot.margin = margin(1, 0.5, 0.5, 0.5, "cm")
+            ) +
+            labs(
+                x = "Proportion Liberal News",
+                y = "Effect Size (Std Dev)",
+            )
+    }
+)
+ggarrange(plotlist = plts, labels = vars) + theme(
+    plot.margin = margin(0.25, 0.25, 0.25, 0.25, "cm")
+)
+ggsave("figures/lib_news_interaction.png", width = 8, height = 8)
+```
+```{r}
+plts <- lapply(
+    models,
+    function(x) {
+        data.frame(
+            coef = predict(x, survey_df),
+            tft = survey_df$proportion_political
+        ) %>%
+            filter(!is.na(tft)) %>%
+            ggplot(aes(x = tft, y = coef)) +
+            geom_point() +
+            geom_smooth(method = "lm") +
+            theme_minimal() +
+            theme(
+                panel.grid.minor = element_blank(),
+                panel.grid.major.y = element_blank(),
+                plot.title.position = "plot",
+                plot.margin = margin(1, 0.5, 0.5, 0.5, "cm")
+            ) +
+            labs(
+                x = "Proportion Political News",
+                y = "Effect Size (Std Dev)",
+            )
+    }
+)
+ggarrange(plotlist = plts, labels = vars) + theme(
+    plot.margin = margin(0.25, 0.25, 0.25, 0.25, "cm")
+)
+ggsave("figures/political_news_interaction.png", width = 8, height = 8)
+```
+```{r}
+survey_df %>%
+    filter(treated & total_tweets > 0) %>%
+    ggplot(aes(x = total_hidden, y = proportion_liberal)) +
+    geom_point() +
+    theme_minimal() +
+    labs(title = "Proportion of liberal news tweets to tweets hidden", x = "Number Tweets Hidden", y = "Proprtion of liberal news tweets")
+```
+
+```{r}
+survey_df %>%
+    filter(treated & total_tweets > 0) %>%
+    ggplot(aes(x = total_hidden, y = proportion_political)) +
+    geom_point() +
+    theme_minimal() +
+    labs(title = "Proportion of news tweets to tweets hidden", x = "Number Tweets Hidden", y = "Proprtion of news tweets")
+```
+
+
+## Per tweet effects
+todo this needs reworking
+
+I wonder if IV is the solution for all of these problems?
+The treatment assignment is an "instrument" for variation in "treatment effect"
+
+Or in other words, 
+the treatment strength is determined by individual level covariates (eg, pre-existing Fox interest)
+but whether you get treatment or not is randomly assigned
+
+why do we care about this though? i guess we are interested in describing how
+or if the treatment is more effective for different subpopulations
+eg, the subpopulation that cares a lot about Fox News
+but the subpopulation is continuuos andd defined in terms of the treatment strength
+
+```{r}
+models <- list(
+    lm(affective_index.post ~ treated + affective_index + ideo + age + gender + educ, data = complier_df),
+    lm(ideological_index.post ~ treated + ideological_index + ideo + age + gender + educ, data = complier_df),
+    lm(conservative_priorities_index.post ~ treated + conservative_priorities_index + ideo + age + gender + educ, data = complier_df),
+    lm(trust_index.post ~ treated + trust_index + ideo + age + gender + educ, data = complier_df)
+)
+plts <- lapply(
+    models,
+    function(x) {
+        data.frame(
+            coef = predict(x, complier_df),
+            tft = complier_df$total_hidden
+        ) %>%
+            ggplot(aes(x = tft, y = coef)) +
+            geom_point(position = position_jitter()) +
+            theme_minimal() +
+            theme(
+                panel.grid.minor = element_blank(),
+                panel.grid.major.y = element_blank(),
+                plot.title.position = "plot",
+                plot.margin = margin(1, 0.5, 0.5, 0.5, "cm")
+            ) +
+            labs(
+                x = "Number of Tweets Hidden",
+                y = "Effect Size (Std Dev)",
+            )
+    }
+)
+ggarrange(plotlist = plts, labels = vars) + theme(
+    plot.margin = margin(0.25, 0.25, 0.25, 0.25, "cm")
+)
+```
+```{r}
+knitr::knit_exit()
+```
+
+
+
+
+Finally, we can actually estimate per-tweet effects. 
+
+We kinda want to compare users who had 5 tweets hidden to users with 5 tweets shown to them right, etc.?
+
+is this the interaction effect of treatment on # tweets saw?
+
+
+right, the hypothesis is that the outcome effect is stronger the higher the number of tweets hidden right
+so we might expect
+1. the effect of # tweets to be positive on polarization (or zero)
+2. the interaction term of # tweets with treatment to be negative
+3. the constant effect of treatment to be negative (or zero)
+- then, the value of coefficient 1. estimates the polarizing effect of seeing a fox news tweet. 
+and the coefficient 2. estimates the de-polarizing effect of not seeing a fox news tweeet, when you would have seen one normally.
+
+control for total number of tweets seen?
+
+no, this is tricky.
+
+Uhhhh
+'everything equal', seeing one additional tweet in control group leads to X effect
+'everything equal', having one additional tweet hidden leads to Y effect
+
+Alternatively, you just operationalize it as "number of tweets hidden"
+so everyone in control just has value 0 
+This seems simpler honestly I kinda prefer that
+
+```{r results='asis', eval=FALSE}
+
+models <- list(
+    lm(affective_index.post ~ total_hidden + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ total_hidden + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ total_hidden + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ total_hidden + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+results <- plot_effects(
+    models,
+    "Fox News Per-Tweet Effects",
+    "",
+    "results_main_per_tweet",
+    c(
+        "Num. Tweets Hidden",
+        "Affective Polarization Index",
+        "Issue Polarization Index",
+        "Perceived Polarization Index",
+        "Media Trust Index",
+        "Ideology",
+        "Age",
+        "Gender",
+        "Education (Years)"
+    )
+)
+results$plot
+```
+
+```{r results='asis', eval=FALSE}
+
+models <- list(
+    lm(affective_index.post ~ total_account_hidden + total_link_hidden + affective_index + ideo + age + gender + educ, data = survey_df),
+    lm(ideological_index.post ~ total_account_hidden + total_link_hidden + ideological_index + ideo + age + gender + educ, data = survey_df),
+    lm(conservative_priorities_index.post ~ total_account_hidden + total_link_hidden + conservative_priorities_index + ideo + age + gender + educ, data = survey_df),
+    lm(trust_index.post ~ total_account_hidden + total_link_hidden + trust_index + ideo + age + gender + educ, data = survey_df)
+)
+results <- plot_effects(
+    models,
+    "Fox News Per-Tweet Effects",
+    "Account vs Link",
+    "results_social_per_tweet",
+    c(
+        "Num. Link Tweets Hidden",
+        "Num. Account Tweets Hidden",
+        "Affective Polarization Index",
+        "Issue Polarization Index",
+        "Perceived Polarization Index",
+        "Media Trust Index",
+        "Ideology",
+        "Age",
+        "Gender",
+        "Education (Years)"
+    )
+)
+results$plot
+```
+
+```{r, eval=FALSE}
+a_effects <- models %>% map_dbl(~ .x$coefficients[2])
+l_effects <- models %>% map_dbl(~ .x$coefficients[3])
+a_se <- lapply(models, get_robust_se) %>% map_dbl(~ .x[2])
+l_se <- lapply(models, get_robust_se) %>% map_dbl(~ .x[2])
+vars <- c("Affective Polarization", "Issue Polarization", "Perceived Polarization", "Trust in Media")
+account_effects <- data.frame(estimate = a_effects, se = a_se, var = vars, type = "account")
+link_effects <- data.frame(estimate = l_effects, se = l_se, var = vars, type = "link")
+effect_df <- rbind(account_effects, link_effects) %>%
+    mutate(
+        lo = estimate - 1.96 * se,
+        hi = estimate + 1.96 * se
+    )
+```
+```{r, eval=FALSE}
+ggplot(effect_df, aes(xmin = lo, xmax = hi, x = estimate, y = var, color = type)) +
+    geom_point(position = position_dodge(width = 0.5)) +
+    geom_errorbarh(height = 0.1, position = position_dodge(width = 0.5)) +
+    theme_minimal() +
+    theme(
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank()
+    ) +
+    labs(
+        title = "Fox News Per-Tweet Account vs Link Effects"
+    )
+ggsave(paste0("figures/results_per_tweet_social_grouped.png"), width = 8, height = 5)
+```
+
+```{r}
+# simulation for power analysis
+```
