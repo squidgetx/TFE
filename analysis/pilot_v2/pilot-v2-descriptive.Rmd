@@ -35,22 +35,26 @@ Participants are pre-screened to self reported twitter users and Fox news conten
 
 ```{r, }
 # Load data
-load(here("analysis/pilot_v2/survey_data.Rda"))
-load(here("analysis/pilot_v2/tweet_data.Rda"))
-load(here("analysis/pilot_v2/prescreen.Rda"))
+load(here("analysis/pilot_v2/data/survey_data.Rda"))
+load(here("analysis/pilot_v2/data/tweet_data.Rda"))
+load(here("analysis/pilot_v2/data/prescreen.Rda"))
 ```
 
 # Elite Content
 ```{r }
-elites <- read.csv(here("analysis/data/Wojcieszak_2022/actors-ideo-scores.csv"))
+source(here("analysis/pilot_v2/data/accounts.R"))
+
+library(fuzzyjoin)
+# elites <- read.csv(here("analysis/data/Wojcieszak_2022/actors-ideo-scores.csv"))
+elites <- data.frame(actor = tolower(accounts), elite = 1)
+
 df <- df %>%
+    mutate(author = tolower(author)) %>%
     left_join(elites, by = c("author" = "actor")) %>%
-    mutate(
-        is_elite_w = !is.na(actor_id)
-    )
+    mutate(elite = ifelse(is.na(elite), 0, 1))
 df %>%
     group_by(workerID) %>%
-    summarize(elite_count = sum(is_elite_w)) %>%
+    summarize(elite_count = sum(elite)) %>%
     ggplot(aes(x = elite_count)) +
     geom_density()
 

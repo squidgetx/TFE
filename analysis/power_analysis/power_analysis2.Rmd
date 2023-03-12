@@ -1,0 +1,154 @@
+---
+title: "twitter experiment power analysis"
+output: 
+    html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(sigmoid)
+library(haven)
+library(ivreg)
+library(tidyverse)
+library(stargazer)
+library(sandwich)
+library(stringr)
+```
+
+# Issue Position Index
+
+Set hypothesized effect to 0.1SD, which is the smallest significant size of effect reported in:
+
+* Broockman and Kalla, 2022
+* Allcot, 2019
+* Bail 2018 reports ITT estimates of around 0.15SD
+
+```{r}
+# simulate some data
+run_exp <- function(N) {
+    injection_rate <- 0.2
+    noncompliance <- 0.25
+    covariate_strength <- 1.5
+    tau <- 0.1
+    n_weeks <- 4
+
+    pid <- rnorm(N)
+    pid_strength <- abs(pid)
+
+    twitter_usage <- rnorm(N, sd = 1)
+    comply <- runif(N) > noncompliance
+    n_tweets <- (2^(twitter_usage) * 6 * n_weeks) * comply %>% round()
+
+    # inparty/outparty tweet consumption a noisy function of pid strength
+    inparty_tweet <- pid_strength + rnorm(N)
+    inparty_tweet <- inparty_tweet / sd(inparty_tweet)
+    outparty_tweet <- -pid_strength + rnorm(N)
+    outparty_tweet <- outparty_tweet / sd(outparty_tweet)
+
+    n_inparty_tweets <- round(sigmoid(inparty_tweet) * n_tweets)
+    n_outparty_tweets.0 <- round(sigmoid(outparty_tweet) * n_tweets)
+    n_injected <- (round(n_tweets * injection_rate) + 1) * comply
+    n_outparty_tweets.1 <- n_outparty_tweets.0 + n_injected
+
+    # negative pid is dem (left), positive is rep (right)
+    n_dem.0 <- (pid < 0) * n_inparty_tweets + (pid > 0) * n_outparty_tweets.0
+    n_rep.0 <- (pid > 0) * n_inparty_tweets + (pid < 0) * n_outparty_tweets.0
+    n_dem.1 <- (pid < 0) * n_inparty_tweets + (pid > 0) * n_outparty_tweets.1
+    n_rep.1 <- (pid > 0) * n_inparty_tweets + (pid < 0) * n_outparty_tweets.1
+
+    # theorized DAG: issue position is a function of message exposure and pid
+    # can we just use a parameterized effect and then recover the per tweet
+    # effect as a result of the simulation? that is probably easier
+    issue_position.0.unscaled <- pid * covariate_strength + rnorm(N)
+
+    # scale issue positions to SD = 1
+    # there's only an effect for compliers
+    issue_position.0 <- issue_position.0.unscaled / sd(issue_position.0.unscaled)
+    issue_position.1 <- issue_position.0 - sign(pid) * tau * comply
+
+    # random assignment and observed outcomes
+    T <- sample(rep(c(0, 1), N / 2))
+    y.issue_position <- issue_position.1 * T + (1 - T) * issue_position.0
+    y.outparty_tweets <- n_outparty_tweets.1 * T + (1 - T) * n_outparty_tweets.0
+
+    # polarization is essentially flipped issue position for party
+
+    y.issue_polarization <- (pid < 0) * (y.issue_position + 1) +
+        (pid > 0) * (1 - y.issue_position)
+    y.issue_polarization.scaled <- y.issue_polarization / sd(y.issue_polarization)
+
+    # estimate ITT
+    itt_pol <- summary(lm(y.issue_polarization.scaled ~ T + pid_strength))
+    itt_not <- summary(lm(y.outparty_tweets ~ T + pid))
+
+    # estimate LATE
+    m_iv <- ivreg(y.issue_polarization.scaled ~ y.outparty_tweets + pid_strength | T + pid_strength)
+    late.tweet <- summary(m_iv)
+    injected <- (n_injected * T) > 0
+    late.total <- summary(ivreg(y.issue_polarization.scaled ~ injected + pid_strength | T + pid_strength))
+    tibble(
+        itt_pol.estimate = itt_pol$coefficients[2, 1],
+        itt_not.estimate = itt_not$coefficients[2, 1],
+        itt_pol.p = itt_pol$coefficients[2, 4],
+        late.tweet.estimate = late.tweet$coefficients[2, 1],
+        late.tweet.p = late.tweet$coefficients[2, 4],
+        late.total.estimate = late.total$coefficients[2, 1],
+        late.total.p = late.total$coefficients[2, 4],
+        cov_r2 = cor(y.issue_polarization.scaled, pid_strength / sd(pid_strength))^2
+    )
+}
+```
+
+
+```{r}
+possible.ns <- seq(from = 1000, to = 3000, by = 200)
+stopifnot(all((possible.ns %% 2) == 0))
+
+sims <- 500
+
+library(parallel)
+get_power <- function(N) {
+    alpha <- 0.05
+    df <- lapply(1:sims, function(x) run_exp(N)) %>% bind_rows()
+    itt.sig <- sum(df$itt_pol.p < alpha) / nrow(df)
+    late.tweet.sig <- sum(df$late.tweet.p < alpha) / nrow(df)
+    late.total.sig <- sum(df$late.total.p < alpha) / nrow(df)
+    tibble(
+        n = N,
+        itt.sig = itt.sig,
+        late.tweet.sig = late.tweet.sig,
+        late.total.sig = late.total.sig,
+        itt.mean.effect = mean(df$itt_pol.estimate),
+        late.tweet.effect = mean(df$late.tweet.estimate),
+        late.total.effect = mean(df$late.total.estimate),
+        mean.covariate.r2 = mean(df$cov_r2)
+    )
+}
+
+results <- mclapply(possible.ns, get_power) %>% bind_rows()
+results %>%
+    pivot_longer(
+        cols = c(itt.sig, late.tweet.sig),
+        names_to = "effect_type", values_to = "sig"
+    ) %>%
+    ggplot(aes(x = n, y = sig, color = effect_type)) +
+    geom_smooth(se = F) +
+    geom_hline(yintercept = 0.8, linetype = "dashed") +
+    theme_minimal() +
+    scale_color_discrete(labels = c("ITT", "LATE")) +
+    labs(
+        title = "Power Simulation (alpha =0.05)",
+        xlab = "N",
+        ylab = "Proportion of experiments reaching significance",
+        color = "Effect Type"
+    )
+# ggsave("power.png", width = 20, height = 12, units = "cm")
+```
+```{r}
+results %>%
+    filter(late.tweet.sig > 0.8) %>%
+    head(1)
+```
+
+Given a sample size of 2000 we satisfy power > 0.8 assuming an ITT effect of 0.1SD, a LATE of 0.13SD, and a covariate R2 of 0.45
