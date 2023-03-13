@@ -314,6 +314,7 @@ export const parseTweetHTML = function (node, prevNode) {
   );
   obj.data.allText = node.innerText;
   obj.data.isInjected = node.getAttribute("injected");
+  obj.data.processed = node.getAttribute("processed");
 
   if (obj.data.socialContextContainer) {
     obj.data.socialContextLinks = Array.from(

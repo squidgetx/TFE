@@ -13,7 +13,7 @@ import { GROUPS } from "./experiment";
 
 
 // Set DEBUG_LOG to true to see injection-specific verbose logging
-const DEBUG_LOG = false
+const DEBUG_LOG = true
 
 ////// UTILITY FUNCTIONS /////
 
@@ -108,7 +108,7 @@ const shorten_str = function (str, len) {
  * replacing it with the tweet represented by the object rep
  */
 const transformTweet = function (obj, rep) {
-    console.log(rep);
+    console.log(rep)
     const tweetLink = `/${rep.username}/status/${rep.id}`;
     obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
 
@@ -211,8 +211,14 @@ const transformTweet = function (obj, rep) {
       </span>
   `;
 
+    let avatarClass = 'avatarContainer'
+    if (rep.verified_type == 'business') {
+        avatarClass = 'verifiedAvatarContainer'
+    }
+
+
     obj.nodes.avatar.innerHTML = `
-    <a href="/${rep.username}"><div class='avatarContainer'>
+    <a href="/${rep.username}"><div class='${avatarClass}'>
       <img class='avatar' src=${rep.profile_image_url} height=100% />
     </div></a>`;
     obj.nodes.replyCount.innerHTML = `<span class='metric'>${rep.reply_count || ""
@@ -263,12 +269,19 @@ const transformTweet = function (obj, rep) {
         }
     });
 
+
     if (obj.nodes.body.preTextComponents.length > 0) {
         for (const n of obj.nodes.body.preTextComponents) {
-            n.remove();
+            if (n.textContent.includes('Replying To')) {
+                n.remove()
+            }
         }
     }
 
+    let avatarExpandClass = 'avatarContainerExpandThread'
+    if (rep.verified_type == 'business') {
+        avatarExpandClass = 'verifiedAvatarContainerExpandThread'
+    }
     if (obj.nodes.avatarExpandThread != null) {
         const threadLink = obj.nodes.expandThreadLink;
         if (threadLink) {
@@ -277,8 +290,8 @@ const transformTweet = function (obj, rep) {
             console.log("no link found!", obj.nodes.avatarExpandThread);
         }
         obj.nodes.avatarExpandThread.innerHTML = `
-      <div class='avatarContainerExpandThread-'>
-        <img class='avatar avatarContainerExpandThread' src=${rep.profile_image_url} width=32px height=32px />
+      <div class='${avatarExpandClass}'>
+        <img class='${avatarExpandClass}' src=${rep.profile_image_url} width=32px height=32px />
       </div>`;
     } else {
         obj.nodes.tweetFooter.map((a) => a.remove());
@@ -364,7 +377,8 @@ const isEligible = function (tweet) {
 
 /*
  * Given the array of tweet objects and users' treatment group,
- * inject tweets into the timeline by transforming eligible tweets
+ * inject tweets into the timeline by transforming a random proportion of
+ * eligible tweets
  */
 export const injectTweets = function (tweets, exp_config) {
     const treatment_group = exp_config.treatment_group;
@@ -372,17 +386,37 @@ export const injectTweets = function (tweets, exp_config) {
         return;
     }
 
+    const guaranteeWindow = 5
+    const fixedInjectChoice = Math.floor(Math.random() * guaranteeWindow)
+    // The first time the feed is loaded, ensure that we inject a tweet in the 
+    // first 5 eligible tweets. Most people only load the first few tweets.
+    // This guarantees a baseline treatment strength.
+
+    const freshLoad = tweets.filter((t) => t != null)
+        .find((t) => t.nodes.node.getAttribute('processed')) == undefined
+    console.log(`freshLoad is ${freshLoad}, fixed is ${fixedInjectChoice}`)
+
+    let eligible_index = 0
     for (let i = 0; i < tweets.length; i++) {
         // Skip over ineligible tweets, ie we already transformed it
         if (!isEligible(tweets[i])) {
             continue;
         }
+        if (exp_config.debug_mode) {
+            tweets[i].nodes.node.style.backgroundColor = "lightgrey";
+        }
 
         // Mark this tweet as processed, so that we don't
         // try to transform it later
-        tweets[i].data.processed = true;
+        tweets[i].nodes.node.setAttribute('processed', true)
 
-        if (Math.random() < exp_config.inject_rate) {
+        const fixedInject = freshLoad && (eligible_index == fixedInjectChoice)
+        if (fixedInject) {
+            console.log(tweets[i])
+
+        }
+
+        if (fixedInject || (Math.random() < exp_config.inject_rate)) {
             const new_tweet = fetch_tweet(exp_config);
             if (new_tweet) {
                 transformTweet(tweets[i], new_tweet);
@@ -392,6 +426,7 @@ export const injectTweets = function (tweets, exp_config) {
                 }
             }
         }
+        eligible_index += 1
     }
 };
 

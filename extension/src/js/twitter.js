@@ -115,6 +115,7 @@ const processFeed = function (observer, exp_config, logger) {
     const parentNode = timelineDiv.childNodes[0];
     const children = parentNode.childNodes;
     const tweets = parseTweets(children);
+    console.log(`process feed, tweet length is ${tweets.length}`)
 
     filterTweets(tweets, exp_config);
     injectTweets(tweets, exp_config);
@@ -122,11 +123,11 @@ const processFeed = function (observer, exp_config, logger) {
     postProcessInjectedTweets()
 
     // re-register, for when the user scrolls
-    observer.observe(timelineDiv, {
+    observer.observe(timelineDiv.childNodes[0], {
       attributes: false,
       childList: true,
-      subtree: true,
-      characterData: true,
+      subtree: false,
+      characterData: false,
     });
   }
 };

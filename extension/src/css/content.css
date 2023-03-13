@@ -37,6 +37,21 @@
 
 }
 
+.verifiedAvatarContainer {
+        overflow: hidden;
+        width: 48px;
+        height: 48px;
+        border-radius: 10%;
+
+}
+
+.verifiedAvatarContainerExpandThread {
+    overflow: hidden;
+    width: 32;
+    height: 32;
+    border-radius: 10%;
+}
+
 .avatarContainer {
         overflow: hidden;
         width: 48px;
