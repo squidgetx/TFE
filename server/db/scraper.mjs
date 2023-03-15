@@ -1,8 +1,6 @@
 /* code to scrape tweets from a fixed list of twitter accounts and write it to the DB */
 
 import { Client } from "twitter-api-sdk";
-import { getLinkPreview } from "link-preview-js";
-import { parse } from "url";
 import pgPromise from "pg-promise";
 
 const pgp = pgPromise({});
@@ -14,7 +12,6 @@ const BEARER_TOKEN = config.twitterBearerToken;
 
 const WRITE_DB = true;
 const PERF_LOG = false;
-const PARSE_LINKS = true
 
 // Fetch all tweets from twitter v2 api for given author ID created after `time`
 async function fetch_for_id(id, time) {
@@ -22,7 +19,6 @@ async function fetch_for_id(id, time) {
   const end_time = new Date(time)
   end_time.setDate(end_time.getDate() + 1)
 
-  // TODO: if someone posts more than 100 tweets per cron interval then we will have a problem...
   const response = await client.tweets.usersIdTweets(id, {
     start_time: time, // "2022-12-01T00:00:00.000Z",
     end_time: end_time.toISOString(), // "2022-12-01T00:00:00.000Z",
@@ -92,12 +88,18 @@ function parse_tweet(tweet) {
   if ("referenced_tweets" in tweet) {
     tweet.referenced_tweet_type = tweet.referenced_tweets[0].type;
     tweet.referenced_tweet_id = tweet.referenced_tweets[0].id;
-    // TODO what if there are more than 1 referenced tweet? is that even possible
+    if (tweet.referenced_tweets.length > 1) {
+      console.log(`WARNING: multiple referenced tweets for tweet ${JSON.stringify(tweet)}`)
+      console.log(JSON.stringify(tweet.referenced_tweets))
+    }
   }
   if ("attachments" in tweet && tweet.attachments.media_keys) {
     tweet.media_id_1 = tweet.attachments.media_keys[0];
     tweet.media_id_2 = tweet.attachments.media_keys[1];
-    console.log("WARNING: more than one media key for " + tweet.id)
+    if (tweet.attachments.media_keys.length > 2) {
+      console.log("WARNING: more than two media keys for " + JSON.stringify(tweet))
+      console.log("  " + JSON.stringify(tweet.attachments.media_keys))
+    }
   }
   tweet.scrape_time = new Date();
   tweet.ds = tweet.scrape_time.toISOString().split("T")[0];
@@ -105,10 +107,8 @@ function parse_tweet(tweet) {
   // pull out links
   const link_re = /(https:\/\/t.co\/\w+)/g;
   if (tweet.text) {
-    const matches = tweet.text.match(link_re);
-    if (matches) {
-      tweet.link_preview_url = matches.at(-1);
-    }
+    const matches = Array.from(tweet.text.matchAll(link_re), m => m[0]);
+    tweet.turls = matches;
   }
   return tweet;
 }
@@ -131,70 +131,11 @@ function parse_media(media) {
   return media;
 }
 
-// Helper function to pull link preview properties from a given url using
-// expotential backoff retry strategy and handling redirects
-// Quit after max_attempts 
-async function get_link_preview_exp(url, attempt, max_attempts, og_url) {
-  if (attempt > max_attempts) {
-    console.log(`Failed to parse url ${url} (og ${og_url})`);
-    return null;
-  }
-  try {
-    return await getLinkPreview(url, {
-      headers: {
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
-      },
-      timeout: Math.exp(attempt) * 1000,
-      followRedirects: `follow`,
-    });
-  } catch {
-    return await get_link_preview_exp(url, attempt + 1, max_attempts, og_url);
-  }
-}
-
-// Follow redirects for the given url and return the link preview information for the final 
-// url destination 
-async function unwrapLink(url) {
-  const unwrapped_link = await get_link_preview_exp(url, 0, 8, url);
-  try {
-    let purl = new URL(unwrapped_link.title);
-    if (purl.protocol.includes("http") && unwrapped_link.title != url) {
-      return await unwrapLink(unwrapped_link.title);
-    } else {
-      return unwrapped_link;
-    }
-  } catch (e) {
-    return unwrapped_link;
-  }
-}
-
-/* Given a tweet object, generate the elements needed for a link preview and return it as a media object */
-// todo: we can do this later 
-async function process_links(tweet) {
-  // When there's more than one link, Twitter renders the card for the last link that has a renderable preview
-  // There's actually a bug where the composer will show the wrong link preview in the case where the
-  // first link has Twitter metadata (eg, NYT link) and the second doesn't (eg, stack overflow link)
-  if (!tweet.link_preview_url) {
-    return null;
-  }
-  const link_meta = await unwrapLink(tweet.link_preview_url);
-
-  if (link_meta) {
-    link_meta.hostname = parse(link_meta["url"]).hostname;
-    link_meta.media_type = link_meta.mediaType;
-    link_meta.media_url = link_meta.url;
-    link_meta.media_image = link_meta.images ? link_meta.images[0] : [];
-    link_meta.turl = tweet.link_preview_url;
-  }
-  return link_meta;
-}
-
 // Handle the response from the twitter API
 // Extract/rename all the fields we want to persist to the DB
 // Fetch link previews if needed
 // Return an object containing all the objects needed to write to the DB
-async function parse_response(response) {
+function parse_response(response) {
   // A bit complicated because RT/Quote tweets exist :P
   // So for RT/Quote tweets, we add 2 tweets to the DB: one for the original tweet and one for the OG
   if (response.data == undefined) {
@@ -218,17 +159,25 @@ async function parse_response(response) {
   );
   const media = (response.includes.media || []).map((m) => parse_media(m));
   const all_tweets = tweets.concat(referenced_tweets);
-  let links = []
-  if (PARSE_LINKS) {
-    links = (
-      await Promise.all(all_tweets.map((t) => process_links(t)))
-    ).filter((l) => l !== null);
+
+  const tweet_turls = []
+  const links = new Set()
+  for (const t of all_tweets) {
+    for (const turl of t.turls) {
+      tweet_turls.push({
+        tweet_id: t.id,
+        turl: turl
+      })
+      links.add(turl)
+    }
   }
+
   return {
     tweets: all_tweets,
     users: users,
     media: media,
-    links: links,
+    tweet_turls: tweet_turls,
+    links: links
   };
 }
 
@@ -271,14 +220,9 @@ async function update_db(data) {
     "width",
   ];
 
-  const LINK_COLS = [
+  const TWEET_TURL_COLS = [
+    "tweet_id",
     "turl",
-    "hostname",
-    "title",
-    "description",
-    "media_url",
-    "media_image",
-    "media_type",
   ];
 
   for (const tweet of data.tweets) {
@@ -300,14 +244,6 @@ async function update_db(data) {
     for (const key of MEDIA_COLS) {
       if (!media[key]) {
         media[key] = null;
-      }
-    }
-  }
-
-  for (const link of data.links) {
-    for (const key of LINK_COLS) {
-      if (!link[key]) {
-        link[key] = null;
       }
     }
   }
@@ -345,11 +281,17 @@ async function update_db(data) {
       ops.push(t.result(media_querystring));
     }
 
-    if (data.links.length > 0) {
-      const link_querystring =
-        pgp.helpers.insert(data.links, LINK_COLS, "links") +
-        " ON CONFLICT ON CONSTRAINT links_turl_key DO NOTHING";
-      ops.push(t.result(link_querystring));
+    if (data.links.size > 0) {
+      const links = Array.from(data.links).map(l => ({ turl: l }))
+      const links_querystring = pgp.helpers.insert(links, ['turl'], "links") +
+        " ON CONFLICT ON CONSTRAINT links_turl_key DO NOTHING"
+      ops.push(t.result(links_querystring));
+    }
+
+    if (data.tweet_turls.length > 0) {
+      const tweet_turl_querystring =
+        pgp.helpers.insert(data.tweet_turls, TWEET_TURL_COLS, "tweet_turls")
+      ops.push(t.result(tweet_turl_querystring));
     }
 
     return t.batch(ops);
@@ -393,7 +335,7 @@ async function fetch_and_write_for_id(id, username, date) {
   const st1 = Date.now();
   if (PERF_LOG)
     console.log(`  Time to fetch: ${(st1 - st) / 1000}s`)
-  const data = await parse_response(response)
+  const data = parse_response(response)
 
   const st2 = Date.now();
   if (PERF_LOG)

@@ -68,6 +68,25 @@ create table links(
     media_type varchar
 );
 
+create table tweet_turls(
+    id serial,
+    tweet_id varchar, 
+    turl varchar,
+    CONSTRAINT fk_tweet
+      FOREIGN KEY(tweet_id) 
+	  REFERENCES tweets(id),
+    CONSTRAINT fk_turl
+      FOREIGN KEY(turl) 
+	  REFERENCES links(turl),
+
+);
+
+create index tweet_turl_tweet_index on tweet_turls(tweet_id);
+
+create index tweet_turl_turl_index on tweet_turls(turl);
+
+create index links_media_type on links(media_type);
+
 CREATE INDEX ideo_index
 ON elites (ideo);
 
