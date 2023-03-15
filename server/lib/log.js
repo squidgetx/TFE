@@ -25,7 +25,7 @@ module.exports = async function (username, data) {
       .putRecords({
         Records: records,
         StreamName: CONFIG.awsKinesisStreamName,
-      })
+      }).promise()
     if (response.FailedRecordCount === 0) {
       response.status = 200;
     }
