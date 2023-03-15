@@ -46,6 +46,7 @@ create table authors(
     tname varchar,
     username varchar,
     verified boolean,
+    verified_type varchar,
     profile_image_url varchar
 );
 
@@ -78,7 +79,7 @@ create table tweet_turls(
     CONSTRAINT fk_turl
       FOREIGN KEY(turl) 
 	  REFERENCES links(turl),
-
+    UNIQUE (tweet_id, turl)
 );
 
 create index tweet_turl_tweet_index on tweet_turls(tweet_id);

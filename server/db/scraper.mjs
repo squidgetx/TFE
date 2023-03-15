@@ -56,6 +56,7 @@ async function fetch_for_id(id, time) {
       "url",
       "username",
       "verified",
+      "verified_type",
     ],
   });
 
@@ -209,6 +210,7 @@ async function update_db(data) {
     "username",
     "verified",
     "profile_image_url",
+    "verified_type",
   ];
 
   const MEDIA_COLS = [

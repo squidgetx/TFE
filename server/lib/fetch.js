@@ -21,44 +21,67 @@ module.exports = async function (username, mock_ideo) {
   const ideo_sign = Math.sign(ideo);
 
   // todo: handle retweets
-  // todo: make sure the null filter is actually working
   results = await db.any(
     `
    with relevant_tweets as (
       select * from tweets where author_id in (
-        select id from elites where sign(ideo) = $1
+        select id from elites where sign(ideo) = 1
       ) and referenced_tweet_type is null
-    )
+      and created_at > CURRENT_DATE - 7
+    ),
+    with_links as (
+      select 
+        relevant_tweets.id as id,
+        created_at,
+        ttext,
+        like_count,
+        quote_count,
+        retweet_count,
+        reply_count,
+        author_id,
+        media_id_1,
+
+        json_agg(json_build_object(
+          'turl', tt.turl,
+          'title', links.title,
+          'media_type', links.media_type,
+          'img', links.media_image,
+          'hostname', links.hostname,
+          'url', links.media_url,
+          'desc', links.description
+        )) FILTER (where links.media_url is not null) as link_info
+      from relevant_tweets
+        left join tweet_turls tt on tt.tweet_id = relevant_tweets.id
+        left join links on tt.turl = links.turl 
+        group by 1,2,3,4,5,6,7,8,9
+    ) 
     select 
-      relevant_tweets.id as id,
+      with_links.id,
       created_at,
       ttext,
       like_count,
       quote_count,
       retweet_count,
       reply_count,
+      author_id,
+      media_id_1,
+
+      profile_image_url,
+      tname,
+      username,
+      verified,
+      verified_type,
 
       media.media_type,
       media.media_url,
       preview_img_url,
 
-      turl as link_url,
-      title as link_title,
-      links.media_type as link_type,
-      links.media_image as link_image,
-      hostname as link_hostname,
-      description as link_description,
-
-      profile_image_url,
-      tname,
-      username,
-      verified
-     from relevant_tweets
-    left join links on relevant_tweets.link_preview_url = links.turl
-    left join media on relevant_tweets.media_id_1 = media.id
-    left join authors on relevant_tweets.author_id = authors.id
-    order by created_at desc
-    limit 64;
+      link_info
+    from with_links
+      inner join authors on with_links.author_id = authors.id
+      left join media on with_links.media_id_1 = media.id
+      order by created_at desc
+      limit 64;
     `,
     -ideo_sign
   );
