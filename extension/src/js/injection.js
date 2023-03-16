@@ -53,11 +53,19 @@ const formatText = function (rep) {
     let text = rep.ttext.replace(rep.link_url, "");
     text = text.replace(/@(\w+)/g, "<a class='inline-link' href='/$1'>@$1</a>");
 
+    const link_dict = {}
+    if (rep.link_info) {
+        for (const li of rep.link_info) {
+            link_dict[li.turl] = li.url.replace('https://', '').replace('http://', '').replace('www.', '').slice(0, 16) + '...'
+        }
+    }
+
     // Turn existing links into actual hyperlinks
     const link_re = /(https:\/\/t.co\/\w+)/g;
     text = text.replace(
         link_re,
-        "<a class='inline-link' href='$1' target='_blank'>$1</a>"
+        turl =>
+            `<a class='inline-link' href='${turl}' target='_blank'>${link_dict[turl] || turl}</a>`
     );
 
     // Same with hashtags
@@ -115,41 +123,44 @@ const shorten_str = function (str, len) {
  */
 const transformTweet = function (obj, rep) {
     const tweetLink = `/${rep.username}/status/${rep.id}`;
-    obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
-
-    // Remove all attachments and media
-    obj = cleanTweet(obj);
 
     const injectedMedia = document.createElement("div");
     injectedMedia.classList.add("injectedMediaContainer");
 
+    let link = null
+    if (rep.link_info) {
+        link = rep.link_info.at(-1)
+    }
     if (rep.media_url) {
+        if (link && link.url.includes('twitter.com')) {
+            rep.link_url = link.turl
+        }
         injectedMedia.innerHTML = `<div class='media'><img class='tweet-img' src=${rep.media_url} /></div>`;
-    } else if (rep.link_info) {
-        const link = rep.link_info.slice(-1)
+    } else if (link) {
+        rep.link_url = link.turl
         if (link.hostname && link.hostname.startsWith("www.")) {
             link.hostname = link.hostname.slice(4);
         }
         link.title = shorten_str(link.title, 64) || '';
         if (link.media_type == "article" && link.desc) {
             injectedMedia.innerHTML = `
-        <a class='injected-link' href='${link.url}' target='_blank'>
+        <a class='injected-link' href='${link.turl}' target='_blank'>
           <div class='media'>
             <div class='header-img'><img src=${link.img
-                } width=100% style='object-fit: cover'/></div>
+                } width=100% height=100% style='object-fit: cover'/></div>
             <div class='link-body'>
               <span class='link-domain'>${link.hostname}</span>
               <span class='link-headline'>${link.title}</span>
               <span class='link-lede'>${shorten_str(
                     link.desc,
-                    137
+                    130
                 )}</span>
             </div>
           </div>
         </a>`;
         } else {
             injectedMedia.innerHTML = `
-        <a class='injected-link' href='${link.url}' target='_blank'>
+        <a class='injected-link' href='${link.turl}' target='_blank'>
           <div class='media media-sm'>
             <div class='header-img header-img-sm'><img src=${link.img} width=100% style='object-fit: cover'/></div>
             <div class='link-body link-body-sm'>
@@ -160,6 +171,11 @@ const transformTweet = function (obj, rep) {
         </a>`;
         }
     }
+
+    obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
+
+    // Remove all attachments and media
+    obj = cleanTweet(obj);
 
     injectedMedia.onclick = function (evt) {
         evt.stopPropagation();
@@ -393,7 +409,6 @@ export const injectTweets = function (tweets, exp_config) {
 
     const freshLoad = tweets.filter((t) => t != null)
         .find((t) => t.nodes.node.getAttribute('processed')) == undefined
-    console.log(`freshLoad is ${freshLoad}, fixed is ${fixedInjectChoice}`)
 
     let eligible_index = 0
     for (let i = 0; i < tweets.length; i++) {
@@ -417,10 +432,14 @@ export const injectTweets = function (tweets, exp_config) {
         if (fixedInject || (Math.random() < exp_config.inject_rate)) {
             const new_tweet = fetch_tweet(exp_config);
             if (new_tweet) {
-                transformTweet(tweets[i], new_tweet);
-                tweets[i].data.injectedTweet = new_tweet;
-                if (exp_config.debug_mode) {
-                    tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
+                try {
+                    transformTweet(tweets[i], new_tweet);
+                    tweets[i].data.injectedTweet = new_tweet;
+                    if (exp_config.debug_mode) {
+                        tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
+                    }
+                } catch (e) {
+                    console.log('Failed to transform tweet! ', e)
                 }
             }
         }
