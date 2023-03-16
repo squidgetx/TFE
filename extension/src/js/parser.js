@@ -107,7 +107,7 @@ const findMeaningfulChild = function (root) {
 
 // wraps findMeaningfulChild with a selector
 const queryMeaningfulChild = function (node, selector) {
-  let result = node.querySelector(selector);
+  const result = node.querySelector(selector);
   return findMeaningfulChild(result);
 };
 
@@ -207,31 +207,39 @@ const parseSocialContextContainer = function (obj) {
  * in this case we need to look at the previous node to see whether that one is a thread or not
  */
 const parseTweetThread = function (obj, prevNode) {
+  const threadMarkerExists = obj.nodes.threadMarker != null
   const thread = {
-    isThread: obj.nodes.threadMarker != null,
+    isThread: threadMarkerExists,
     isCollapsedThread: false,
     isThreadEnding: false,
   };
 
-  if (prevNode != null && !thread.isThread) {
-    if (prevNode.data.thread.isThread && !prevNode.data.thread.isThreadEnding) {
-      thread.isThread = true;
-      thread.isThreadEnding = true;
-    }
-  }
-
-  if (obj.nodes.tweetFooter) {
-    thread.isCollapsedThread = obj.nodes.tweetFooter.some((a) =>
-      a.innerText.includes("Show this thread")
-    );
-    thread.isThreadEnding = thread.isCollapsedThread;
-    obj.nodes.avatarExpandThread = obj.nodes.tweetFooter
-      .map((n) =>
-        n.querySelector('[data-testid="UserAvatar-Container-unknown"]')
-      )
-      .filter((a) => a != null)[0];
-    if (obj.nodes.avatarExpandThread) {
-      obj.nodes.expandThreadLink = obj.nodes.avatarExpandThread.closest("a");
+  // Two ways a thread can end: 
+  // First, if Twitter displays the entire tweet thread
+  // then, the final tweet in the thread will not have a thread marker
+  // Second, if Twitter displays a "collapsed" thread. In this case
+  // the tweet footer contains a "Show this thread" button and the tweet usually
+  // has a thread marker present.
+  const prevNodeIsThreadMiddle = prevNode &&
+    prevNode.data.thread.isThread &&
+    !prevNode.data.thread.isThreadEnding
+  if (prevNodeIsThreadMiddle && !threadMarkerExists) {
+    thread.isThread = true;
+    thread.isThreadEnding = true;
+  } else {
+    const hasShowThreadButton = obj.nodes.tweetFooter &&
+      obj.nodes.tweetFooter.some(a => a.innerText.includes("Show this thread"))
+    if (hasShowThreadButton && threadMarkerExists) {
+      thread.isCollapsedThread = true
+      thread.isThreadEnding = true
+      obj.nodes.avatarExpandThread = obj.nodes.tweetFooter
+        .map((n) =>
+          n.querySelector('[data-testid="UserAvatar-Container-unknown"]')
+        )
+        .filter((a) => a != null)[0];
+      if (obj.nodes.avatarExpandThread) {
+        obj.nodes.expandThreadLink = obj.nodes.avatarExpandThread.closest("a");
+      }
     }
   }
   return thread;
@@ -261,7 +269,13 @@ export const parseTweetHTML = function (node, prevNode) {
   }
 
   obj.nodes.text = queryMeaningfulChild(node, '[data-testid="tweetText"]');
-  obj.nodes.userName = queryMeaningfulChild(node, '[data-testid="User-Names"]');
+  obj.nodes.userName = queryMeaningfulChild(node, '[data-testid="User-Names"]') || queryMeaningfulChild(node, '[data-testid="User-Name"]');
+  if (obj.nodes.userName == null) {
+    console.log("Could not find user names in node")
+    console.log(node)
+    return null
+
+  }
   obj.nodes.avatar = node.querySelector('[data-testid="Tweet-User-Avatar"]');
   obj.nodes.threadMarker = obj.nodes.avatar.nextSibling;
   obj.nodes.cardWrapper = queryMeaningfulChild(
@@ -308,6 +322,7 @@ export const parseTweetHTML = function (node, prevNode) {
   obj.data.isReply = parseReply(obj);
   obj.data.id = parseId(obj.nodes.userName);
   obj.data.author = parseAuthor(obj.nodes.userName);
+
   obj.data.tweetTime = parseTime(obj.nodes.userName);
   obj.data.isPromoted = obj.nodes.body.postControlComponents.some((a) =>
     a.innerText.includes("Promoted")

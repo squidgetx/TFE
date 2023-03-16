@@ -11,6 +11,9 @@ import {
 import { fetch_tweet } from "./fetch_tweets";
 import { GROUPS } from "./experiment";
 
+const INJECT_COLOR = 'mistyrose'
+const SKIPPED_COLOR = 'whitesmoke'
+
 
 // Set DEBUG_LOG to true to see injection-specific verbose logging
 const DEBUG_LOG = true
@@ -90,6 +93,9 @@ const getTimeStr = function (created_at) {
 
 // transform a str to shortened version with ellipses at the end
 const shorten_str = function (str, len) {
+    if (str == null) {
+        return null
+    }
     if (str.length < len) {
         return str;
     }
@@ -108,7 +114,6 @@ const shorten_str = function (str, len) {
  * replacing it with the tweet represented by the object rep
  */
 const transformTweet = function (obj, rep) {
-    console.log(rep)
     const tweetLink = `/${rep.username}/status/${rep.id}`;
     obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
 
@@ -120,22 +125,23 @@ const transformTweet = function (obj, rep) {
 
     if (rep.media_url) {
         injectedMedia.innerHTML = `<div class='media'><img class='tweet-img' src=${rep.media_url} /></div>`;
-    } else if (rep.link_url && rep.link_image) {
-        if (rep.link_hostname.startsWith("www.")) {
-            rep.link_hostname = rep.link_hostname.slice(4);
+    } else if (rep.link_info) {
+        const link = rep.link_info.slice(-1)
+        if (link.hostname && link.hostname.startsWith("www.")) {
+            link.hostname = link.hostname.slice(4);
         }
-        if (rep.link_type == "article" && rep.link_description) {
-            const link_title = shorten_str(rep.link_title, 64);
+        link.title = shorten_str(link.title, 64) || '';
+        if (link.media_type == "article" && link.desc) {
             injectedMedia.innerHTML = `
-        <a class='injected-link' href='${rep.link_url}' target='_blank'>
+        <a class='injected-link' href='${link.url}' target='_blank'>
           <div class='media'>
-            <div class='header-img'><img src=${rep.link_image
+            <div class='header-img'><img src=${link.img
                 } width=100% style='object-fit: cover'/></div>
             <div class='link-body'>
-              <span class='link-domain'>${rep.link_hostname}</span>
-              <span class='link-headline'>${link_title}</span>
+              <span class='link-domain'>${link.hostname}</span>
+              <span class='link-headline'>${link.title}</span>
               <span class='link-lede'>${shorten_str(
-                    rep.link_description,
+                    link.desc,
                     137
                 )}</span>
             </div>
@@ -143,12 +149,12 @@ const transformTweet = function (obj, rep) {
         </a>`;
         } else {
             injectedMedia.innerHTML = `
-        <a class='injected-link' href='${rep.link_url}' target='_blank'>
+        <a class='injected-link' href='${link.url}' target='_blank'>
           <div class='media media-sm'>
-            <div class='header-img header-img-sm'><img src=${rep.link_image} width=100% style='object-fit: cover'/></div>
+            <div class='header-img header-img-sm'><img src=${link.img} width=100% style='object-fit: cover'/></div>
             <div class='link-body link-body-sm'>
-              <span class='link-domain'>${rep.link_hostname}</span>
-              <span class='link-headline'>${rep.link_title}</span>
+              <span class='link-domain'>${link.hostname}</span>
+              <span class='link-headline'>${link.title}</span>
             </div>
           </div>
         </a>`;
@@ -340,38 +346,31 @@ const transformTweet = function (obj, rep) {
 
 
 
-/* Determine if a tweet object is eligible for replacement
+/* Return string if tweet is ineligible, null if tweet is eligible
  */
-const isEligible = function (tweet) {
+const getIneligibleReason = function (tweet) {
     if (tweet == null) {
-        dlog("ineligible: tweet is null");
-        return false;
+        return "tweet is null";
     }
     if (tweet.data.processed) {
-        dlog("ineligible: tweet was already processed");
-        return false;
+        return "tweet already processed";
     }
     if (tweet.nodes.body.parseError == true) {
-        dlog("ineligible: tweet is not parsed correctly");
-        return false;
+        return "tweet not parsed correctly"
     }
     if (tweet.data.thread.isThread && !tweet.data.thread.isCollapsedThread) {
-        dlog("ineligible: tweet is thread");
-        return false;
+        return "tweet is thread"
     }
     if (tweet.nodes.text == null) {
-        dlog("ineligible: tweet text node not found");
-        return false;
+        return "tweet text node not found"
     }
     if (tweet.data.id == null) {
-        dlog("ineligible: tweet id not found");
-        return false;
+        return "ineligible: tweet id not found"
     }
     if (tweet.data.isInjected) {
-        dlog("ineligible: already is injected tweet");
-        return false;
+        return "is injected tweet";
     }
-    return true;
+    return null;
 };
 
 
@@ -399,11 +398,14 @@ export const injectTweets = function (tweets, exp_config) {
     let eligible_index = 0
     for (let i = 0; i < tweets.length; i++) {
         // Skip over ineligible tweets, ie we already transformed it
-        if (!isEligible(tweets[i])) {
+
+        const ineligible_reason = getIneligibleReason(tweets[i])
+        if (ineligible_reason) {
             continue;
         }
+
         if (exp_config.debug_mode) {
-            tweets[i].nodes.node.style.backgroundColor = "lightgrey";
+            tweets[i].nodes.node.style.backgroundColor = SKIPPED_COLOR;
         }
 
         // Mark this tweet as processed, so that we don't
@@ -411,10 +413,6 @@ export const injectTweets = function (tweets, exp_config) {
         tweets[i].nodes.node.setAttribute('processed', true)
 
         const fixedInject = freshLoad && (eligible_index == fixedInjectChoice)
-        if (fixedInject) {
-            console.log(tweets[i])
-
-        }
 
         if (fixedInject || (Math.random() < exp_config.inject_rate)) {
             const new_tweet = fetch_tweet(exp_config);
@@ -422,7 +420,7 @@ export const injectTweets = function (tweets, exp_config) {
                 transformTweet(tweets[i], new_tweet);
                 tweets[i].data.injectedTweet = new_tweet;
                 if (exp_config.debug_mode) {
-                    tweets[i].nodes.node.style.backgroundColor = "seashell";
+                    tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
                 }
             }
         }

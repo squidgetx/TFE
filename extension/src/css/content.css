@@ -193,3 +193,9 @@ a.userName:hover, a.time:hover {
     text-decoration: none;
     z-index: 99;
 }
+
+.iner {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
