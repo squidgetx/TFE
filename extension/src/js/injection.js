@@ -186,6 +186,8 @@ const transformTweet = function (obj, rep) {
         injectedMedia
     );
 
+    obj.nodes.outboundMedia = injectedMedia
+
     if (obj.nodes.socialContextContainer) {
         if (rep.socialContext) {
             obj.nodes.socialContextContainer.innerHTML = `

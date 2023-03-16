@@ -68,15 +68,32 @@ const monitorTweets = function (tweets, logger) {
   for (const tweet of tweets) {
     if (tweet) {
       if (!tweet.nodes.node.getAttribute("hasReactionListener")) {
-        tweet.nodes.like.addEventListener("click", (evt) => {
-          console.log("like logged for tweet ", tweet.data.id);
-          logger.logEvent(tweet.data, "like");
-          if (tweet.nodes.node.getAttribute("injected")) {
-            // Stop the event propagation because otherwise
-            // we redirect to the tweet ID
-            evt.stopImmediatePropagation();
-          }
-        });
+        if (tweet.nodes.like) {
+
+          tweet.nodes.like.addEventListener("click", (evt) => {
+            console.log("like logged for tweet ", tweet.data.id);
+            logger.logEvent(tweet.data, "like");
+            if (tweet.nodes.node.getAttribute("injected")) {
+              // Stop the event propagation because otherwise
+              // we redirect to the tweet ID
+              evt.stopImmediatePropagation();
+            }
+          });
+        }
+        if (tweet.nodes.retweet) {
+          tweet.nodes.retweet.addEventListener("click", (evt) => {
+            console.log("retweet attempt logged for tweet ", tweet.data.id);
+            logger.logEventAndFlush(tweet.data, "retweet");
+
+          });
+        }
+        if (tweet.nodes.outboundMedia) {
+          tweet.nodes.outboundMedia.addEventListener("click", (evt) => {
+            console.log("outbound click for tweet ", tweet.data);
+            logger.logEvent(tweet.data, "retweet");
+          })
+        }
+
         tweet.nodes.node.setAttribute("hasReactionListener", true);
       }
       if (!tweet.nodes.node.getAttribute("hasViewObserver")) {

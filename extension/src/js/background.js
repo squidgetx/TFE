@@ -56,9 +56,10 @@ chrome.runtime.onMessage.addListener((message) => {
     lastFocusedWindow: true,
   });
   console.log("Received message", message);
-  // TODO: make sure that the tab[0].id strategy is robust
-  // I think it might break if you don't have the twitter
-  // tab active
+  // This code has an edge case where the client won't receive the message if 
+  // the user switches tabs while a request is pending. This shouldn't actually
+  // pose any real problems because the fetch_tweets code will just attempt 
+  // to request another batch once it comes back into focus. 
   if (message.message == "fetch") {
     refresh_tweet_pool(
       message.username,
@@ -76,6 +77,7 @@ chrome.runtime.onMessage.addListener((message) => {
       (status) => {
         tab_promise.then((tab) => {
           if (tab[0]) {
+            // This is just a courtesy ACK, not important if the client doesn't receive
             chrome.tabs.sendMessage(tab[0].id, {
               message: { name: "logEvent", status: status },
             });

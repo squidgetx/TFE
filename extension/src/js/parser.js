@@ -356,6 +356,8 @@ export const parseTweetHTML = function (node, prevNode) {
     }
   }
 
+  obj.nodes.outboundMedia = queryMeaningfulChild(node, '[data-testid="card.wrapper"]')
+
   obj.data.parseError = obj.nodes.body.parseError;
   return obj;
 };
