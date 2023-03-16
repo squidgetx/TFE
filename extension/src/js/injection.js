@@ -254,7 +254,11 @@ const transformTweet = function (obj, rep) {
     obj.nodes.like.classList.add("likeCount");
     obj.nodes.reply.classList.add("replyCount");
     obj.nodes.retweet.classList.add("retweetCount");
-    obj.nodes.share.classList.add("shareButton");
+    if (obj.nodes.share) {
+        // null if user not in EN
+        obj.nodes.share.classList.add("shareButton");
+
+    }
 
     // Clone tweet reaction nodes to remove existing event listeners
     const newControls = obj.nodes.body.tweetControls.cloneNode(true);

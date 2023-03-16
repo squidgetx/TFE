@@ -120,19 +120,18 @@ const monitorTweets = function (tweets, logger) {
  */
 const processFeed = function (observer, exp_config, logger) {
   let timelineDiv = document.querySelector(
-    '[aria-label="Timeline: Your Home Timeline"]'
+    '[data-testid="primaryColumn"] section div'
   );
-  if (
-    timelineDiv != undefined &&
-    timelineDiv.childNodes[0].childNodes.length > 1
-  ) {
+  if (timelineDiv != null) {
     // disable the observer when modifying itself, otherwise its infinite loop
-    observer.disconnect();
-
-    const parentNode = timelineDiv.childNodes[0];
+    const parentNode = timelineDiv.childNodes[0]
     const children = parentNode.childNodes;
+    if (children.length <= 1) {
+      return
+    }
+    observer.disconnect();
     const tweets = parseTweets(children);
-    console.log(`process feed, tweet length is ${tweets.length}`)
+    console.log(`process feed, tweet length is ${tweets.length}, timelinediv children `, children)
 
     filterTweets(tweets, exp_config);
     injectTweets(tweets, exp_config);
@@ -140,7 +139,7 @@ const processFeed = function (observer, exp_config, logger) {
     postProcessInjectedTweets()
 
     // re-register, for when the user scrolls
-    observer.observe(timelineDiv.childNodes[0], {
+    observer.observe(timelineDiv, {
       attributes: false,
       childList: true,
       subtree: false,

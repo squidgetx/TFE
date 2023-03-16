@@ -51,6 +51,7 @@ chrome.storage.sync.get(
 // Attach the observer to the webpage
 const setupFeedObserver = function (exp_config, logger) {
   console.log(`Timeline Extension Loaded, ${JSON.stringify(exp_config)}`);
+  logger.logEventAndFlush({}, 'extension_loaded')
   const container = document.documentElement || document.body;
   const observer = twitter.getObserver(exp_config, logger);
   observer.observe(container, {
