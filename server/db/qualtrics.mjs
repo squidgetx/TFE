@@ -46,17 +46,22 @@ const jsonToData = function (filename, cb) {
   const QID_ideo = "QID3";
   const QID_pid3 = "QID2";
   // QID ideo is on a scale of 1-5, with 1 being more conservative and 5 being more liberal
+  const PID_MAP = {
+    1: -1, // dem
+    2: 1, // rep
+    3: 0 // indep
+  }
   return data["responses"].map((res) => {
     return {
       install_code: res.values[QID_install_code],
       ideo: 3 - res.values[QID_ideo],
+      pid: PID_MAP[res.values[QID_pid3]],
     };
   });
 };
 
 // write user ideologies to database
 const update_db = async function (data) {
-  console.log("updating database with respondent ideologies...");
   // slightly tricky because we don't have twitter handles in the survey: only install codes
   const codes = data.map((d) => d.install_code);
   const usernames = await DB.any(
@@ -69,9 +74,9 @@ const update_db = async function (data) {
   const code_map = {};
   for (const d of data) {
     if (d.install_code in code_map) {
-      console.log(`WARNING: ${d.install_code} already present in data`);
+      console.log(`WARNING: ${d.install_code} duplicated in qualtrics data!`);
     }
-    code_map[d.install_code] = d.ideo;
+    code_map[d.install_code] = d.pid;
   }
 
   const updated_users = usernames.map((u) => {
@@ -79,22 +84,30 @@ const update_db = async function (data) {
     delete u.install_code;
     return u;
   });
-  console.log(updated_users);
+  console.log('Updated users:', updated_users);
 
-  // https://stackoverflow.com/questions/39119922/postgresql-multi-row-updates-in-node-js
-  const cs = new pgp.helpers.ColumnSet(["username", "ideo"], {
-    table: "users",
-  });
-  const updateQuery =
-    pgp.helpers.update(updated_users, cs) + " WHERE v.username = t.username";
-  await DB.none(updateQuery);
+  if (updated_users.length > 0) {
+    // https://stackoverflow.com/questions/39119922/postgresql-multi-row-updates-in-node-js
+    const cs = new pgp.helpers.ColumnSet(["username", "ideo"], {
+      table: "users",
+    });
+    const updateQuery =
+      pgp.helpers.update(updated_users, cs) + " WHERE v.username = t.username";
+    await DB.none(updateQuery);
+  } else {
+    console.log("No updates to make")
+  }
 };
 
 const PRESURVEY_TEST_ID = "SV_cC75ZPgYh3Swy1M";
 
 downloadSurveyResponses(PRESURVEY_TEST_ID)
   .then((outname) => {
-    let d = jsonToData(outname);
+    const d = jsonToData(outname);
+    console.log("Qualtrics data retrieved: ")
+    for (const ele of d) {
+      console.log(ele.install_code, ele.pid, ele.ideo)
+    }
     update_db(d).then(() => {
       console.log("done");
     });
