@@ -25,7 +25,7 @@ module.exports = async function (username, mock_ideo) {
     `
    with relevant_tweets as (
       select * from tweets where author_id in (
-        select id from elites where sign(ideo) = 1
+        select id from elites where sign(ideo) = $1
       ) and referenced_tweet_type is null
       and created_at > CURRENT_DATE - 7
     ),
