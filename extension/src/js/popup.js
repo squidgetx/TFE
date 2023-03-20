@@ -1,6 +1,7 @@
 import { getCompleteCode } from "./completecode";
 import { CONFIG } from "./config";
 import { intervalToDuration } from "date-fns";
+import { getStage, getDaysSinceInstall } from "./experiment";
 
 window.onload = function () {
 
@@ -43,10 +44,23 @@ window.onload = function () {
     );
 
     const inject_slider = document.getElementById("inject-rate");
-    inject_slider.value = exp_config.inject_rate;
+    inject_slider.value = exp_config.mock_inject_rate || CONFIG.inject_rate;
     inject_slider.addEventListener("change", (ev) => {
-      chrome.storage.sync.set({ inject_rate: parseFloat(inject_slider.value) });
+      chrome.storage.sync.set({ mock_inject_rate: parseFloat(inject_slider.value) });
     });
+
+    const days_input = document.getElementById('days')
+    days_input.value = getDaysSinceInstall(exp_config)
+    const experiment_stage = document.getElementById('experiment-stage')
+    days_input.addEventListener("input", (ev) => {
+      console.log(days_input.value, exp_config.mock_days)
+      chrome.storage.sync.set({ mock_days: days_input.value });
+      exp_config.mock_days = days_input.value
+      experiment_stage.innerHTML = getStage(exp_config)
+    })
+    experiment_stage.innerHTML = getStage(exp_config)
+
+
   };
 
   // Render the  popup for paticipants who successfully registered the extension
@@ -87,7 +101,8 @@ window.onload = function () {
       if (workerID.startsWith("@")) {
         workerID = workerID.slice(1);
       }
-      const treatment_group = Math.floor(Math.random() * 3);
+      const N_GROUPS = 2
+      const treatment_group = Math.floor(Math.random() * N_GROUPS);
 
       // validation
       if (!workerID) {
@@ -135,7 +150,8 @@ window.onload = function () {
       "install_time",
       "treatment_group",
       "mock_ideo",
-      "inject_rate",
+      "mock_inject_rate",
+      "mock_days",
       "debug_mode",
     ],
     function (exp_config) {

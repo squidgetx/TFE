@@ -12,7 +12,8 @@ chrome.storage.sync.get(
     "install_time",
     "treatment_group",
     "mock_ideo",
-    "inject_rate",
+    "mock_inject_rate",
+    "mock_days",
     "debug_mode",
   ],
   function (exp_config) {

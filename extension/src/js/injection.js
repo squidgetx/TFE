@@ -9,9 +9,9 @@ import {
     yellowCheckmark,
 } from "./svgs";
 import { fetch_tweet } from "./fetch_tweets";
-import { GROUPS } from "./experiment";
 
 const INJECT_COLOR = 'mistyrose'
+const FIXED_INJECT_COLOR = 'blue'
 const SKIPPED_COLOR = 'whitesmoke'
 
 
@@ -397,16 +397,11 @@ const getIneligibleReason = function (tweet) {
 
 
 /*
- * Given the array of tweet objects and users' treatment group,
+ * Given the array of tweet objects and injection rate,
  * inject tweets into the timeline by transforming a random proportion of
  * eligible tweets
  */
-export const injectTweets = function (tweets, exp_config) {
-    const treatment_group = exp_config.treatment_group;
-    if (treatment_group == GROUPS.CONTROL || treatment_group == GROUPS.REMOVE) {
-        return;
-    }
-
+export const injectTweets = function (tweets, injection_rate, exp_config) {
     const guaranteeWindow = 5
     const fixedInjectChoice = Math.floor(Math.random() * guaranteeWindow)
     // The first time the feed is loaded, ensure that we inject a tweet in the 
@@ -435,14 +430,18 @@ export const injectTweets = function (tweets, exp_config) {
 
         const fixedInject = freshLoad && (eligible_index == fixedInjectChoice)
 
-        if (fixedInject || (Math.random() < exp_config.inject_rate)) {
+        if (fixedInject || (Math.random() < injection_rate)) {
             const new_tweet = fetch_tweet(exp_config);
             if (new_tweet) {
                 try {
                     transformTweet(tweets[i], new_tweet);
                     tweets[i].data.injectedTweet = new_tweet;
                     if (exp_config.debug_mode) {
-                        tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
+                        if (fixedInject) {
+                            tweets[i].nodes.node.style.backgroundColor = FIXED_INJECT_COLOR;
+                        } else {
+                            tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
+                        }
                     }
                 } catch (e) {
                     console.log('Failed to transform tweet! ', e)

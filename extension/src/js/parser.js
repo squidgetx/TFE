@@ -219,7 +219,7 @@ const parseTweetThread = function (obj, prevNode) {
   // then, the final tweet in the thread will not have a thread marker
   // Second, if Twitter displays a "collapsed" thread. In this case
   // the tweet footer contains a "Show this thread" button and the tweet usually
-  // has a thread marker present.
+  // has a thread marker present. 
   const prevNodeIsThreadMiddle = prevNode &&
     prevNode.data.thread.isThread &&
     !prevNode.data.thread.isThreadEnding
@@ -229,16 +229,17 @@ const parseTweetThread = function (obj, prevNode) {
   } else {
     const hasShowThreadButton = obj.nodes.tweetFooter &&
       obj.nodes.tweetFooter.some(a => a.innerText.includes("Show this thread"))
+    const miniAvatar = obj.nodes.avatarExpandThread = obj.nodes.tweetFooter
+      .map((n) =>
+        n.querySelector('[data-testid="UserAvatar-Container-unknown"]')
+      )
+      .filter((a) => a != null)
     if (hasShowThreadButton && threadMarkerExists) {
       thread.isCollapsedThread = true
       thread.isThreadEnding = true
-      obj.nodes.avatarExpandThread = obj.nodes.tweetFooter
-        .map((n) =>
-          n.querySelector('[data-testid="UserAvatar-Container-unknown"]')
-        )
-        .filter((a) => a != null)[0];
-      if (obj.nodes.avatarExpandThread) {
-        obj.nodes.expandThreadLink = obj.nodes.avatarExpandThread.closest("a");
+      if (miniAvatar.length > 0) {
+        obj.nodes.avatarExpandThread = miniAvatar[0]
+        obj.nodes.expandThreadLink = miniAvatar[0].closest("a");
       }
     }
   }
@@ -246,6 +247,7 @@ const parseTweetThread = function (obj, prevNode) {
 };
 
 // return true if the given tweet object is a reply
+// this only works in english, sorry
 const parseReply = function (obj) {
   if (obj.nodes.preText) {
     return obj.nodes.preText.some((a) => a.includes("Replying to"));
@@ -307,7 +309,7 @@ export const parseTweetHTML = function (node, prevNode) {
     )
     : null;
 
-  obj.nodes.caret = queryMeaningfulChild(node, '[area-label="More"]');
+  obj.nodes.caret = queryMeaningfulChild(node, '[data-testid="caret"]');
   obj.nodes.share = queryMeaningfulChild(node, '[aria-label="Share Tweet"]');
   obj.nodes.socialContext = queryMeaningfulChild(
     node,

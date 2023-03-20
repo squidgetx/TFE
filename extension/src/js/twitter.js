@@ -1,9 +1,10 @@
 import { BLACKLIST_ACCOUNTS } from "./accounts";
+import { CONFIG } from "./config"
 
 import { fetch_tweet } from "./fetch_tweets";
 import { injectTweets, postProcessInjectedTweets } from "./injection";
 import { parseTweetHTML } from "./parser";
-import { GROUPS } from "./experiment"
+import { getStage, GROUPS, STAGE } from "./experiment"
 
 
 /*
@@ -133,13 +134,25 @@ const processFeed = function (observer, exp_config, logger) {
     const tweets = parseTweets(children);
     console.log(`process feed, tweet length is ${tweets.length}, timelinediv children `, children)
 
-    filterTweets(tweets, exp_config);
-    injectTweets(tweets, exp_config);
+    const stage = getStage(exp_config)
+
+    if (stage == STAGE.TREATMENT || stage == STAGE.ENDLINE) {
+      if (exp_config.treatment_group == GROUPS.ADD) {
+        const injection_rate = exp_config.mock_inject_rate || CONFIG.inject_rate
+        console.log("Injecting ", injection_rate)
+        injectTweets(tweets, injection_rate, exp_config)
+      }
+    }
+    if (stage == STAGE.BEHAVIOR) {
+      console.log("Injecting behavior")
+      injectTweets(tweets, 0, exp_config);
+    }
+
     monitorTweets(tweets, logger);
     postProcessInjectedTweets()
 
     // re-register, for when the user scrolls
-    observer.observe(timelineDiv, {
+    observer.observe(timelineDiv.childNodes[0], {
       attributes: false,
       childList: true,
       subtree: false,
