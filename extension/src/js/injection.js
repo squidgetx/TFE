@@ -15,6 +15,8 @@ const FAILED_COLOR = 'mistyrose'
 const FIXED_INJECT_COLOR = 'powderblue'
 const SKIPPED_COLOR = 'whitesmoke'
 
+const BROKEN_IMAGE = 'https://icons.veryicon.com/png/o/miscellaneous/decon/article-10.png'
+
 
 // Set DEBUG_LOG to true to see injection-specific verbose logging
 const DEBUG_LOG = true
@@ -154,7 +156,7 @@ const transformTweet = function (obj, rep) {
             injectedMedia.innerHTML = `
         <a class='injected-link' href='${link.turl}' target='_blank'>
           <div class='media'>
-            <div class='header-img'><img src=${link.img
+            <div class='header-img'><img src=${link.img || BROKEN_IMAGE
                 } width=100% height=100% style='object-fit: cover'/></div>
             <div class='link-body'>
               <span class='link-domain'>${link.hostname}</span>

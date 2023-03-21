@@ -143,7 +143,6 @@ const processFeed = function (observer, exp_config, logger) {
       }
     }
     if (stage == STAGE.BEHAVIOR) {
-      console.log("Injecting behavior")
       injectTweets(tweets, 0, exp_config);
     }
 
