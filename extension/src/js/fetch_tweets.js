@@ -2,6 +2,11 @@ const fresh_tweets = [];
 let waiting = false;
 let timer = 0;
 
+const shuffleArray = (arr) => {
+  return arr.map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+}
 // Listen for messages from the background script
 // that contain the pool of fresh tweets to inject
 // Store the fresh tweets in the local static fresh_tweets array
@@ -9,7 +14,7 @@ let timer = 0;
 chrome.runtime.onMessage.addListener((message) => {
   console.log("received message", message);
   if (message.message.name == "fresh_tweets") {
-    fresh_tweets.push(...message.message.tweets);
+    fresh_tweets.push(...shuffleArray(message.message.tweets))
     console.log("Got a new batch", fresh_tweets.length);
     if (fresh_tweets == null || fresh_tweets.length == 0) {
       // Something is wrong with the server, no content is being served
