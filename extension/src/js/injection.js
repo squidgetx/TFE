@@ -10,8 +10,9 @@ import {
 } from "./svgs";
 import { fetch_tweet } from "./fetch_tweets";
 
-const INJECT_COLOR = 'mistyrose'
-const FIXED_INJECT_COLOR = 'blue'
+const INJECT_COLOR = 'palegreen'
+const FAILED_COLOR = 'mistyrose'
+const FIXED_INJECT_COLOR = 'powderblue'
 const SKIPPED_COLOR = 'whitesmoke'
 
 
@@ -46,6 +47,7 @@ const cleanTweet = function (obj) {
         }
         node = node.parentNode;
     }
+    return obj
 };
 
 /* return HTML ready text of the tweet */
@@ -122,6 +124,12 @@ const shorten_str = function (str, len) {
  * replacing it with the tweet represented by the object rep
  */
 const transformTweet = function (obj, rep) {
+    if (obj.data.injectedTweet || obj.nodes.node.getAttribute('injected')) {
+        return
+    }
+    obj.data.injectedTweet = rep;
+    obj.nodes.node.setAttribute('injected', true)
+
     const tweetLink = `/${rep.username}/status/${rep.id}`;
 
     const injectedMedia = document.createElement("div");
@@ -173,6 +181,15 @@ const transformTweet = function (obj, rep) {
     }
 
     obj.nodes.text.innerHTML = `<span>${formatText(rep)}</span>`;
+
+    // Refresh tweet controls - sometimes the parsed tweet controls div is orphaned
+    // between parsing and transforming. However, we can find it again because
+    // the div ID doens't change
+    const tweetControls = obj.nodes.body.tweetControls
+    if (tweetControls.parentNode == null) {
+        const newTweetControls = obj.nodes.node.querySelector('#' + tweetControls.id)
+        obj.nodes.body.tweetControls = newTweetControls
+    }
 
     // Remove all attachments and media
     obj = cleanTweet(obj);
@@ -257,7 +274,6 @@ const transformTweet = function (obj, rep) {
     if (obj.nodes.share) {
         // null if user not in EN
         obj.nodes.share.classList.add("shareButton");
-
     }
 
     // Clone tweet reaction nodes to remove existing event listeners
@@ -270,7 +286,7 @@ const transformTweet = function (obj, rep) {
     obj.nodes.reply = newControls.querySelector(".replyCount");
     obj.nodes.retweet = newControls.querySelector(".retweetCount");
     obj.nodes.share = newControls.querySelector(".shareButton");
-    obj.nodes.views = newControls.querySelector("a");
+    obj.nodes.views = newControls.querySelector("a[role='link']");
     obj.nodes.views.firstChild.classList.add("viewsCount");
 
     obj.nodes.views.removeAttribute("href");
@@ -300,11 +316,15 @@ const transformTweet = function (obj, rep) {
 
     if (obj.nodes.body.preTextComponents.length > 0) {
         for (const n of obj.nodes.body.preTextComponents) {
-            if (n.textContent.includes('Replying To')) {
-                n.remove()
+            if (n instanceof HTMLElement) {
+                if (n.textContent.includes('Replying To')) {
+                    n.remove()
+                }
+                n.querySelectorAll('a[href*="help.twitter"').forEach(l => l.remove())
             }
         }
     }
+
 
     let avatarExpandClass = 'avatarContainerExpandThread'
     if (rep.verified_type == 'business') {
@@ -315,7 +335,7 @@ const transformTweet = function (obj, rep) {
         if (threadLink) {
             threadLink.setAttribute("href", tweetLink);
         } else {
-            console.log("no link found!", obj.nodes.avatarExpandThread);
+            console.log("no thread link found!", obj)
         }
         obj.nodes.avatarExpandThread.innerHTML = `
       <div class='${avatarExpandClass}'>
@@ -325,7 +345,6 @@ const transformTweet = function (obj, rep) {
         obj.nodes.tweetFooter.map((a) => a.remove());
     }
 
-    obj.nodes.node.setAttribute("injected", "true");
     obj.nodes.text.onclick = function (e) {
         e.stopPropagation();
     };
@@ -364,8 +383,9 @@ const transformTweet = function (obj, rep) {
             return false;
         }
     };
-};
 
+
+};
 
 
 /* Return string if tweet is ineligible, null if tweet is eligible
@@ -389,66 +409,86 @@ const getIneligibleReason = function (tweet) {
     if (tweet.data.id == null) {
         return "ineligible: tweet id not found"
     }
-    if (tweet.data.isInjected) {
+    if (tweet.data.injectedTweet || tweet.nodes.node.getAttribute('injected')) {
         return "is injected tweet";
     }
     return null;
 };
 
+const injectTweet = function (tweet, exp_config) {
+    const new_tweet = fetch_tweet(exp_config);
+    if (new_tweet) {
+        try {
+            transformTweet(tweet, new_tweet);
+        } catch (e) {
+            console.log('Failed to transform tweet! ', e, tweet)
+            tweet.nodes.node.style.backgroundColor = FAILED_COLOR
+            return null
+        }
+    }
+    return tweet
+}
 
 /*
  * Given the array of tweet objects and injection rate,
- * inject tweets into the timeline by transforming a random proportion of
- * eligible tweets
+ * inject tweets into the timeline by transforming a proportion of
+ * tweets in the feed. We tranform existing tweets instead of actaully
+ * injecting new divs because Twitter UI is wack
  */
 export const injectTweets = function (tweets, injection_rate, exp_config) {
-    const guaranteeWindow = 5
-    const fixedInjectChoice = Math.floor(Math.random() * guaranteeWindow)
-    // The first time the feed is loaded, ensure that we inject a tweet in the 
-    // first 5 eligible tweets. Most people only load the first few tweets.
-    // This guarantees a baseline treatment strength.
 
-    const freshLoad = tweets.filter((t) => t != null)
-        .find((t) => t.nodes.node.getAttribute('processed')) == undefined
+    // get array of all tweets that are eligible for transformation
+    const allEligibleTweets = tweets.filter(t => getIneligibleReason(t) == null)
 
-    let eligible_index = 0
-    for (let i = 0; i < tweets.length; i++) {
-        // Skip over ineligible tweets, ie we already transformed it
+    // if there are none, it means that we already transformed this feed so do nothing
+    if (allEligibleTweets.length == 0) {
+        return
+    }
 
-        const ineligible_reason = getIneligibleReason(tweets[i])
-        if (ineligible_reason) {
-            continue;
+    // Ensure that we transform one of the first 5 tweets
+    // guaranteeing a baseline treatment strength
+    // Only do this if there are no injected tweets in the feed already.
+    let chosen_tweet = null;
+    if (!tweets.find(t => t && t.nodes.node.getAttribute('injected'))) {
+
+        const guaranteeWindow = tweets.slice(0, 5).filter(t => getIneligibleReason(t) == null)
+
+        if (guaranteeWindow.length > 0) {
+            // Pick randomly among the eligible tweets in the first 5
+            const i = Math.floor(Math.random() * guaranteeWindow.length)
+            chosen_tweet = guaranteeWindow[i]
+        } else {
+            // If there are no eligible tweets in the first 5, pick the first eligible
+            // tweet in the whole feed
+            chosen_tweet = allEligibleTweets[0]
+        }
+        console.log('chosen tweet is', chosen_tweet)
+        const new_tweet = injectTweet(chosen_tweet, exp_config)
+        if (new_tweet && exp_config.debug_mode) {
+            chosen_tweet.nodes.node.style.backgroundColor = FIXED_INJECT_COLOR
+        }
+    }
+
+    for (const tweet of allEligibleTweets) {
+        if (tweet == chosen_tweet) {
+            continue
         }
 
         if (exp_config.debug_mode) {
-            tweets[i].nodes.node.style.backgroundColor = SKIPPED_COLOR;
+            tweet.nodes.node.style.backgroundColor = SKIPPED_COLOR;
         }
 
         // Mark this tweet as processed, so that we don't
         // try to transform it later
-        tweets[i].nodes.node.setAttribute('processed', true)
+        tweet.nodes.node.setAttribute('processed', true)
 
-        const fixedInject = freshLoad && (eligible_index == fixedInjectChoice)
-
-        if (fixedInject || (Math.random() < injection_rate)) {
-            const new_tweet = fetch_tweet(exp_config);
-            if (new_tweet) {
-                try {
-                    transformTweet(tweets[i], new_tweet);
-                    tweets[i].data.injectedTweet = new_tweet;
-                    if (exp_config.debug_mode) {
-                        if (fixedInject) {
-                            tweets[i].nodes.node.style.backgroundColor = FIXED_INJECT_COLOR;
-                        } else {
-                            tweets[i].nodes.node.style.backgroundColor = INJECT_COLOR;
-                        }
-                    }
-                } catch (e) {
-                    console.log('Failed to transform tweet! ', e)
-                }
+        // Randomly transform eligible tweets into new tweets
+        if ((Math.random() < injection_rate)) {
+            const new_tweet = injectTweet(tweet, exp_config)
+            if (new_tweet && exp_config.debug_mode) {
+                tweet.nodes.node.style.backgroundColor = INJECT_COLOR;
             }
         }
-        eligible_index += 1
     }
 };
 

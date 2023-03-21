@@ -139,7 +139,6 @@ const processFeed = function (observer, exp_config, logger) {
     if (stage == STAGE.TREATMENT || stage == STAGE.ENDLINE) {
       if (exp_config.treatment_group == GROUPS.ADD) {
         const injection_rate = exp_config.mock_inject_rate || CONFIG.inject_rate
-        console.log("Injecting ", injection_rate)
         injectTweets(tweets, injection_rate, exp_config)
       }
     }
